@@ -1,6 +1,7 @@
 {
 	"name": "@polaris/ui",
 	"version": "0.0.0",
+	"license": "Apache-2.0",
 	"type": "module",
 	"svelte": "./dist/index.js",
 	"types": "./dist/index.d.ts",
@@ -65,7 +66,6 @@
 		"package": "svelte-kit sync && svelte-package -t -o dist && bun run build:styles && publint",
 		"build:styles": "mkdir -p dist/styles && cp -R src/lib/styles/*.scss dist/styles/ 2>/dev/null || true && cp -R src/lib/styles/tokens dist/styles/tokens 2>/dev/null || true && bunx sass src/lib/styles/index.scss dist/styles/index.css",
 		"prepare": "svelte-kit sync || echo ''",
-		"postinstall": "bun run build:styles",
 		"publish": "bun run build && npm publish",
 		"lint": "bun run lint:css && bun run lint:eslint && bun run lint:prettier",
 		"lint:css": "stylelint 'src/**/*.{css,scss,svelte}'",
