@@ -1,0 +1,35 @@
+node_modules
+
+# Output
+.output
+/.svelte-kit
+/build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.local
+.env.*.local
+!.env.example
+!.env.test
+
+# VS Code
+.vscode/
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Logs
+*.log
+npm-debug.log*
+
+# Storybook
+*storybook.log
+storybook-static
+
+# MCP
+.mcp.json

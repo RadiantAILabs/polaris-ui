@@ -1,0 +1,222 @@
+// ============================================
+// Color
+// ============================================
+
+@use 'primitives' as *;
+
+$themes: (
+	// Light Theme Semantic Tokens
+	light: (
+			// Text
+			text-primary: $base-neutral-950,
+			text-inverse-primary: $base-neutral-50,
+			text-secondary: $base-neutral-850,
+			text-tertiary: $base-neutral-500,
+			text-disabled: $base-neutral-400,
+			text-success: #17b26a,
+			text-warning: #f80,
+			text-error: $base-red-600,
+			text-on-emphasized: $base-neutral-900,
+
+			// Background
+			background-base: $base-white,
+			background-raised: $base-white,
+			background-overlay: $base-neutral-50,
+			background-emphasized-1: $base-neutral-100,
+			background-emphasized-2: $base-neutral-200,
+			background-disabled: $base-neutral-50,
+			background-hidden: rgb(7 7 7 / 70%),
+			background-error: $base-red-50,
+
+			// Icons
+			icon-primary: $base-neutral-850,
+			icon-inverse-primary: $base-neutral-50,
+			icon-secondary: $base-neutral-750,
+			icon-tertiary: $base-neutral-600,
+			icon-disabled: $base-neutral-500,
+			icon-success: #17b26a,
+			icon-warning: #f80,
+			icon-error: $base-red-600,
+
+			// Borders
+			border-base: $base-neutral-200,
+			border-strong: $base-neutral-800,
+			border-error: $base-red-200,
+
+			// Sidebar
+			sidebar-background: $base-neutral-50,
+			sidebar-button-background-hover: $base-neutral-100,
+			sidebar-button-background-active: $base-neutral-150,
+
+			// Buttons
+			button-border-base: $base-neutral-600,
+			button-border-light: $base-neutral-200,
+			button-background-rest: $base-white,
+			button-background-hover: $base-neutral-50,
+			button-background-active: $base-neutral-100,
+			button-primary-background-rest: $base-neutral-900,
+			button-primary-background-hover: $base-neutral-750,
+			button-primary-background-active: $base-neutral-700,
+			button-destructive-background-rest: $base-red-600,
+			button-destructive-background-hover: $base-red-700,
+			button-destructive-background-active: $base-red-800,
+
+			// Controls
+			control-border-rest: $base-neutral-200,
+			control-border-hover: $base-neutral-400,
+			control-border-active: $base-neutral-400,
+			control-border-disabled: $base-neutral-200,
+			control-border-error: $base-red-600,
+			control-background-rest: $base-white,
+			control-background-hover: $base-neutral-50,
+			control-background-active: $base-neutral-50,
+
+			// Toggle
+			toggle-background-active: $base-neutral-900,
+			toggle-background-selected: $base-neutral-50,
+			toggle-border-rest: $base-neutral-200,
+			toggle-border-hover: $base-neutral-300,
+
+			// Checkbox
+			checkbox-icon-active: $base-neutral-50,
+			checkbox-icon-disabled: $base-neutral-200,
+			checkbox-background-active: $base-neutral-900,
+			checkbox-border-rest: $base-neutral-200,
+			checkbox-border-hover: $base-neutral-500,
+
+			// RadioButton
+			radiobutton-fill-active: $base-neutral-900,
+			radiobutton-fill-disabled: $base-neutral-700,
+
+			// Table
+			table-cell-border: $base-neutral-150,
+			table-cell-background-hover: $base-neutral-50,
+			table-header-cell-border: $base-neutral-200,
+			table-header-cell-background: $base-neutral-50,
+
+			// Code
+			line-numbers-background: $base-neutral-50,
+			line-numbers-text: $base-neutral-300,
+
+			// BadgeDeleteButton
+			badge-delete-button-background-hover: $base-neutral-200,
+
+			// Charts
+			charts-axes: $base-neutral-200,
+			charts-primary: $base-neutral-900,
+			charts-secondary: $base-neutral-600,
+			charts-tertiary: $base-neutral-500,
+			charts-quaternary: $base-neutral-300,
+			charts-quinary: $base-neutral-150,
+			charts-area-fill: rgba(#17b26a, 0.6),
+			// Toaster
+			toaster-border: $base-neutral-200
+		),
+	// Dark Theme Semantic Tokens
+	dark: (
+			// Text
+			text-primary: $base-neutral-50,
+			text-inverse-primary: $base-neutral-950,
+			text-secondary: $base-neutral-100,
+			text-tertiary: $base-neutral-300,
+			text-disabled: $base-neutral-400,
+			text-success: #17b26a,
+			text-warning: #f80,
+			text-error: $base-red-600,
+			text-on-emphasized: $base-neutral-50,
+
+			// Background
+			background-base: $base-neutral-900,
+			background-raised: $base-neutral-850,
+			background-overlay: $base-neutral-850,
+			background-emphasized-1: $base-neutral-700,
+			background-emphasized-2: $base-neutral-600,
+			background-disabled: $base-neutral-850,
+			background-hidden: rgb(7 7 7 / 70%),
+			background-error: $base-red-950,
+
+			// Icons
+			icon-primary: $base-neutral-50,
+			icon-inverse-primary: $base-neutral-850,
+			icon-secondary: $base-neutral-100,
+			icon-tertiary: $base-neutral-200,
+			icon-disabled: $base-neutral-400,
+			icon-success: #17b26a,
+			icon-warning: #f80,
+			icon-error: $base-red-600,
+
+			// Borders
+			border-base: $base-neutral-700,
+			border-strong: $base-neutral-50,
+			border-error: $base-red-700,
+
+			// Sidebar
+			sidebar-background: $base-neutral-950,
+			sidebar-button-background-hover: $base-neutral-800,
+			sidebar-button-background-active: $base-neutral-700,
+
+			// Buttons
+			button-border-base: $base-neutral-600,
+			button-border-light: $base-neutral-800,
+			button-background-rest: $base-neutral-850,
+			button-background-hover: $base-neutral-800,
+			button-background-active: $base-neutral-750,
+			button-primary-background-rest: $base-white,
+			button-primary-background-hover: $base-neutral-100,
+			button-primary-background-active: $base-neutral-150,
+			button-destructive-background-rest: $base-red-600,
+			button-destructive-background-hover: $base-red-700,
+			button-destructive-background-active: $base-red-800,
+
+			// Controls
+			control-border-rest: $base-neutral-600,
+			control-border-hover: $base-neutral-500,
+			control-border-active: $base-neutral-200,
+			control-border-disabled: $base-neutral-600,
+			control-border-error: $base-red-600,
+			control-background-rest: $base-neutral-850,
+			control-background-hover: $base-neutral-800,
+			control-background-active: $base-neutral-800,
+
+			// Toggle
+			toggle-background-active: $base-neutral-500,
+			toggle-background-selected: $base-neutral-500,
+			toggle-border-rest: $base-neutral-500,
+			toggle-border-hover: $base-neutral-200,
+
+			// Checkbox
+			checkbox-icon-active: $base-neutral-50,
+			checkbox-icon-disabled: $base-neutral-300,
+			checkbox-background-active: $base-neutral-500,
+			checkbox-border-rest: $base-neutral-500,
+			checkbox-border-hover: $base-neutral-200,
+
+			// RadioButton
+			radiobutton-fill-active: $base-neutral-50,
+			radiobutton-fill-disabled: $base-neutral-500,
+
+			// Table
+			table-cell-border: $base-neutral-700,
+			table-cell-background-hover: $base-neutral-800,
+			table-header-cell-border: $base-neutral-600,
+			table-header-cell-background: $base-neutral-800,
+
+			// Code
+			line-numbers-background: $base-neutral-800,
+			line-numbers-text: $base-neutral-300,
+
+			// BadgeDeleteButton
+			badge-delete-button-background-hover: $base-neutral-500,
+
+			// Charts
+			charts-axes: $base-neutral-500,
+			charts-primary: $base-neutral-50,
+			charts-secondary: $base-neutral-200,
+			charts-tertiary: $base-neutral-400,
+			charts-quaternary: $base-neutral-600,
+			charts-quinary: $base-neutral-850,
+			charts-area-fill: rgba(#17b26a, 0.6),
+			// Toaster
+			toaster-border: $base-neutral-600
+		)
+);

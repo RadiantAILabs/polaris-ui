@@ -1,0 +1,110 @@
+/* Primitive design tokens (Do not use directly) */
+
+// ============================================
+// BASE COLOURS
+// ============================================
+
+// Neutral scale
+$base-neutral-25: hsl(0deg 0% 98%);
+$base-neutral-50: hsl(0deg 0% 96%);
+$base-neutral-100: hsl(0deg 0% 91%);
+$base-neutral-150: hsl(0deg 0% 85%);
+$base-neutral-200: hsl(0deg 0% 79%);
+$base-neutral-300: hsl(0deg 0% 68%);
+$base-neutral-400: hsl(0deg 0% 57%);
+$base-neutral-500: hsl(0deg 0% 47%);
+$base-neutral-600: hsl(0deg 0% 36%);
+$base-neutral-700: hsl(0deg 0% 27%);
+$base-neutral-750: hsl(0deg 0% 22%);
+$base-neutral-800: hsl(0deg 0% 17%);
+$base-neutral-850: hsl(0deg 0% 13%);
+$base-neutral-900: hsl(0deg 0% 10%);
+$base-neutral-950: hsl(0deg 0% 3%);
+
+// Red scale
+$base-red-50: hsl(0deg 100% 98%);
+$base-red-100: hsl(0deg 100% 94%);
+$base-red-200: hsl(0deg 100% 87%);
+$base-red-300: hsl(0deg 100% 79%);
+$base-red-400: hsl(0deg 100% 70%);
+$base-red-500: hsl(0deg 85% 57%);
+$base-red-600: hsl(0deg 100% 41%);
+$base-red-700: hsl(0deg 100% 31%);
+$base-red-800: hsl(0deg 100% 21%);
+$base-red-900: hsl(0deg 100% 12%);
+$base-red-950: hsl(0deg 100% 7%);
+
+// Utility colours
+$base-white: hsl(0deg 0% 100%);
+$base-black: hsl(0deg 0% 0%);
+$base-success: hsl(152deg 77% 39%);
+$base-warning: hsl(32deg 100% 50%);
+
+// ============================================
+// TYPOGRAPHY
+// ============================================
+
+// Font families
+$base-typography-family-sans: 'Hanken Grotesk', system-ui, sans-serif;
+$base-typography-family-mono: 'Fira Code', 'SF Mono', consolas, monospace;
+
+// Font weights
+$base-typography-weight-regular: 400;
+$base-typography-weight-medium: 500;
+$base-typography-weight-semibold: 600;
+$base-typography-weight-bold: 700;
+
+// Font sizes
+$base-typography-size-10: 10;
+$base-typography-size-11: 11;
+$base-typography-size-12: 12;
+$base-typography-size-13: 13;
+$base-typography-size-14: 14;
+$base-typography-size-15: 15;
+$base-typography-size-16: 16;
+$base-typography-size-17: 17;
+$base-typography-size-18: 18;
+$base-typography-size-19: 19;
+$base-typography-size-20: 20;
+$base-typography-size-24: 24;
+$base-typography-size-30: 30;
+$base-typography-size-40: 40;
+$base-typography-size-42: 42;
+$base-typography-size-48: 48;
+$base-typography-size-60: 60;
+
+// Line Heights
+$base-typography-line-height-11: 16px;
+$base-typography-line-height-12: 16px;
+$base-typography-line-height-13: 20px;
+$base-typography-line-height-14: 20px;
+$base-typography-line-height-15: 20px;
+$base-typography-line-height-16: 24px;
+$base-typography-line-height-17: 24px;
+$base-typography-line-height-18: 24px;
+$base-typography-line-height-19: 28px;
+$base-typography-line-height-20: 28px;
+$base-typography-line-height-24: 32px;
+$base-typography-line-height-30: 40px;
+$base-typography-line-height-40: 52px;
+$base-typography-line-height-42: 56px;
+$base-typography-line-height-48: 64px;
+$base-typography-line-height-60: 80px;
+
+// Letter Spacing
+$base-typography-tracking-11: 0;
+$base-typography-tracking-12: 0;
+$base-typography-tracking-13: 0;
+$base-typography-tracking-14: 0;
+$base-typography-tracking-15: 0;
+$base-typography-tracking-16: 0;
+$base-typography-tracking-17: 0;
+$base-typography-tracking-18: 0;
+$base-typography-tracking-19: 0;
+$base-typography-tracking-20: 0;
+$base-typography-tracking-24: 0;
+$base-typography-tracking-30: 0;
+$base-typography-tracking-40: 0;
+$base-typography-tracking-42: 0;
+$base-typography-tracking-48: 0;
+$base-typography-tracking-60: 0;

@@ -1,0 +1,75 @@
+@use '../../styles/tokens' as *;
+
+.tree-trace-timeline {
+	position: relative;
+	width: 100%;
+	min-width: 160px;
+	height: 100%;
+
+	// -- SVG Container --
+	&__svg {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		overflow: visible;
+		pointer-events: none;
+	}
+
+	// -- Axis Labels (SVG text) --
+	&__axis-label {
+		@include typography('label');
+
+		dominant-baseline: hanging;
+		fill: var(--color-text-tertiary);
+	}
+
+	// -- Grid Lines (SVG lines) --
+	&__grid-line {
+		stroke: var(--color-charts-axes);
+		stroke-width: 1;
+	}
+
+	// -- Bars Container --
+	&__bars {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		min-height: 0;
+
+		// padding-top: $space-4;
+	}
+
+	// -- Individual Bar --
+	&__bar {
+		display: flex;
+		align-items: center;
+		min-width: 0;
+		height: $space-4;
+
+		@include transition-interactive;
+	}
+
+	&__bar-start,
+	&__bar-end {
+		flex-shrink: 0;
+		width: 1px;
+		height: 8px;
+		background-color: var(--color-charts-primary);
+	}
+
+	&__bar-line {
+		flex: 1;
+		min-width: 0;
+		height: 4px;
+		background-color: var(--color-charts-primary);
+	}
+
+	// -- Empty Bar (for rows without timeline data) --
+	&__bar-empty {
+		height: $space-4;
+	}
+}

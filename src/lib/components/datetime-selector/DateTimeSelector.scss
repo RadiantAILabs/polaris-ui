@@ -1,0 +1,24 @@
+@use '../../styles/tokens' as *;
+
+.datetime-selector {
+	&__popover {
+		background: var(--color-background-base);
+	}
+
+	&__separator {
+		height: 1px;
+		background-color: var(--color-button-border-light);
+	}
+
+	&__time-input {
+		display: flex;
+		gap: $space-1;
+		align-items: center;
+	}
+
+	&__time-label {
+		@include typography('label');
+
+		color: var(--color-text-secondary);
+	}
+}

@@ -1,0 +1,24 @@
+import type { ButtonVariant, IconPosition } from '../button/Button.svelte';
+import { type BadgeProps } from '../badge';
+import { type IconName } from '../icon';
+import { type WithElementRef } from '../../utils';
+import type { HTMLButtonAttributes } from 'svelte/elements';
+export type ListCardProps = WithElementRef<HTMLButtonAttributes> & {
+    primaryText: string;
+    secondaryText?: string;
+    icon?: IconName;
+    badgeText?: string;
+    badgeLeadingIcon?: IconName;
+    badgeIconProps?: BadgeProps['iconProps'];
+    trailingIcon?: IconName;
+    buttonLabel?: string;
+    buttonVariant?: ButtonVariant;
+    buttonIcon?: IconName;
+    buttonIconPosition?: IconPosition;
+    onButtonClick?: () => void;
+    isActive?: boolean;
+    size?: 'base' | 'large';
+};
+declare const ListCard: import("svelte").Component<ListCardProps, {}, "ref">;
+type ListCard = ReturnType<typeof ListCard>;
+export default ListCard;

@@ -1,0 +1,128 @@
+// ============================================
+// Text
+// ============================================
+
+@use 'primitives' as *;
+@use 'sass:map';
+@use 'sass:math';
+
+// Typography Token Maps
+$text: (
+	label: (
+		size: $base-typography-size-12,
+		line-height: $base-typography-line-height-12,
+		tracking: $base-typography-tracking-12,
+		weight: $base-typography-weight-medium
+	),
+	caption: (
+		size: $base-typography-size-11,
+		line-height: $base-typography-line-height-11,
+		tracking: $base-typography-tracking-11,
+		weight: $base-typography-weight-medium
+	),
+	input: (
+		size: $base-typography-size-12,
+		line-height: $base-typography-line-height-12,
+		tracking: $base-typography-tracking-12,
+		weight: $base-typography-weight-medium
+	),
+	heading-large: (
+		size: $base-typography-size-24,
+		line-height: $base-typography-line-height-24,
+		tracking: $base-typography-tracking-24,
+		weight: $base-typography-weight-semibold
+	),
+	heading-base: (
+		size: $base-typography-size-20,
+		line-height: $base-typography-line-height-20,
+		tracking: $base-typography-tracking-20,
+		weight: $base-typography-weight-semibold
+	),
+	heading-xsmall: (
+		size: $base-typography-size-14,
+		line-height: $base-typography-line-height-14,
+		tracking: $base-typography-tracking-14,
+		weight: $base-typography-weight-medium
+	),
+	heading-small: (
+		size: $base-typography-size-16,
+		line-height: $base-typography-line-height-16,
+		tracking: $base-typography-tracking-16,
+		weight: $base-typography-weight-medium
+	),
+	body-base-semibold: (
+		size: $base-typography-size-12,
+		line-height: $base-typography-line-height-12,
+		tracking: $base-typography-tracking-12,
+		weight: $base-typography-weight-semibold
+	),
+	body-base-regular: (
+		size: $base-typography-size-12,
+		line-height: $base-typography-line-height-12,
+		tracking: $base-typography-tracking-12,
+		weight: $base-typography-weight-regular
+	),
+	body-small-semibold: (
+		size: $base-typography-size-11,
+		line-height: $base-typography-line-height-11,
+		tracking: $base-typography-tracking-11,
+		weight: $base-typography-weight-semibold
+	),
+	body-small-regular: (
+		size: $base-typography-size-11,
+		line-height: $base-typography-line-height-11,
+		tracking: $base-typography-tracking-11,
+		weight: $base-typography-weight-regular
+	),
+	button-large: (
+		size: $base-typography-size-14,
+		line-height: $base-typography-line-height-14,
+		tracking: $base-typography-tracking-14,
+		weight: $base-typography-weight-medium
+	),
+	button-base: (
+		size: $base-typography-size-12,
+		line-height: $base-typography-line-height-12,
+		tracking: $base-typography-tracking-12,
+		weight: $base-typography-weight-medium
+	),
+	button-small: (
+		size: $base-typography-size-11,
+		line-height: $base-typography-line-height-11,
+		tracking: $base-typography-tracking-11,
+		weight: $base-typography-weight-medium
+	),
+	codeblock-base: (
+		size: $base-typography-size-12,
+		line-height: 19px,
+		tracking: 0,
+		weight: $base-typography-weight-regular,
+		family: $base-typography-family-mono
+	),
+	codeblock-small: (
+		size: $base-typography-size-10,
+		line-height: 13px,
+		tracking: 0,
+		weight: $base-typography-weight-regular,
+		family: $base-typography-family-mono
+	)
+);
+
+@mixin typography($style) {
+	// Find the style map in the main $text map
+	$map: map.get($text, $style);
+
+	@if $map {
+		font-family: map.get($map, 'family') or $base-typography-family-sans;
+		font-size: math.div(map.get($map, 'size'), 16) * 1rem;
+		font-weight: map.get($map, 'weight');
+		line-height: map.get($map, 'line-height');
+		letter-spacing: map.get($map, 'tracking');
+		font-smoothing: antialiased;
+		text-rendering: optimizelegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	} @else {
+		@error "Unknown typography style '#{$style}'.";
+	}
+}

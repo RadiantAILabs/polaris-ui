@@ -1,0 +1,50 @@
+name: Storybook PR Preview (Artifact)
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: storybook-pr-preview-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.18.x'
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.21'
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.bun
+            **/node_modules
+          key: bun-${{ runner.os }}-${{ hashFiles('bun.lockb') }}
+          restore-keys: bun-${{ runner.os }}-
+
+      - name: Install deps
+        run: bun install --ci
+
+      - name: Build @polaris/ui
+        run: bun run build
+
+      - name: Build Storybook (static)
+        run: bunx storybook build --quiet
+
+      - name: Upload Storybook artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-static-pr-${{ github.event.pull_request.number }}
+          path: storybook-static
+          retention-days: 7

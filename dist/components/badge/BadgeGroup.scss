@@ -1,0 +1,10 @@
+@use '../../styles/tokens' as *;
+
+.badge-group {
+	display: flex;
+	flex: 1;
+	flex-wrap: wrap;
+	gap: $space-0-5;
+	align-items: center;
+	min-width: 0;
+}

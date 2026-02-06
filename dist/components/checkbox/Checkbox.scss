@@ -1,0 +1,33 @@
+@use '../../styles/tokens' as *;
+
+.checkbox {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: $space-2;
+	height: $space-2;
+	padding: $space-0-25;
+	background-color: transparent;
+	border: $border-width-base solid var(--color-checkbox-border-rest);
+	border-radius: 3px;
+
+	@include transition-interactive(border-color);
+}
+
+// Checked state
+.checkbox[data-state='checked'] {
+	background-color: var(--color-checkbox-background-active);
+	border-color: var(--color-checkbox-border-rest);
+}
+
+// Interactive states (hover, focus)
+.checkbox:is(:hover, :focus-visible):not([data-disabled]) {
+	border-color: var(--color-checkbox-border-hover);
+}
+
+// Disabled state
+.checkbox[data-disabled] {
+	cursor: not-allowed;
+	background-color: var(--color-background-disabled);
+	border-color: none;
+}

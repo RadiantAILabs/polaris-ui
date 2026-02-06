@@ -1,0 +1,84 @@
+@use '../../styles/tokens' as *;
+
+.badge {
+	box-sizing: border-box;
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	padding: 0 $space-0-5;
+	color: var(--color-text-primary);
+	user-select: none;
+	background-color: var(--color-background-emphasized-1);
+	border-radius: $border-radius-base;
+
+	@include transition-interactive;
+
+	&--small {
+		height: $space-2;
+	}
+
+	&--base {
+		height: $space-3;
+	}
+
+	&--large {
+		height: $space-4;
+		padding: 0 $space-1;
+	}
+
+	&--disabled {
+		opacity: 0.6;
+	}
+
+	&--inverse {
+		color: var(--color-text-inverse-primary);
+		background-color: var(--color-button-primary-background-active);
+	}
+}
+
+.badge__icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-left: $space-0-25;
+}
+
+.badge__text {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 $space-0-5;
+
+	@include typography('button-base');
+
+	.badge--small & {
+		@include typography('button-small');
+	}
+}
+
+.badge__delete {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: $space-0-25;
+	cursor: pointer;
+	background: none;
+	border: none;
+	border-radius: $border-radius-base;
+
+	.badge--small & {
+		padding: 1px;
+	}
+
+	&:disabled {
+		pointer-events: none;
+	}
+
+	&:hover:not(:disabled),
+	&:focus-visible:not(:disabled) {
+		background-color: var(--color-badge-delete-button-background-hover);
+	}
+
+	@include transition-interactive;
+}

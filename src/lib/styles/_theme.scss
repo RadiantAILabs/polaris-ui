@@ -1,0 +1,35 @@
+// ============================================
+// THEME
+// ============================================
+@use 'tokens/color' as *;
+@use 'sass:string';
+@use 'sass:map';
+
+@mixin theme-vars($theme-map) {
+	@each $name, $value in $theme-map {
+		--color-#{$name}: #{$value};
+	}
+}
+
+:root {
+	color-scheme: light dark;
+
+	// Defaults (light)
+	@include theme-vars(map.get($themes, light));
+}
+
+// System preference (if set to dark) - only when no manual theme is set
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme]) {
+		@include theme-vars(map.get($themes, dark));
+	}
+}
+
+// Manual overrides - highest priority
+:root[data-theme='light'] {
+	@include theme-vars(map.get($themes, light));
+}
+
+:root[data-theme='dark'] {
+	@include theme-vars(map.get($themes, dark));
+}

@@ -1,0 +1,22 @@
+@use '../../styles/tokens' as *;
+
+.gallery-card-grid {
+	display: grid;
+	gap: $space-2;
+	align-items: start;
+	width: 100%;
+	min-width: 0;
+
+	// Column variants
+	&--columns-2 {
+		grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+	}
+
+	&--columns-3 {
+		grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+	}
+
+	&--columns-4 {
+		grid-template-columns: repeat(auto-fit, minmax(min(120px, 100%), 1fr));
+	}
+}

@@ -1,0 +1,79 @@
+@use '../../styles/tokens' as *;
+
+$tab-spacing: calc($space-0-75 - $border-width-base);
+
+.underline-nav {
+	position: relative;
+	width: 100%;
+
+	&__container {
+		position: relative;
+		display: flex;
+		gap: $space-1;
+		align-items: stretch;
+		padding-bottom: $tab-spacing;
+		border-bottom: $border-width-base solid var(--color-border-base);
+
+		&--no-border {
+			border-bottom: $border-width-base solid transparent;
+		}
+	}
+
+	// Hover background
+	&__hover-bg {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		z-index: 0;
+		width: 0;
+		height: 100%;
+		padding-bottom: $tab-spacing;
+		pointer-events: none;
+		opacity: 0;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+		transition-duration: 0.2s;
+		transition-property: opacity, width, left;
+
+		&-inner {
+			width: 100%;
+			height: 100%;
+			background-color: var(--color-button-background-hover);
+			border-radius: $border-radius-base;
+		}
+	}
+
+	// Active tab indicator
+	&__indicator {
+		position: absolute;
+		bottom: -$border-width-base;
+		z-index: 2;
+		height: 2px;
+		background-color: var(--color-border-strong);
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+		transition-duration: 0.15s;
+		transition-property: left, width;
+	}
+
+	&__tab {
+		@include typography('body-base-semibold');
+
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: $space-0-5 $space-1;
+		color: var(--color-text-tertiary);
+		appearance: none;
+		cursor: pointer;
+		background: transparent;
+		border: none;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+		transition-duration: 0.15s;
+		transition-property: color;
+
+		&:hover,
+		&[data-active='true'] {
+			color: var(--color-text-primary);
+		}
+	}
+}
