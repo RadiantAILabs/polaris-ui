@@ -67,6 +67,13 @@ export { default as Form, FormSectionLegend, createForm } from './components/for
 export type { FormInstance, FormOptions } from './components/form';
 export { IconAndText, type IconAndTextProps } from './components/icon-and-text';
 export { default as Toaster, toast, type ToasterProps } from './components/toaster';
+export {
+	GraphView,
+	type GraphViewProps,
+	type GraphSpec,
+	type GraphNodeData,
+	type GraphEdgeData
+} from './components/graph-view';
 
 // Utils
 export { cn } from './utils';
