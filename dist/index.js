@@ -33,5 +33,6 @@ export { default as Toggle } from './components/toggle/Toggle.svelte';
 export { default as Form, FormSectionLegend, createForm } from './components/form';
 export { IconAndText } from './components/icon-and-text';
 export { default as Toaster, toast } from './components/toaster';
+export { GraphView } from './components/graph-view';
 // Utils
 export { cn } from './utils';
