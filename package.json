@@ -64,7 +64,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"package": "svelte-kit sync && svelte-package -t -o dist && bun run build:styles && publint",
-		"build:styles": "mkdir -p dist/styles && cp -R src/lib/styles/*.scss dist/styles/ 2>/dev/null || true && cp -R src/lib/styles/tokens dist/styles/tokens 2>/dev/null || true && bunx sass src/lib/styles/index.scss dist/styles/index.css",
+		"build:styles": "bunx sass src/lib/styles/index.scss dist/styles/index.css",
 		"prepare": "svelte-kit sync || echo ''",
 		"publish": "bun run build && npm publish",
 		"lint": "bun run lint:css && bun run lint:eslint && bun run lint:prettier",
