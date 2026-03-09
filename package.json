@@ -69,7 +69,7 @@
 		"package": "svelte-kit sync && svelte-package -t -o dist && bun run build:styles && publint",
 		"build:styles": "bunx sass src/lib/styles/index.scss dist/styles/index.css",
 		"prepare": "svelte-kit sync || echo ''",
-		"publish": "bun run build && npm publish",
+		"prepublishOnly": "bun run build",
 		"lint": "bun run lint:css && bun run lint:eslint && bun run lint:prettier",
 		"lint:css": "stylelint 'src/**/*.{css,scss,svelte}'",
 		"lint:eslint": "bunx eslint .",
