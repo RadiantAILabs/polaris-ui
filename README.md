@@ -1,13 +1,13 @@
-# @polaris/ui
+# @radiantailabs/polaris-ui
 
-`@polaris/ui` is an open source Svelte 5 component library for building Polaris web apps such as `polaris-dashboard`.
+`@radiantailabs/polaris-ui` is an open source Svelte 5 component library for building Polaris web apps such as `polaris-dashboard`.
 
 The package is released under the Apache 2.0 license.
 
 ## Installation
 
 ```bash
-bun add @polaris/ui
+bun add @radiantailabs/polaris-ui
 ```
 
 Install published versions from the package registry. Do not consume the library from a git dependency in normal application development.
@@ -18,7 +18,7 @@ Import the package styles once in your application shell:
 
 ```svelte
 <script>
-  import '@polaris/ui/styles/index.css';
+  import '@radiantailabs/polaris-ui/styles/index.css';
 </script>
 ```
 
@@ -26,7 +26,7 @@ Then import components from the package:
 
 ```svelte
 <script>
-  import { Button, Icon, Input } from '@polaris/ui';
+  import { Button, Icon, Input } from '@radiantailabs/polaris-ui';
 </script>
 
 <Button variant="primary" label="Save" icon="check" />
@@ -37,7 +37,7 @@ Then import components from the package:
 Tree-shakeable imports are also available:
 
 ```ts
-import { Button } from '@polaris/ui/components/button';
+import { Button } from '@radiantailabs/polaris-ui/components/button';
 ```
 
 ## SCSS Tokens
@@ -47,7 +47,7 @@ Consumers do not need custom Sass `additionalData` injection to use the componen
 If your app wants direct access to Polaris design tokens in its own styles, import them explicitly:
 
 ```scss
-@use '@polaris/ui/styles/tokens' as *;
+@use '@radiantailabs/polaris-ui/styles/tokens' as *;
 ```
 
 That keeps token imports local to the stylesheet that needs them and avoids duplicate global Sass imports.
@@ -78,4 +78,4 @@ Releases should publish from CI or a dedicated release environment after buildin
 
 ## License
 
-`@polaris/ui` is open source under the Apache 2.0 license. See [LICENSE](LICENSE).
+`@radiantailabs/polaris-ui` is open source under the Apache 2.0 license. See [LICENSE](LICENSE).
