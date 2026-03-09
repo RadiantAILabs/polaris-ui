@@ -10,6 +10,8 @@ The package is released under the Apache 2.0 license.
 bun add @polaris/ui
 ```
 
+Install published versions from the package registry. Do not consume the library from a git dependency in normal application development.
+
 ## Usage
 
 Import the package styles once in your application shell:
@@ -67,6 +69,12 @@ bun run package
 bun run check
 bun run lint
 ```
+
+`bun run package` generates `dist/` locally for packaging and release workflows. `dist/` is not intended to be committed to git.
+
+## Publishing
+
+Releases should publish from CI or a dedicated release environment after building from source. The git repository is source-first; package artifacts are produced during the release process.
 
 ## License
 
