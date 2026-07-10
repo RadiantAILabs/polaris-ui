@@ -1,0 +1,99 @@
+@use '../../styles/tokens' as *;
+
+.chart-tooltip {
+	display: grid;
+	gap: $space-0-75;
+	align-items: start;
+	min-width: 9rem;
+	padding: $space-0-75 $space-1-25;
+	background-color: var(--color-background-raised);
+	border: $border-width-base solid var(--color-border-base);
+	border-radius: $border-radius-base;
+	box-shadow: 0 10px 30px 0 rgb(38 128 134 / 6%);
+
+	@include typography('body-small-regular');
+}
+
+.chart-tooltip__label {
+	@include typography('body-small-semibold');
+}
+
+.chart-tooltip__items {
+	display: grid;
+	gap: $space-0-75;
+}
+
+.chart-tooltip__item {
+	display: flex;
+	flex-wrap: wrap;
+	gap: $space-1;
+	align-items: stretch;
+	width: 100%;
+
+	& > :global(svg) {
+		width: $space-1-25;
+		height: $space-1-25;
+		color: var(--color-text-tertiary);
+	}
+
+	&--dot {
+		align-items: center;
+	}
+}
+
+.chart-tooltip__indicator {
+	flex-shrink: 0;
+	background-color: var(--color-bg);
+	border-color: var(--color-border);
+	border-radius: $border-radius-base;
+
+	&--dot {
+		width: $space-1-25;
+		height: $space-1-25;
+	}
+
+	&--line {
+		width: $space-0-5;
+		height: 100%;
+	}
+
+	&--dashed {
+		width: 0;
+		background-color: transparent;
+		border: 1.5px dashed var(--color-border);
+	}
+
+	&--nested {
+		margin-block: $space-0-25;
+	}
+}
+
+.chart-tooltip__content {
+	display: flex;
+	flex: 1;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: space-between;
+	line-height: 1;
+
+	&--nested {
+		align-items: flex-end;
+	}
+}
+
+.chart-tooltip__label-group {
+	display: grid;
+	gap: $space-0-75;
+}
+
+.chart-tooltip__name {
+	color: var(--color-text-tertiary);
+}
+
+.chart-tooltip__value {
+	@include typography('codeblock-small');
+
+	font-weight: 500;
+	font-variant-numeric: tabular-nums;
+	color: var(--color-text-primary);
+}

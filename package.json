@@ -129,6 +129,7 @@
 		"clsx": "^2.1.1",
 		"dompurify": "^3.4.11",
 		"marked": "^18.0.6",
+		"layerchart": "2.0.1",
 		"paneforge": "^1.0.2",
 		"svelte-sonner": "^1.0.7",
 		"tailwind-variants": "^2.1.0",
