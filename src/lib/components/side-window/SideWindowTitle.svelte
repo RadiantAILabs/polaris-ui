@@ -1,40 +1,40 @@
 <script lang="ts" module>
-	import type { IconAndTextProps } from '../icon-and-text';
 	import type { Snippet } from 'svelte';
 
 	export interface SideWindowTitleProps {
 		title: string;
-		iconAndText1?: Omit<IconAndTextProps, 'size'>;
-		iconAndText2?: Omit<IconAndTextProps, 'size'>;
 		showExpand?: boolean;
 		showClose?: boolean;
 		onExpand?: () => void;
 		onClose?: () => void;
-		titleActions?: Snippet;
+		/** Content rendered to the left of the title. */
+		titleLeading?: Snippet;
+		/** Content rendered immediately to the right of the title. */
+		titleTrailing?: Snippet;
+		/** Content rendered in the right-hand info zone. When the row
+		 * is too narrow, this slot drops below the title row. */
+		titleInfo?: Snippet;
 	}
 </script>
 
 <script lang="ts">
-	import { IconAndText } from '../icon-and-text';
 	import { Button } from '../button';
 
 	let {
 		title,
-		iconAndText1,
-		iconAndText2,
 		showExpand = false,
 		showClose = true,
 		onExpand,
 		onClose,
-		titleActions
+		titleLeading,
+		titleTrailing,
+		titleInfo
 	}: SideWindowTitleProps = $props();
 	// Whether to show the compact layout (info below title)
 	let isCompact = $state(false);
 
-	// Filter out undefined iconAndText and ensure we only render defined ones
-	const iconAndTexts = $derived([iconAndText1, iconAndText2].filter(Boolean) as IconAndTextProps[]);
 	const hasWindowManagement = $derived(showExpand || showClose);
-	const hasInfo = $derived(iconAndTexts.length > 0 || titleActions);
+	const hasInfo = $derived(!!titleInfo);
 	const showDivider = $derived(hasInfo && hasWindowManagement && !isCompact);
 
 	// Refs for overflow detection
@@ -44,7 +44,7 @@
 	let managementElement: HTMLElement | undefined = $state(undefined);
 
 	function checkOverflow() {
-		if (!rowElement || !titleElement || !infoElement) return;
+		if (!rowElement || !titleElement) return;
 
 		const availableWidth = rowElement.clientWidth;
 
@@ -126,7 +126,7 @@
 	$effect(() => {
 		// Watch these dependencies
 		void title;
-		void iconAndTexts.length;
+		void hasInfo;
 
 		// Queue check for next frame to ensure DOM has updated
 		requestAnimationFrame(checkOverflow);
@@ -134,23 +134,28 @@
 </script>
 
 {#snippet infoSection()}
-	{#if iconAndTexts.length > 0 || titleActions}
+	{#if titleInfo}
 		<div
 			class="side-window-title-bar__info"
 			class:has-divider={showDivider}
 			bind:this={infoElement}
 		>
-			{@render titleActions?.()}
-			{#each iconAndTexts as iconAndTextProps, i (i)}
-				<IconAndText {...iconAndTextProps} size="large" />
-			{/each}
+			{@render titleInfo()}
 		</div>
 	{/if}
 {/snippet}
 
 <header class="side-window-title-bar" class:is-compact={isCompact}>
 	<div class="side-window-title-bar__row" bind:this={rowElement}>
-		<h3 class="side-window-title-bar__title" bind:this={titleElement}>{title}</h3>
+		<div class="side-window-title-bar__left">
+			{#if titleLeading}
+				<div class="side-window-title-bar__leading">{@render titleLeading()}</div>
+			{/if}
+			<h3 class="side-window-title-bar__title" bind:this={titleElement}>{title}</h3>
+			{#if titleTrailing}
+				<div class="side-window-title-bar__trailing">{@render titleTrailing()}</div>
+			{/if}
+		</div>
 
 		<div class="side-window-title-bar__controls">
 			{#if !isCompact}
@@ -216,6 +221,22 @@
 	.side-window-title-bar__controls {
 		display: flex;
 		gap: var(--gap);
+		align-items: center;
+	}
+
+	.side-window-title-bar__left {
+		display: flex;
+		flex: 1;
+		gap: $space-1;
+		align-items: center;
+		min-width: 0;
+	}
+
+	.side-window-title-bar__leading,
+	.side-window-title-bar__trailing {
+		display: flex;
+		flex-shrink: 0;
+		gap: $space-1;
 		align-items: center;
 	}
 

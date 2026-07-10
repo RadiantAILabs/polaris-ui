@@ -1,0 +1,60 @@
+@use '../../styles/tokens' as *;
+
+// Shared base styles for calendar and range-calendar building blocks. Selection
+// and range-highlight styling is layered on top by each component.
+
+// Grid cell wrapper shared by calendar and range-calendar cells.
+@mixin cell-base {
+	position: relative;
+	width: var(--cell-size);
+	height: var(--cell-size);
+	padding: 0;
+	text-align: center;
+
+	@include typography('button-large');
+
+	&:focus-within {
+		z-index: 20;
+	}
+}
+
+// Day button styling common to single and range calendars: layout plus the
+// disabled, unavailable, hover, and focus states.
+@mixin day-base {
+	display: flex;
+	flex-direction: column;
+	gap: $space-1;
+	align-items: center;
+	justify-content: center;
+	width: var(--cell-size);
+	height: var(--cell-size);
+	padding: 0;
+	line-height: 1;
+	color: var(--color-text-primary);
+	white-space: nowrap;
+	user-select: none;
+	border-radius: $border-radius-base;
+
+	@include typography(button-large);
+
+	&[data-disabled] {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+
+	&[data-unavailable] {
+		color: var(--color-text-tertiary);
+		text-decoration: line-through;
+	}
+
+	&:hover {
+		color: var(--color-text-primary);
+		background-color: var(--color-button-background-hover);
+	}
+
+	&:focus {
+		position: relative;
+		border-color: var(--color-control-border-active);
+		box-shadow: 0 0 0 2px rgb(var(--color-control-border-active) / 50%);
+	}
+}

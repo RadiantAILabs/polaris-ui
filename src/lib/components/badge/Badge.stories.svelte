@@ -38,12 +38,17 @@
 				control: { type: 'select' },
 				options: ['small', 'base', 'large'],
 				description: 'Badge size'
+			},
+			variant: {
+				control: { type: 'select' },
+				options: ['default', 'outline', 'inverse'],
+				description: 'Visual variant'
 			}
 		}
 	});
 </script>
 
-<Story name="All Variants" args={{ text: 'Item', showDelete: true }}>
+<Story name="States" args={{ text: 'Item', showDelete: true }}>
 	{#snippet template(args)}
 		<div style="display: flex; flex-direction: column; gap: 1rem;">
 			<div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
@@ -142,6 +147,42 @@
 					disabled
 					size="large"
 				/>
+			</div>
+		</div>
+	{/snippet}
+</Story>
+
+<Story name="Variants">
+	{#snippet template()}
+		<div style="display: flex; flex-direction: column; gap: 1.5rem;">
+			<div>
+				<h3 style="margin: 0 0 0.5rem; font-size: 0.85rem; font-weight: 500;">Default</h3>
+				<div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center;">
+					<Badge text="Small" size="small" />
+					<Badge text="Base" size="base" />
+					<Badge text="Large" size="large" />
+					<Badge text="With icon" leadingIcon="search" size="base" />
+				</div>
+			</div>
+
+			<div>
+				<h3 style="margin: 0 0 0.5rem; font-size: 0.85rem; font-weight: 500;">Outline</h3>
+				<div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center;">
+					<Badge text="Small" variant="outline" size="small" />
+					<Badge text="Base" variant="outline" size="base" />
+					<Badge text="Large" variant="outline" size="large" />
+					<Badge text="With icon" variant="outline" leadingIcon="search" size="base" />
+				</div>
+			</div>
+
+			<div>
+				<h3 style="margin: 0 0 0.5rem; font-size: 0.85rem; font-weight: 500;">Inverse</h3>
+				<div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center;">
+					<Badge text="Small" variant="inverse" size="small" />
+					<Badge text="Base" variant="inverse" size="base" />
+					<Badge text="Large" variant="inverse" size="large" />
+					<Badge text="With icon" variant="inverse" leadingIcon="search" size="base" />
+				</div>
 			</div>
 		</div>
 	{/snippet}

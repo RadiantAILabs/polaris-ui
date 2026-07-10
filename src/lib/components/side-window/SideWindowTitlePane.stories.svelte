@@ -1,6 +1,8 @@
 <script module lang="ts">
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import SideWindowTitlePane from './SideWindowTitlePane.svelte';
+	import { IconAndText } from '../icon-and-text';
+	import Badge from '../badge/Badge.svelte';
 
 	const { Story } = defineMeta({
 		title: 'Components/SideWindowTitlePane',
@@ -21,32 +23,12 @@
 			navProps: {
 				control: { type: 'object' },
 				description: 'Props for the UnderlineNav component'
-			},
-			iconAndText1: {
-				control: { type: 'object' },
-				description: 'First icon and text pair (narrow variant only)'
-			},
-			iconAndText2: {
-				control: { type: 'object' },
-				description: 'Second icon and text pair (narrow variant only)'
 			}
 		}
 	});
 </script>
 
 <script lang="ts">
-	// Sample iconAndText configurations
-	const sampleIconAndText1 = {
-		icon: 'timer',
-		text: '13.6 s'
-	} as const;
-
-	const sampleIconAndText2 = {
-		icon: 'tokens',
-		text: '2523'
-	} as const;
-
-	// Sample nav configurations
 	const sampleNavProps = {
 		tabs: [{ label: 'Configuration' }, { label: 'Logs' }, { label: 'Metrics' }],
 		activeTab: 'Configuration'
@@ -56,27 +38,45 @@
 <Story
 	name="Without Navbar"
 	args={{
-		title: 'Without Navbar',
-		iconAndText1: sampleIconAndText1,
-		iconAndText2: sampleIconAndText2
+		title: 'Side Window'
 	}}
 >
 	{#snippet template(args)}
-		<SideWindowTitlePane {...args} />
+		<SideWindowTitlePane {...args}>
+			{#snippet titleLeading()}
+				<Badge text="Chat" size="small" variant="outline" />
+			{/snippet}
+			{#snippet titleTrailing()}
+				<Badge text="INFO" size="small" />
+			{/snippet}
+			{#snippet titleInfo()}
+				<IconAndText icon="timer" text="13.6 s" size="large" />
+				<IconAndText icon="tokens" text="2523" size="large" />
+			{/snippet}
+		</SideWindowTitlePane>
 	{/snippet}
 </Story>
 
 <Story
 	name="With Navbar"
 	args={{
-		title: 'With Navbar',
+		title: 'Side Window',
 		showNavbar: true,
-		navProps: sampleNavProps,
-		iconAndText1: sampleIconAndText1,
-		iconAndText2: sampleIconAndText2
+		navProps: sampleNavProps
 	}}
 >
 	{#snippet template(args)}
-		<SideWindowTitlePane {...args} />
+		<SideWindowTitlePane {...args}>
+			{#snippet titleLeading()}
+				<Badge text="Chat" size="small" variant="outline" />
+			{/snippet}
+			{#snippet titleTrailing()}
+				<Badge text="INFO" size="small" />
+			{/snippet}
+			{#snippet titleInfo()}
+				<IconAndText icon="timer" text="13.6 s" size="large" />
+				<IconAndText icon="tokens" text="2523" size="large" />
+			{/snippet}
+		</SideWindowTitlePane>
 	{/snippet}
 </Story>

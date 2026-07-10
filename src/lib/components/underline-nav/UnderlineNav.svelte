@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { CounterBadge } from '../counter-badge';
 
 	export interface Tab {
 		// Tab labels must be unique
 		label: string;
+		badge?: number;
 	}
 
 	export interface UnderlineNavProps {
@@ -103,6 +105,7 @@
 	}
 
 	$effect(() => {
+		void tabs;
 		if (activeTab) {
 			requestAnimationFrame(updateIndicatorPosition);
 		}
@@ -144,6 +147,11 @@
 				onkeydown={(e) => handleKeyDown(e, tab.label)}
 			>
 				{tab.label}
+				{#if tab.badge != null && tab.badge > 0}
+					<span class="underline-nav__badge">
+						<CounterBadge value={tab.badge} />
+					</span>
+				{/if}
 			</button>
 		{/each}
 

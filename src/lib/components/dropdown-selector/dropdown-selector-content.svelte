@@ -81,7 +81,7 @@
 		max-height: 24rem;
 		padding: $space-0-5;
 		overflow: hidden auto;
-		background-color: var(--color-control-background-active);
+		background-color: var(--color-background-raised);
 		border: $border-width-base solid var(--color-control-border-active);
 		border-radius: $border-radius-base;
 

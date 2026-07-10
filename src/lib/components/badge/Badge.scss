@@ -31,6 +31,12 @@
 		opacity: 0.6;
 	}
 
+	&--outline {
+		color: var(--color-text-secondary);
+		background-color: var(--color-background-base);
+		border: 0.5px solid var(--color-border-base);
+	}
+
 	&--inverse {
 		color: var(--color-text-inverse-primary);
 		background-color: var(--color-button-primary-background-active);

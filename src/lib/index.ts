@@ -4,7 +4,8 @@ export { Badge, BadgeGroup, type BadgeProps } from './components/badge';
 export { BlankState, type BlankStateProps } from './components/blank-state';
 export { CounterBadge, type CounterBadgeProps } from './components/counter-badge';
 export { Checkbox, type CheckboxProps } from './components/checkbox';
-export { DataTable, type DataTableProps } from './components/datatable';
+export { RangeCalendar, type RangeCalendarProps } from './components/range-calendar';
+export { DataTable, type DataTableColumn, type DataTableProps } from './components/datatable';
 export {
 	Table,
 	type TableProps,
@@ -13,8 +14,19 @@ export {
 } from './components/table';
 export { default as Dialog, type DialogProps, type DialogFooterProps } from './components/dialog';
 export { Input, type InputProps } from './components/input';
-export { MultilineInput, type MultilineInputProps } from './components/multilineinput';
+export {
+	MultilineInput,
+	type MultilineInputProps,
+	type MultilineInputLanguage
+} from './components/multilineinput';
+export { Markdown, type MarkdownProps } from './components/markdown';
 export { DateTimeSelector, type DateTimeSelectorProps } from './components/datetime-selector';
+export {
+	DateRangeSelector,
+	type DateRangeSelectorProps,
+	type DateRange,
+	type DateRangePreset
+} from './components/date-range-selector';
 export {
 	default as GalleryCard,
 	type GalleryCardProps,
@@ -48,7 +60,7 @@ export {
 export {
 	default as Tree,
 	type TreeDropdownProps,
-	type TreeResourceIconProps,
+	type TreeElementTagProps,
 	type TreeElementDetailsProps,
 	type TreeElementProps
 } from './components/tree';
@@ -60,6 +72,7 @@ export {
 } from './components/trace-timeline';
 export { Resizable } from './components/resizable';
 export { Popover, type PopoverProps, type PopoverHeaderProps } from './components/popover';
+export { Tooltip, type TooltipProps } from './components/tooltip';
 export { ConfigTabHeader, type ConfigTabHeaderProps } from './components/config-tab-header';
 export { NavButton, type NavButtonProps } from './components/nav-button';
 export { default as Toggle, type ToggleProps } from './components/toggle/Toggle.svelte';

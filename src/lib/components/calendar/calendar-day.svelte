@@ -19,24 +19,10 @@
 </CalendarPrimitive.Day>
 
 <style lang="scss">
-	@use '../../styles/tokens' as *;
+	@use './calendar-base' as base;
 
 	.calendar-day {
-		display: flex;
-		flex-direction: column;
-		gap: $space-1;
-		align-items: center;
-		justify-content: center;
-		width: var(--cell-size);
-		height: var(--cell-size);
-		padding: 0;
-		line-height: 1;
-		color: var(--color-text-primary);
-		white-space: nowrap;
-		user-select: none;
-		border-radius: $border-radius-base;
-
-		@include typography(button-large);
+		@include base.day-base;
 
 		// Today state (not selected)
 		&[data-today]:not([data-selected]) {
@@ -59,31 +45,6 @@
 		// Outside month state (not selected)
 		&[data-outside-month]:not([data-selected]) {
 			color: var(--color-text-tertiary);
-		}
-
-		// Disabled state
-		&[data-disabled] {
-			pointer-events: none;
-			opacity: 0.5;
-		}
-
-		// Unavailable state
-		&[data-unavailable] {
-			color: var(--color-text-tertiary);
-			text-decoration: line-through;
-		}
-
-		// Hover state
-		&:hover {
-			color: var(--color-text-primary);
-			background-color: var(--color-button-background-hover);
-		}
-
-		// Focus state
-		&:focus {
-			position: relative;
-			border-color: var(--color-control-border-active);
-			box-shadow: 0 0 0 2px rgb(var(--color-control-border-active) / 50%);
 		}
 	}
 </style>

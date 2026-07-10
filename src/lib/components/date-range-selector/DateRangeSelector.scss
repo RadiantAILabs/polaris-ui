@@ -1,0 +1,68 @@
+@use '../../styles/tokens' as *;
+
+.date-range-selector {
+	display: flex;
+	align-items: stretch;
+	width: max-content;
+	max-width: 100%;
+
+	&__presets {
+		display: flex;
+		flex-shrink: 0;
+		flex-direction: column;
+		gap: $space-0-5;
+		width: 10rem;
+		padding-right: $space-1;
+	}
+
+	&__preset {
+		@include typography('button-base');
+		@include transition-interactive;
+
+		display: flex;
+		gap: $space-1;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		height: $space-4;
+		padding: 0 $space-1;
+		color: var(--color-text-primary);
+		text-align: left;
+		cursor: pointer;
+		background: transparent;
+		border: 0;
+		border-radius: $border-radius-base;
+	}
+
+	&__preset:hover,
+	&__preset:focus-visible,
+	&__preset--active {
+		background-color: var(--color-button-background-hover);
+	}
+
+	&__separator {
+		width: $border-width-base;
+		margin: 0 $space-1;
+		background-color: var(--color-border-base);
+	}
+
+	&__calendar {
+		flex: 0 0 auto;
+	}
+
+	@media (width < 768px) {
+		flex-direction: column;
+
+		&__presets {
+			width: auto;
+			padding-right: 0;
+			padding-bottom: $space-1;
+		}
+
+		&__separator {
+			width: auto;
+			height: $border-width-base;
+			margin: $space-1 0;
+		}
+	}
+}

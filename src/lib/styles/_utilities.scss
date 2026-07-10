@@ -244,9 +244,14 @@
 	}
 }
 
+// Width utilities
+.w-full {
+	width: 100%;
+}
+
 // Scroll area utility
 .scroll-area {
-	overflow-y: auto;
+	overflow: clip auto;
 
 	// Custom scrollbar styling
 	&::-webkit-scrollbar {

@@ -40,7 +40,7 @@
 
 		&__line {
 			position: absolute;
-			border: 0 solid var(--color-control-border-rest);
+			border: 0 solid var(--color-border-base);
 
 			&--vertical {
 				top: 0;
