@@ -1,6 +1,8 @@
 <script module lang="ts">
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import SideWindowTitle from './SideWindowTitle.svelte';
+	import { IconAndText } from '../icon-and-text';
+	import Badge from '../badge/Badge.svelte';
 
 	const { Story } = defineMeta({
 		title: 'Components/SideWindowTitle',
@@ -13,42 +15,25 @@
 			title: {
 				control: { type: 'text' },
 				description: 'The title text to display'
-			},
-			iconAndText1: {
-				control: { type: 'object' },
-				description: 'First icon and text pair'
-			},
-			iconAndText2: {
-				control: { type: 'object' },
-				description: 'Second icon and text pair'
 			}
 		}
 	});
 </script>
 
-<script lang="ts">
-	const sampleIconAndText1 = {
-		icon: 'timer',
-		text: '13.6 s'
-	} as const;
-
-	const sampleIconAndText2 = {
-		icon: 'tokens',
-		text: '2523'
-	} as const;
-</script>
-
 <Story
 	name="Playground"
 	args={{
-		title: 'Side Window Title',
-		iconAndText1: sampleIconAndText1,
-		iconAndText2: sampleIconAndText2
+		title: 'Side Window Title'
 	}}
 >
 	{#snippet template(args)}
 		<div style="border: 1px dashed purple;">
-			<SideWindowTitle {...args} />
+			<SideWindowTitle {...args}>
+				{#snippet titleInfo()}
+					<IconAndText icon="timer" text="13.6 s" size="large" />
+					<IconAndText icon="tokens" text="2523" size="large" />
+				{/snippet}
+			</SideWindowTitle>
 		</div>
 	{/snippet}
 </Story>
@@ -57,14 +42,17 @@
 	name="Overflow"
 	args={{
 		title:
-			'This is a very long title that should demonstrate overflow behavior when the text exceeds the available space',
-		iconAndText1: sampleIconAndText1,
-		iconAndText2: sampleIconAndText2
+			'This is a very long title that should demonstrate overflow behavior when the text exceeds the available space'
 	}}
 >
 	{#snippet template(args)}
 		<div style="max-width: 600px; border: 1px dashed purple;">
-			<SideWindowTitle {...args} />
+			<SideWindowTitle {...args}>
+				{#snippet titleInfo()}
+					<IconAndText icon="timer" text="13.6 s" size="large" />
+					<IconAndText icon="tokens" text="2523" size="large" />
+				{/snippet}
+			</SideWindowTitle>
 		</div>
 	{/snippet}
 </Story>
@@ -79,12 +67,59 @@
 		<div style="display: flex; flex-direction: column; gap: 24px;">
 			<div>
 				<p style="margin-bottom: 8px; font-size: 12px; color: var(--color-text-secondary);">
-					With titleActions snippet
+					With titleInfo snippet
 				</p>
 				<div style="border: 1px dashed purple;">
-					<SideWindowTitle {...args} iconAndText1={sampleIconAndText1}>
-						{#snippet titleActions()}
+					<SideWindowTitle {...args}>
+						{#snippet titleInfo()}
+							<IconAndText icon="timer" text="13.6 s" size="large" />
 							<span style="color: var(--color-text-secondary);">Custom Content</span>
+						{/snippet}
+					</SideWindowTitle>
+				</div>
+			</div>
+
+			<div>
+				<p style="margin-bottom: 8px; font-size: 12px; color: var(--color-text-secondary);">
+					With titleLeading
+				</p>
+				<div style="border: 1px dashed purple;">
+					<SideWindowTitle {...args}>
+						{#snippet titleLeading()}
+							<Badge text="Chat" variant="outline" />
+						{/snippet}
+					</SideWindowTitle>
+				</div>
+			</div>
+
+			<div>
+				<p style="margin-bottom: 8px; font-size: 12px; color: var(--color-text-secondary);">
+					With titleTrailing
+				</p>
+				<div style="border: 1px dashed purple;">
+					<SideWindowTitle {...args}>
+						{#snippet titleTrailing()}
+							<Badge text="INFO" size="small" />
+						{/snippet}
+					</SideWindowTitle>
+				</div>
+			</div>
+
+			<div>
+				<p style="margin-bottom: 8px; font-size: 12px; color: var(--color-text-secondary);">
+					Full example
+				</p>
+				<div style="border: 1px dashed purple;">
+					<SideWindowTitle {...args}>
+						{#snippet titleLeading()}
+							<Badge text="Chat" variant="outline" />
+						{/snippet}
+						{#snippet titleTrailing()}
+							<Badge text="INFO" size="small" />
+						{/snippet}
+						{#snippet titleInfo()}
+							<IconAndText icon="timer" text="13.6 s" size="large" />
+							<IconAndText icon="tokens" text="2523" size="large" />
 						{/snippet}
 					</SideWindowTitle>
 				</div>
@@ -95,28 +130,18 @@
 					Without window management
 				</p>
 				<div style="border: 1px dashed purple;">
-					<SideWindowTitle
-						{...args}
-						iconAndText1={sampleIconAndText1}
-						iconAndText2={sampleIconAndText2}
-						showExpand={false}
-						showClose={false}
-					/>
+					<SideWindowTitle {...args} showExpand={false} showClose={false}>
+						{#snippet titleInfo()}
+							<IconAndText icon="timer" text="13.6 s" size="large" />
+							<IconAndText icon="tokens" text="2523" size="large" />
+						{/snippet}
+					</SideWindowTitle>
 				</div>
 			</div>
 
 			<div>
 				<p style="margin-bottom: 8px; font-size: 12px; color: var(--color-text-secondary);">
-					Without info icons
-				</p>
-				<div style="border: 1px dashed purple;">
-					<SideWindowTitle {...args} />
-				</div>
-			</div>
-
-			<div>
-				<p style="margin-bottom: 8px; font-size: 12px; color: var(--color-text-secondary);">
-					Title only (no icons, no window management)
+					Title only (no slots, no window management)
 				</p>
 				<div style="border: 1px dashed purple;">
 					<SideWindowTitle {...args} showExpand={false} showClose={false} />

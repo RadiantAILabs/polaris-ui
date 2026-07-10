@@ -87,6 +87,7 @@
 			flex-direction: column;
 			gap: $space-3;
 			width: 100%;
+			min-height: 0;
 
 			&--padded {
 				padding: 0 20px $space-2;

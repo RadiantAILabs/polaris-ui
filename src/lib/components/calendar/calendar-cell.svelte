@@ -19,19 +19,9 @@
 </CalendarPrimitive.Cell>
 
 <style lang="scss">
-	@use '../../styles/tokens' as *;
+	@use './calendar-base' as base;
 
 	.calendar-cell {
-		position: relative;
-		width: var(--cell-size);
-		height: var(--cell-size);
-		padding: 0;
-		text-align: center;
-
-		@include typography('button-large');
-
-		&:focus-within {
-			z-index: 20;
-		}
+		@include base.cell-base;
 	}
 </style>

@@ -2,6 +2,8 @@
 	import type { Extension } from '@codemirror/state';
 	import type { Snippet } from 'svelte';
 
+	export type MultilineInputLanguage = 'json';
+
 	export type MultilineInputProps = {
 		/** The current value of the input, bindable with `bind:value`. */
 		value?: string;
@@ -13,7 +15,9 @@
 		readonly?: boolean;
 		/** Show a copy button to copy the content. */
 		showCopyButton?: boolean;
-		/** Additional CodeMirror extensions to include */
+		/** Language to use for syntax highlighting. Disabled if not provided. */
+		language?: MultilineInputLanguage;
+		/** Additional CodeMirror extensions to include. */
 		extensions?: Extension[];
 		/** Optional header content rendered above the editor */
 		headerPane?: Snippet;
@@ -39,6 +43,11 @@
 	import { defaultKeymap, history } from '@codemirror/commands';
 	import { cn } from '../../utils';
 	import { Button } from '../button';
+	import { jsonExtensions } from './json';
+
+	const LANGUAGE_EXTENSIONS: Record<MultilineInputLanguage, Extension[]> = {
+		json: jsonExtensions
+	};
 
 	// Component props
 	let {
@@ -47,6 +56,7 @@
 		readonly = false,
 		showCopyButton = false,
 		placeholder = '',
+		language,
 		extensions = [],
 		headerPane,
 		isActive = false,
@@ -207,6 +217,7 @@
 						return false;
 					}
 				}),
+				...(language ? LANGUAGE_EXTENSIONS[language] : []),
 				...extensions
 			]
 		});

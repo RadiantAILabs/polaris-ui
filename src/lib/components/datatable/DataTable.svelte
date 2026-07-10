@@ -31,19 +31,22 @@
 		width?: string;
 	}
 
-	export interface DataTableProps<T extends Record<string, unknown>> extends TableProps {
+	export interface DataTableProps<
+		T extends Record<string, unknown>,
+		K extends keyof T = keyof T
+	> extends TableProps {
 		/** Array of data objects to display in the table */
 		items: T[];
 		/** Column configuration defining how data should be displayed */
 		columns: DataTableColumn<T>[];
 		/** The field in each item to use as a unique identifier */
-		idField: keyof T;
+		idField: K;
 		/** Optional callback fired when a row is clicked. Receives the item's ID */
-		onRowClick?: (id: T[keyof T]) => void;
+		onRowClick?: (id: T[K]) => void;
 		/** Optional array of action items to display in each row */
 		actions?: DataTableActionItem[];
 		/** Optional callback fired when an action is triggered. Receives the item ID and action value */
-		onAction?: (itemId: T[keyof T], actionValue: string) => void;
+		onAction?: (itemId: T[K], actionValue: string) => void;
 		/** Whether to show a search bar above the table */
 		searchable?: boolean;
 		/** Array of column keys to search through. If empty, searches all columns */
@@ -52,10 +55,12 @@
 		searchPlaceholder?: string;
 		/** Minimum width for the entire table. Below this width, table will scroll horizontally */
 		minWidth?: string;
+		/** Optional id of the currently-selected row. */
+		selectedId?: T[K] | null;
 	}
 </script>
 
-<script lang="ts" generics="T extends Record<string, unknown>">
+<script lang="ts" generics="T extends Record<string, unknown>, K extends keyof T = keyof T">
 	import { Table } from '../table/index';
 	import { SearchBar } from '../searchbar';
 	import { DataTableActions } from './index';
@@ -72,8 +77,9 @@
 		searchableColumns = [],
 		searchPlaceholder = 'Search...',
 		minWidth,
+		selectedId = null,
 		...restProps
-	}: DataTableProps<T> = $props();
+	}: DataTableProps<T, K> = $props();
 
 	// Create a type-safe column map for O(1) lookup
 	const columnMap = $derived(new Map(columns.map((col) => [col.name, col] as const)));
@@ -138,9 +144,12 @@
 	const processedItems = $derived.by(() => {
 		let result = filteredItems;
 
-		// Apply sorting if active
+		// Apply sorting if active.
 		if (sortState.column && sortState.direction) {
-			const currentColumn = columnMap.get(sortState.column)!;
+			const currentColumn = columnMap.get(sortState.column);
+			if (!currentColumn) {
+				return result;
+			}
 			const sortFn =
 				currentColumn.sortFn ||
 				(currentColumn.sortType ? getSortFunction(currentColumn.sortType) : null);
@@ -221,7 +230,10 @@
 	</Table.Header>
 	<Table.Body>
 		{#each processedItems as item (item[idField])}
-			<Table.BodyRow onClick={onRowClick ? () => onRowClick(item[idField]) : undefined}>
+			<Table.BodyRow
+				onClick={onRowClick ? () => onRowClick(item[idField]) : undefined}
+				data-state={selectedId != null && item[idField] === selectedId ? 'selected' : undefined}
+			>
 				{#each columns as column (column.name)}
 					<Table.BodyCell style={getColumnStyle(column)}>
 						{#if column.render}

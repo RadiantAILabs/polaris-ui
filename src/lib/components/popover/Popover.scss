@@ -6,8 +6,9 @@
 	flex-direction: column;
 	gap: $space-1-5;
 	align-items: stretch;
+	max-width: var(--bits-popover-content-available-width);
 	padding: $space-2;
-	background-color: var(--color-background-overlay);
+	background-color: var(--color-background-raised);
 	border: $border-width-base solid var(--color-border-base);
 	border-radius: $border-radius-base;
 	box-shadow: 0 10px 30px 0 rgb(38 128 134 / 6%);

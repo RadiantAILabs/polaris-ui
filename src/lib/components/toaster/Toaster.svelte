@@ -76,19 +76,19 @@
 	style="
 	
 		--z-index: 100;
-		--normal-bg: var(--color-background-overlay);
+		--normal-bg: var(--color-background-raised);
 		--normal-border: var(--color-toaster-border);
 		--normal-text: var(--color-text-primary);
-		--success-bg: var(--color-background-overlay);
+		--success-bg: var(--color-background-raised);
 		--success-border: var(--color-toaster-border);
 		--success-text: var(--color-text-success);
 		--error-bg: var(--color-background-error);
 		--error-border: var(--color-border-error);
 		--error-text: var(--color-text-error);
-		--warning-bg: var(--color-background-overlay);
+		--warning-bg: var(--color-background-raised);
 		--warning-border: var(--color-toaster-border);
 		--warning-text: var(--color-text-warning);
-		--info-bg: var(--color-background-overlay);
+		--info-bg: var(--color-background-raised);
 		--info-border: var(--color-toaster-border);
 		--info-text: var(--color-text-primary);
 		--border-radius: 2px;
@@ -114,7 +114,46 @@
 	{/snippet}
 
 	{#snippet loadingIcon()}
-		<Icon name="loader" variant="primary" size="1.25rem" />
 		<Icon name="loader" variant="primary" size="1.25rem" animation="spin" />
 	{/snippet}
 </Toaster>
+
+<style lang="scss">
+	@use '../../styles/tokens' as *;
+
+	:global([data-sonner-toast][data-styled='true'] [data-title][data-title]) {
+		@include typography('body-base-semibold');
+	}
+
+	:global([data-sonner-toast][data-styled='true'] [data-description][data-description]) {
+		@include typography('body-small-regular');
+
+		color: var(--color-text-secondary);
+	}
+
+	:global([data-sonner-toast][data-styled='true'] [data-button][data-button]) {
+		@include typography('button-base');
+
+		gap: $space-0-5;
+		height: $space-3;
+		padding: calc($space-0-5 - $border-width-base) calc($space-1 - $border-width-base);
+		color: var(--color-text-primary);
+		cursor: pointer;
+		background-color: var(--color-button-background-rest);
+		border: $border-width-base solid var(--color-button-border-base);
+		border-radius: $border-radius-base;
+	}
+
+	:global([data-sonner-toast][data-styled='true'] [data-button][data-button]:hover:not(:disabled)),
+	:global(
+		[data-sonner-toast][data-styled='true'] [data-button][data-button]:focus-visible:not(:disabled)
+	) {
+		background-color: var(--color-button-background-hover);
+	}
+
+	:global(
+		[data-sonner-toast][data-styled='true'] [data-button][data-button]:active:not(:disabled)
+	) {
+		background-color: var(--color-button-background-active);
+	}
+</style>

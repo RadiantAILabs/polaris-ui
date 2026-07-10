@@ -61,6 +61,7 @@ $tab-spacing: calc($space-0-75 - $border-width-base);
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		min-height: 32px;
 		padding: $space-0-5 $space-1;
 		color: var(--color-text-tertiary);
 		appearance: none;
@@ -75,5 +76,10 @@ $tab-spacing: calc($space-0-75 - $border-width-base);
 		&[data-active='true'] {
 			color: var(--color-text-primary);
 		}
+	}
+
+	&__badge {
+		display: inline-flex;
+		margin-left: $space-0-5;
 	}
 }

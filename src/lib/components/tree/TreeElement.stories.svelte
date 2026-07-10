@@ -14,10 +14,9 @@
 				control: { type: 'boolean' },
 				description: 'Controls whether the tree element is expanded'
 			},
-			type: {
-				control: { type: 'select' },
-				options: ['agent', 'component', 'nli'],
-				description: 'The type of resource icon to display'
+			tag: {
+				control: { type: 'text' },
+				description: 'Short text rendered in the boxed leading tag'
 			},
 			label: {
 				control: { type: 'text' },
@@ -62,7 +61,7 @@
 			<div>
 				<h3 style="margin: 0 0 12px; font-size: 14px; font-weight: 500;">Agent</h3>
 				<div style="display: inline-flex; border: 1px dashed purple">
-					<Tree.Element type="agent" label="Agent Task" upConnector={false} downConnector={false} />
+					<Tree.Element tag="Agent" label="Agent Task" upConnector={false} downConnector={false} />
 				</div>
 			</div>
 
@@ -70,7 +69,7 @@
 				<h3 style="margin: 0 0 12px; font-size: 14px; font-weight: 500;">Component</h3>
 				<div style="display: inline-flex; border: 1px dashed purple">
 					<Tree.Element
-						type="component"
+						tag="Component"
 						label="Component Task"
 						upConnector={false}
 						downConnector={false}
@@ -81,7 +80,7 @@
 			<div>
 				<h3 style="margin: 0 0 12px; font-size: 14px; font-weight: 500;">NLI</h3>
 				<div style="display: inline-flex; border: 1px dashed purple">
-					<Tree.Element type="nli" label="NLI Task" upConnector={false} downConnector={false} />
+					<Tree.Element tag="NLI" label="NLI Task" upConnector={false} downConnector={false} />
 				</div>
 			</div>
 		</div>
@@ -94,7 +93,7 @@
 			<div>
 				<h3 style="margin: 0 0 12px; font-size: 14px; font-weight: 500;">Default</h3>
 				<div style="display: inline-flex; border: 1px dashed purple">
-					<Tree.Element type="agent" label="Agent Task" upConnector={false} downConnector={false} />
+					<Tree.Element tag="Agent" label="Agent Task" upConnector={false} downConnector={false} />
 				</div>
 			</div>
 
@@ -102,7 +101,7 @@
 				<h3 style="margin: 0 0 12px; font-size: 14px; font-weight: 500;">Selected</h3>
 				<div style="display: inline-flex; border: 1px dashed purple">
 					<Tree.Element
-						type="agent"
+						tag="Agent"
 						label="Agent Task"
 						upConnector={false}
 						downConnector={false}
@@ -124,7 +123,7 @@
 				<h3 style="margin: 0 0 12px; font-size: 14px; font-weight: 500;">Processing</h3>
 				<div style="display: inline-flex; border: 1px dashed purple">
 					<Tree.Element
-						type="agent"
+						tag="Agent"
 						label="Processing Task"
 						details={{ status: 'processing', time: '10s' }}
 						upConnector={false}
@@ -136,7 +135,7 @@
 				<h3 style="margin: 0 0 12px; font-size: 14px; font-weight: 500;">Completed</h3>
 				<div style="display: inline-flex; border: 1px dashed purple">
 					<Tree.Element
-						type="agent"
+						tag="Agent"
 						label="Completed Task"
 						details={{ status: 'completed', time: '13.6s', tokens: '2523' }}
 						upConnector={false}
@@ -154,7 +153,7 @@
 				</h3>
 				<div style="display: inline-flex; border: 1px dashed purple">
 					<Tree.Element
-						type="agent"
+						tag="Agent"
 						label="Completed Task"
 						upConnector={false}
 						downConnector={false}
@@ -172,7 +171,7 @@
 				<h3 style="margin: 0 0 12px; font-size: 14px; font-weight: 500;">With Badge Count</h3>
 				<div style="display: inline-flex; border: 1px dashed purple">
 					<Tree.Element
-						type="component"
+						tag="Component"
 						label="Task with Badge"
 						badgeCount={5}
 						upConnector={false}
@@ -193,7 +192,7 @@
 			<div style="display: inline-flex; flex-direction: column; border: 1px dashed purple">
 				<!-- Agent root -->
 				<Tree.Element
-					type="agent"
+					tag="Agent"
 					label="Agent"
 					indentLevel={0}
 					downConnector={true}
@@ -202,7 +201,7 @@
 
 				<!-- First NLI child -->
 				<Tree.Element
-					type="nli"
+					tag="NLI"
 					label="NLI Call"
 					indentLevel={1}
 					inwardTrail={true}
@@ -214,7 +213,7 @@
 
 				<!-- Second NLI child -->
 				<Tree.Element
-					type="nli"
+					tag="NLI"
 					label="NLI Call"
 					indentLevel={1}
 					upConnector={true}
@@ -225,7 +224,7 @@
 
 				<!-- Component child with its own children -->
 				<Tree.Element
-					type="component"
+					tag="Component"
 					label="Component"
 					indentLevel={1}
 					upConnector={true}
@@ -236,7 +235,7 @@
 
 				<!-- First nested NLI under Component -->
 				<Tree.Element
-					type="nli"
+					tag="NLI"
 					label="NLI Call"
 					indentLevel={2}
 					inwardTrail={true}
@@ -248,7 +247,7 @@
 
 				<!-- Last nested NLI under Component -->
 				<Tree.Element
-					type="nli"
+					tag="NLI"
 					label="NLI Call"
 					indentLevel={2}
 					upConnector={true}
@@ -259,7 +258,7 @@
 
 				<!-- Fourth NLI child at level 1 -->
 				<Tree.Element
-					type="nli"
+					tag="NLI"
 					label="NLI Call"
 					indentLevel={1}
 					upConnector={true}
@@ -270,7 +269,7 @@
 
 				<!-- Fifth NLI child at level 1 -->
 				<Tree.Element
-					type="nli"
+					tag="NLI"
 					label="NLI Call"
 					indentLevel={1}
 					upConnector={true}
@@ -281,7 +280,7 @@
 
 				<!-- Second Agent root -->
 				<Tree.Element
-					type="agent"
+					tag="Agent"
 					label="Agent"
 					indentLevel={0}
 					upConnector={true}
@@ -291,7 +290,7 @@
 
 				<!-- First NLI child of second Agent -->
 				<Tree.Element
-					type="nli"
+					tag="NLI"
 					label="NLI Call"
 					indentLevel={1}
 					inwardTrail={true}
@@ -302,7 +301,7 @@
 
 				<!-- Second NLI child of second Agent -->
 				<Tree.Element
-					type="nli"
+					tag="NLI"
 					label="NLI Call"
 					indentLevel={1}
 					upConnector={true}
@@ -312,7 +311,7 @@
 
 				<!-- Component child with nested child (last branch) -->
 				<Tree.Element
-					type="component"
+					tag="Component"
 					label="Component"
 					indentLevel={1}
 					upConnector={true}
@@ -322,7 +321,7 @@
 
 				<!-- Nested NLI under Component (last element) -->
 				<Tree.Element
-					type="nli"
+					tag="NLI"
 					label="NLI Call"
 					indentLevel={2}
 					inwardTrail={true}
@@ -347,7 +346,7 @@
 				</h3>
 				<div style="width: 300px;  border: 1px dashed purple;">
 					<Tree.Element
-						type="component"
+						tag="Component"
 						label="This is a very long task name that should overflow and show an ellipsis"
 						details={{ status: 'completed', time: '13.6s', tokens: '2523' }}
 						upConnector={false}
@@ -366,7 +365,7 @@
 				<h3 style="margin: 0 0 12px; font-size: 14px; font-weight: 500;">Collapsed</h3>
 				<div style="display: inline-flex; border: 1px dashed purple">
 					<Tree.Element
-						type="component"
+						tag="Component"
 						label="Element"
 						expanded={false}
 						canExpand={true}
@@ -380,7 +379,7 @@
 				<h3 style="margin: 0 0 12px; font-size: 14px; font-weight: 500;">Expanded</h3>
 				<div style="display: inline-flex; border: 1px dashed purple">
 					<Tree.Element
-						type="component"
+						tag="Component"
 						label="Element"
 						canExpand={true}
 						expanded={true}
@@ -399,7 +398,7 @@
 				</h3>
 				<div style="display: inline-flex; border: 1px dashed purple">
 					<Tree.Element
-						type="component"
+						tag="Component"
 						label="Element"
 						canExpand={false}
 						upConnector={false}
@@ -416,7 +415,7 @@
 	args={{
 		expanded: true,
 		canExpand: true,
-		type: 'agent',
+		tag: 'Agent',
 		label: 'Tree Element',
 		indentLevel: 0,
 		upConnector: true,

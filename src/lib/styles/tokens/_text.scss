@@ -9,21 +9,21 @@
 // Typography Token Maps
 $text: (
 	label: (
-		size: $base-typography-size-12,
-		line-height: $base-typography-line-height-12,
-		tracking: $base-typography-tracking-12,
+		size: $base-typography-size-13,
+		line-height: $base-typography-line-height-13,
+		tracking: $base-typography-tracking-13,
 		weight: $base-typography-weight-medium
 	),
 	caption: (
-		size: $base-typography-size-11,
-		line-height: $base-typography-line-height-11,
-		tracking: $base-typography-tracking-11,
-		weight: $base-typography-weight-medium
-	),
-	input: (
 		size: $base-typography-size-12,
 		line-height: $base-typography-line-height-12,
 		tracking: $base-typography-tracking-12,
+		weight: $base-typography-weight-medium
+	),
+	input: (
+		size: $base-typography-size-14,
+		line-height: $base-typography-line-height-14,
+		tracking: $base-typography-tracking-14,
 		weight: $base-typography-weight-medium
 	),
 	heading-large: (
@@ -51,57 +51,57 @@ $text: (
 		weight: $base-typography-weight-medium
 	),
 	body-base-semibold: (
-		size: $base-typography-size-12,
-		line-height: $base-typography-line-height-12,
-		tracking: $base-typography-tracking-12,
-		weight: $base-typography-weight-semibold
-	),
-	body-base-regular: (
-		size: $base-typography-size-12,
-		line-height: $base-typography-line-height-12,
-		tracking: $base-typography-tracking-12,
-		weight: $base-typography-weight-regular
-	),
-	body-small-semibold: (
-		size: $base-typography-size-11,
-		line-height: $base-typography-line-height-11,
-		tracking: $base-typography-tracking-11,
-		weight: $base-typography-weight-semibold
-	),
-	body-small-regular: (
-		size: $base-typography-size-11,
-		line-height: $base-typography-line-height-11,
-		tracking: $base-typography-tracking-11,
-		weight: $base-typography-weight-regular
-	),
-	button-large: (
 		size: $base-typography-size-14,
 		line-height: $base-typography-line-height-14,
 		tracking: $base-typography-tracking-14,
+		weight: $base-typography-weight-semibold
+	),
+	body-base-regular: (
+		size: $base-typography-size-14,
+		line-height: $base-typography-line-height-14,
+		tracking: $base-typography-tracking-14,
+		weight: $base-typography-weight-regular
+	),
+	body-small-semibold: (
+		size: $base-typography-size-12,
+		line-height: $base-typography-line-height-12,
+		tracking: $base-typography-tracking-12,
+		weight: $base-typography-weight-semibold
+	),
+	body-small-regular: (
+		size: $base-typography-size-12,
+		line-height: $base-typography-line-height-12,
+		tracking: $base-typography-tracking-12,
+		weight: $base-typography-weight-regular
+	),
+	button-large: (
+		size: $base-typography-size-13,
+		line-height: $base-typography-line-height-13,
+		tracking: $base-typography-tracking-13,
 		weight: $base-typography-weight-medium
 	),
 	button-base: (
+		size: $base-typography-size-13,
+		line-height: $base-typography-line-height-13,
+		tracking: $base-typography-tracking-13,
+		weight: $base-typography-weight-medium
+	),
+	button-small: (
 		size: $base-typography-size-12,
 		line-height: $base-typography-line-height-12,
 		tracking: $base-typography-tracking-12,
 		weight: $base-typography-weight-medium
 	),
-	button-small: (
-		size: $base-typography-size-11,
-		line-height: $base-typography-line-height-11,
-		tracking: $base-typography-tracking-11,
-		weight: $base-typography-weight-medium
-	),
 	codeblock-base: (
-		size: $base-typography-size-12,
-		line-height: 19px,
+		size: $base-typography-size-13,
+		line-height: 1.5,
 		tracking: 0,
 		weight: $base-typography-weight-regular,
 		family: $base-typography-family-mono
 	),
 	codeblock-small: (
-		size: $base-typography-size-10,
-		line-height: 13px,
+		size: $base-typography-size-12,
+		line-height: 1.4,
 		tracking: 0,
 		weight: $base-typography-weight-regular,
 		family: $base-typography-family-mono

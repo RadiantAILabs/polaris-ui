@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { cn } from '../../utils';
 	import TreeTrail from './TreeTrail.svelte';
-	import TreeResourceIcon, { type TreeElementType } from './TreeResourceIcon.svelte';
+	import TreeElementTag from './TreeElementTag.svelte';
 	import TreeElementDetails, { type TreeElementDetailsProps } from './TreeElementDetails.svelte';
 	import TreeDropdown from './TreeDropdown.svelte';
 	import { Badge } from '../badge';
@@ -13,8 +13,8 @@
 	 * @example
 	 * ```svelte
 	 * <div role="tree" aria-label="File tree">
-	 *   <Tree.Element type="agent" label="Root" indentLevel={0} />
-	 *   <Tree.Element type="nli" label="Child" indentLevel={1} />
+	 *   <Tree.Element tag="Agent" label="Root" indentLevel={0} />
+	 *   <Tree.Element tag="Chat" label="Child" indentLevel={1} />
 	 * </div>
 	 * ```
 	 */
@@ -27,8 +27,8 @@
 		selected?: boolean;
 		/** Callback fired when selection state changes */
 		onSelectionChange?: (selected: boolean) => void;
-		/** Type of resource */
-		type: TreeElementType;
+		/** Short tag rendered in the boxed leading slot */
+		tag: string;
 		/** Label text for the tree element */
 		label: string;
 		/** Optional details to display */
@@ -65,7 +65,7 @@
 		onExpandChange,
 		selected = $bindable(false),
 		onSelectionChange,
-		type,
+		tag,
 		label,
 		details,
 		indentLevel = 0,
@@ -167,8 +167,8 @@
 	{/if}
 
 	<div class="tree-element__content">
-		<!-- Icon -->
-		<TreeResourceIcon {type} {upConnector} {downConnector} />
+		<!-- Tag -->
+		<TreeElementTag text={tag} {upConnector} {downConnector} />
 
 		<!-- Content -->
 		<span class="tree-element__label" title={label}>{label}</span>
@@ -195,7 +195,6 @@
 		width: 100%;
 		height: 32px;
 		padding-right: $space-1;
-		cursor: pointer;
 		outline: none;
 		background-color: transparent;
 		border-radius: $border-radius-base;

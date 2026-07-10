@@ -15,24 +15,24 @@
 		showNavbar = false,
 		navProps,
 		title = 'Default Title',
-		iconAndText1,
-		iconAndText2,
 		showExpand,
 		showClose,
 		onExpand,
 		onClose,
-		titleActions
+		titleLeading,
+		titleTrailing,
+		titleInfo
 	}: SideWindowTitlePaneProps = $props();
 
 	const titleProps = $derived({
 		title,
-		iconAndText1,
-		iconAndText2,
 		showExpand,
 		showClose,
 		onExpand,
 		onClose,
-		titleActions
+		titleLeading,
+		titleTrailing,
+		titleInfo
 	});
 </script>
 

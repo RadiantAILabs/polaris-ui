@@ -42,12 +42,12 @@
 			display: flex;
 			flex: 1;
 			flex-direction: column;
-			gap: $space-3;
 			width: 100%;
 			min-height: 0;
 			overflow: auto;
 
 			&--padded {
+				gap: $space-3;
 				padding: $space-2 $space-2-5;
 			}
 		}

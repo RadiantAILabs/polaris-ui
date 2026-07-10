@@ -12,7 +12,7 @@
 		onDelete?: () => void;
 		disabled?: boolean;
 		size?: 'small' | 'base' | 'large';
-		variant?: 'default' | 'inverse';
+		variant?: 'default' | 'outline' | 'inverse';
 	};
 </script>
 
@@ -61,7 +61,12 @@
 >
 	{#if leadingIcon}
 		<div class="badge__icon">
-			<Icon name={leadingIcon} size={size === 'small' ? '0.625rem' : '0.75rem'} {...iconProps} />
+			<Icon
+				name={leadingIcon}
+				size={size === 'small' ? '0.625rem' : '0.75rem'}
+				variant={variant === 'inverse' ? 'inverse-primary' : 'primary'}
+				{...iconProps}
+			/>
 		</div>
 	{/if}
 
@@ -79,7 +84,11 @@
 			aria-label="Remove {text}"
 			{disabled}
 		>
-			<Icon name="cross" size={size === 'small' ? '0.625rem' : '0.75rem'} variant="secondary" />
+			<Icon
+				name="cross"
+				size={size === 'small' ? '0.625rem' : '0.75rem'}
+				variant={variant === 'inverse' ? 'inverse-primary' : 'secondary'}
+			/>
 		</button>
 	{/if}
 </div>
