@@ -5,6 +5,7 @@
 /* Import Google Fonts */
 @import 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap';
 @import 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap';
+@layer theme, base, components, utilities;
 
 * {
 	box-sizing: border-box;

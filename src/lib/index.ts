@@ -1,6 +1,8 @@
 // Component library exports
 export { default as Button, type ButtonProps } from './components/button/Button.svelte';
 export { Badge, BadgeGroup, type BadgeProps } from './components/badge';
+export * as Chart from './components/chart';
+export type { ChartConfig } from './components/chart';
 export { BlankState, type BlankStateProps } from './components/blank-state';
 export { CounterBadge, type CounterBadgeProps } from './components/counter-badge';
 export { Checkbox, type CheckboxProps } from './components/checkbox';

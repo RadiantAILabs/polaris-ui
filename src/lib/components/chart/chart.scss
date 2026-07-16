@@ -1,0 +1,163 @@
+@use '../../styles/tokens' as *;
+
+.chart {
+	display: flex;
+	justify-content: center;
+	aspect-ratio: 16 / 9;
+	overflow: visible;
+
+	@include typography('body-small-regular');
+
+	--color-surface-content: var(--color-text-primary);
+	--color-surface-100: var(--color-background-raised);
+	--color-surface-200: var(--color-background-emphasized-1);
+	--color-surface-300: var(--color-background-emphasized-2);
+	--color-primary: var(--color-charts-series-1);
+	--color-secondary: var(--color-charts-series-2);
+	--chart-grid: color-mix(in oklab, var(--color-border-base) 50%, transparent);
+	--chart-rule: color-mix(in oklab, var(--color-border-base) 92%, transparent);
+
+	:global(.lc-root-container) {
+		width: 100%;
+	}
+
+	// Tick + axis labels
+	:global(.lc-axis-tick-label),
+	:global(.lc-axis-label) {
+		@include typography('body-small-regular');
+
+		fill: var(--color-text-secondary);
+		stroke-width: 0;
+	}
+
+	:global(.lc-text) {
+		@include typography('body-small-regular');
+	}
+
+	:global(.lc-text-svg) {
+		overflow: visible;
+	}
+
+	:global(text) {
+		stroke: transparent;
+	}
+
+	// Faint grid lines vs the stronger axis rule
+	:global(.lc-axis-grid),
+	:global(.lc-grid-x-rule),
+	:global(.lc-grid-y-rule) {
+		--stroke-color: var(--chart-grid);
+	}
+
+	:global(.lc-axis-rule) {
+		--stroke-color: var(--chart-rule);
+	}
+
+	// Radial grid lines and circles
+	:global(.lc-grid-x-radial-line),
+	:global(.lc-grid-x-radial-circle),
+	:global(.lc-grid-y-radial-line),
+	:global(.lc-grid-y-radial-circle) {
+		stroke: var(--chart-grid);
+	}
+
+	// Remove the little tick marks between the axis labels and the chart
+	:global(.lc-axis-tick) {
+		stroke-width: 0;
+	}
+
+	// Don't draw the crosshair rule; a grid line already sits there and the rule
+	// ends up overlapping the marks because it is rendered after them
+	:global(.lc-rule-x-line:not(.lc-grid-x-rule)),
+	:global(.lc-rule-y-line:not(.lc-grid-y-rule)) {
+		stroke-width: 0;
+	}
+
+	// Keep stroke width constant regardless of SVG scaling
+	:global(.lc-path),
+	:global(.lc-line) {
+		vector-effect: non-scaling-stroke;
+	}
+
+	// Drop the default bar stroke. LayerChart sets it as a presentation
+	// attribute, so !important is needed to override it.
+	:global(.lc-rect),
+	:global(.lc-bars-bar) {
+		stroke: none !important;
+	}
+
+	// Labels
+	:global(.lc-labels-text:not([fill])) {
+		fill: var(--color-text-primary);
+	}
+
+	// Keep hovered marks fully opaque and hide the intersecting highlight line
+	:global(.lc-highlight-point) {
+		stroke: transparent;
+	}
+
+	:global(.lc-highlight-line) {
+		stroke-width: 0;
+	}
+
+	// Disable dimming of lines on hover of legend or data point.
+	:global(.lc-path),
+	:global(.lc-area-path),
+	:global(.lc-area-line),
+	:global(.lc-point),
+	:global(.lc-rect),
+	:global(.lc-bars-bar),
+	:global(.lc-highlight-line),
+	:global(.lc-highlight-point) {
+		opacity: 1;
+	}
+
+	:global(.lc-tooltip-rects-g),
+	:global(.lc-layout-svg-g) {
+		fill: transparent;
+	}
+
+	// Legend: flat, non-interactive swatches with muted labels
+	:global(.lc-legend-swatch-group) {
+		gap: $space-1 $space-2-5;
+		align-items: center;
+		justify-content: center;
+		max-width: 100%;
+		padding: 0 $space-0-5;
+	}
+
+	:global(.lc-legend-swatch-button) {
+		gap: $space-0-75;
+		min-width: 0;
+		padding: 0;
+		margin: 0;
+		font: inherit;
+		line-height: inherit;
+		color: var(--color-text-secondary);
+		appearance: none;
+		cursor: default;
+		background: transparent;
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
+	}
+
+	:global(.lc-legend-swatch-button:hover),
+	:global(.lc-legend-swatch-button:focus),
+	:global(.lc-legend-swatch-button:active) {
+		background: transparent;
+		box-shadow: none;
+	}
+
+	:global(.lc-legend-swatch) {
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 0;
+	}
+
+	:global(.lc-legend-swatch-label) {
+		color: var(--color-text-secondary);
+
+		@include typography('body-small-regular');
+	}
+}
