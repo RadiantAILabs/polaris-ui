@@ -1,3 +1,1 @@
-import { toast as sonnerToast } from 'svelte-sonner';
-
-export const toast = sonnerToast;
+export { toast } from 'svelte-sonner';
