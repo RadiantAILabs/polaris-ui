@@ -51,5 +51,9 @@ export function setChartContext(value: ChartContextValue) {
 	return setContext(chartContextKey, value);
 }
 export function useChart() {
-	return getContext<ChartContextValue>(chartContextKey);
+	const chartContext = getContext<ChartContextValue | undefined>(chartContextKey);
+	if (!chartContext) {
+		throw new Error('useChart must be used inside a ChartContainer');
+	}
+	return chartContext;
 }
