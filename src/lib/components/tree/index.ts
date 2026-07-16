@@ -18,5 +18,5 @@ const Tree = Object.assign(
 export { Tree as default };
 export type { TreeDropdownProps } from './TreeDropdown.svelte';
 export type { TreeElementTagProps } from './TreeElementTag.svelte';
-export type { TreeElementDetailsProps } from './TreeElementDetails.svelte';
+export type { TreeElementDetailsProps, TreeElementMetric } from './TreeElementDetails.svelte';
 export type { TreeElementProps } from './TreeElement.svelte';

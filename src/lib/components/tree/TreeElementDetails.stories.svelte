@@ -1,6 +1,12 @@
 <script module lang="ts">
 	import { defineMeta } from '@storybook/addon-svelte-csf';
-	import TreeElementDetails from './TreeElementDetails.svelte';
+	import TreeElementDetails, { type TreeElementMetric } from './TreeElementDetails.svelte';
+
+	const sampleMetrics: TreeElementMetric[] = [
+		{ icon: 'brackets', value: '15.3k tokens', ariaLabel: '15.3k tokens' },
+		{ value: '$0.0125', ariaLabel: '$0.0125 dollar cost' },
+		{ icon: 'tokens', value: '42 credits', ariaLabel: '42 credits' }
+	];
 
 	const { Story } = defineMeta({
 		title: 'Components/Tree/ElementDetails',
@@ -13,10 +19,6 @@
 			time: {
 				control: { type: 'text' },
 				description: 'Time duration to display'
-			},
-			tokens: {
-				control: { type: 'text' },
-				description: 'Number of tokens to display'
 			},
 			status: {
 				control: { type: 'select' },
@@ -39,12 +41,12 @@
 
 			<div>
 				<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 500;">Completed state</h3>
-				<TreeElementDetails time="125.8s" tokens="15347" />
+				<TreeElementDetails time="125.8s" metrics={sampleMetrics} />
 			</div>
 
 			<div>
 				<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 500;">Failed state</h3>
-				<TreeElementDetails time="125.8s" tokens="15347" status="failed" />
+				<TreeElementDetails time="125.8s" metrics={sampleMetrics} status="failed" />
 			</div>
 		</div>
 	{/snippet}
@@ -54,7 +56,7 @@
 	name="Playground"
 	args={{
 		time: '13.6s',
-		tokens: '2523',
+		metrics: sampleMetrics,
 		status: 'completed'
 	}}
 >
