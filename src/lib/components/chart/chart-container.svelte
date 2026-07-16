@@ -17,7 +17,9 @@
 		config: ChartConfig;
 	} = $props();
 
-	const chartId = $derived(`chart-${id || uid.replace(/:/g, '')}`);
+	// Normalize to a CSS-safe identifier so it can be used unquoted in both the
+	// `data-chart` attribute and the generated `[data-chart=...]` selector.
+	const chartId = $derived(`chart-${(id || uid).replace(/[^a-zA-Z0-9_-]/g, '-')}`);
 
 	setChartContext({
 		get config() {
