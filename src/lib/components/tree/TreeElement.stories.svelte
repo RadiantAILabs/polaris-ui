@@ -1,6 +1,12 @@
 <script module lang="ts">
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import Tree from './index.js';
+	import type { TreeElementMetric } from './TreeElementDetails.svelte';
+
+	// A token-count metric for the sample rows below.
+	const tokens = (value: string): TreeElementMetric[] => [
+		{ icon: 'brackets', value: `${value} tokens`, ariaLabel: `${value} tokens` }
+	];
 
 	const { Story } = defineMeta({
 		title: 'Components/Tree/TreeElement',
@@ -137,7 +143,7 @@
 					<Tree.Element
 						tag="Agent"
 						label="Completed Task"
-						details={{ status: 'completed', time: '13.6s', tokens: '2523' }}
+						details={{ status: 'completed', time: '13.6s', metrics: tokens('2523') }}
 						upConnector={false}
 						downConnector={false}
 					/>
@@ -196,7 +202,7 @@
 					label="Agent"
 					indentLevel={0}
 					downConnector={true}
-					details={{ status: 'completed', time: '18.4s', tokens: '5243' }}
+					details={{ status: 'completed', time: '18.4s', metrics: tokens('5243') }}
 				/>
 
 				<!-- First NLI child -->
@@ -208,7 +214,7 @@
 					upConnector={false}
 					downConnector={true}
 					indentLines={[true]}
-					details={{ status: 'completed', time: '2.1s', tokens: '842' }}
+					details={{ status: 'completed', time: '2.1s', metrics: tokens('842') }}
 				/>
 
 				<!-- Second NLI child -->
@@ -219,7 +225,7 @@
 					upConnector={true}
 					downConnector={true}
 					indentLines={[true]}
-					details={{ status: 'completed', time: '1.8s', tokens: '723' }}
+					details={{ status: 'completed', time: '1.8s', metrics: tokens('723') }}
 				/>
 
 				<!-- Component child with its own children -->
@@ -230,7 +236,7 @@
 					upConnector={true}
 					downConnector={true}
 					indentLines={[true]}
-					details={{ status: 'completed', time: '5.3s', tokens: '1456' }}
+					details={{ status: 'completed', time: '5.3s', metrics: tokens('1456') }}
 				/>
 
 				<!-- First nested NLI under Component -->
@@ -242,7 +248,7 @@
 					upConnector={false}
 					downConnector={true}
 					indentLines={[true, true]}
-					details={{ status: 'completed', time: '2.6s', tokens: '698' }}
+					details={{ status: 'completed', time: '2.6s', metrics: tokens('698') }}
 				/>
 
 				<!-- Last nested NLI under Component -->
@@ -253,7 +259,7 @@
 					upConnector={true}
 					downConnector={false}
 					indentLines={[true, true]}
-					details={{ status: 'completed', time: '2.7s', tokens: '758' }}
+					details={{ status: 'completed', time: '2.7s', metrics: tokens('758') }}
 				/>
 
 				<!-- Fourth NLI child at level 1 -->
@@ -264,7 +270,7 @@
 					upConnector={true}
 					downConnector={true}
 					indentLines={[true]}
-					details={{ status: 'completed', time: '3.2s', tokens: '1024' }}
+					details={{ status: 'completed', time: '3.2s', metrics: tokens('1024') }}
 				/>
 
 				<!-- Fifth NLI child at level 1 -->
@@ -275,7 +281,7 @@
 					upConnector={true}
 					downConnector={false}
 					indentLines={[true]}
-					details={{ status: 'completed', time: '3.0s', tokens: '900' }}
+					details={{ status: 'completed', time: '3.0s', metrics: tokens('900') }}
 				/>
 
 				<!-- Second Agent root -->
@@ -285,7 +291,7 @@
 					indentLevel={0}
 					upConnector={true}
 					downConnector={true}
-					details={{ status: 'completed', time: '12.7s', tokens: '3842' }}
+					details={{ status: 'completed', time: '12.7s', metrics: tokens('3842') }}
 				/>
 
 				<!-- First NLI child of second Agent -->
@@ -296,7 +302,7 @@
 					inwardTrail={true}
 					upConnector={false}
 					downConnector={true}
-					details={{ status: 'completed', time: '1.9s', tokens: '654' }}
+					details={{ status: 'completed', time: '1.9s', metrics: tokens('654') }}
 				/>
 
 				<!-- Second NLI child of second Agent -->
@@ -306,7 +312,7 @@
 					indentLevel={1}
 					upConnector={true}
 					downConnector={true}
-					details={{ status: 'completed', time: '2.4s', tokens: '812' }}
+					details={{ status: 'completed', time: '2.4s', metrics: tokens('812') }}
 				/>
 
 				<!-- Component child with nested child (last branch) -->
@@ -316,7 +322,7 @@
 					indentLevel={1}
 					upConnector={true}
 					downConnector={true}
-					details={{ status: 'completed', time: '8.4s', tokens: '2376' }}
+					details={{ status: 'completed', time: '8.4s', metrics: tokens('2376') }}
 				/>
 
 				<!-- Nested NLI under Component (last element) -->
@@ -327,7 +333,7 @@
 					inwardTrail={true}
 					upConnector={false}
 					downConnector={false}
-					details={{ status: 'completed', time: '8.4s', tokens: '2376' }}
+					details={{ status: 'completed', time: '8.4s', metrics: tokens('2376') }}
 				/>
 			</div>
 		</div>
@@ -348,7 +354,7 @@
 					<Tree.Element
 						tag="Component"
 						label="This is a very long task name that should overflow and show an ellipsis"
-						details={{ status: 'completed', time: '13.6s', tokens: '2523' }}
+						details={{ status: 'completed', time: '13.6s', metrics: tokens('2523') }}
 						upConnector={false}
 						downConnector={false}
 					/>

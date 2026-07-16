@@ -64,6 +64,7 @@ export {
 	type TreeDropdownProps,
 	type TreeElementTagProps,
 	type TreeElementDetailsProps,
+	type TreeElementMetric,
 	type TreeElementProps
 } from './components/tree';
 export { CollapsibleWindow, type CollapsibleWindowProps } from './components/collapsible-window';

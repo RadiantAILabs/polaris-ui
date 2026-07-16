@@ -1,49 +1,40 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { Icon } from '../icon';
+	import { Icon, type IconName } from '../icon';
 	import { Tooltip } from '../tooltip';
 	import { cn } from '../../utils';
 
+	/** A metric shown beside a tree element, such as token count or cost. */
+	export interface TreeElementMetric {
+		/** Leading icon. Omit for a self-describing value such as a `$` cost. */
+		icon?: IconName;
+		/** Pre-formatted display value, e.g. `1.88k` or `$0.0125`. */
+		value: string;
+		/** Screen-reader label for the value, e.g. `1.88k tokens`. */
+		ariaLabel: string;
+		/** Tooltip content shown on hover. */
+		tooltip?: Snippet;
+	}
+
 	export interface TreeElementDetailsProps {
-		/** Time duration to display */
+		/** Time duration to display. */
 		time?: string;
-		/** Token count to display */
-		tokens?: string;
-		/** Optional content shown in a tooltip on the token value. */
-		tokensTooltip?: Snippet;
-		/** Estimated USD cost to display (already formatted, e.g. `$0.0125`) */
-		cost?: string;
-		/** Optional content shown in a tooltip on the cost value. */
-		costTooltip?: Snippet;
-		/** Status of the element */
+		/** Metrics to display after the time, in order. */
+		metrics?: TreeElementMetric[];
+		/** Status of the element. */
 		status?: 'completed' | 'processing' | 'failed';
-		/** Additional CSS class */
+		/** Additional CSS class. */
 		class?: string;
 	}
 
-	let {
-		time,
-		tokens,
-		tokensTooltip,
-		cost,
-		costTooltip,
-		status,
-		class: className
-	}: TreeElementDetailsProps = $props();
+	let { time, metrics = [], status, class: className }: TreeElementDetailsProps = $props();
 
 	const ariaLabel = $derived.by(() => {
 		if (status === 'processing') return time ? `Processing, ${time} elapsed` : 'Processing';
-		if (status === 'failed') {
-			const parts = ['Failed'];
-			if (time) parts.push(time);
-			if (tokens) parts.push(`${tokens} tokens`);
-			if (cost) parts.push(`${cost} cost`);
-			return parts.join(', ');
-		}
 		const parts: string[] = [];
+		if (status === 'failed') parts.push('Failed');
 		if (time) parts.push(time);
-		if (tokens) parts.push(`${tokens} tokens`);
-		if (cost) parts.push(`${cost} cost`);
+		for (const metric of metrics) parts.push(metric.ariaLabel);
 		return parts.length > 0 ? parts.join(', ') : undefined;
 	});
 </script>
@@ -61,8 +52,7 @@
 				<span class="tree-element-details__value tree-element-details__error">{time}</span>
 			{/if}
 		</div>
-		{@render tokensItem()}
-		{@render costItem()}
+		{@render metricItems()}
 	{:else}
 		{#if time}
 			<div class="tree-element-details__item">
@@ -70,8 +60,7 @@
 			</div>
 		{/if}
 
-		{@render tokensItem()}
-		{@render costItem()}
+		{@render metricItems()}
 	{/if}
 </div>
 
@@ -89,21 +78,15 @@
 	{/if}
 {/snippet}
 
-{#snippet tokensItem()}
-	{#if tokens}
+{#snippet metricItems()}
+	{#each metrics as metric (metric.ariaLabel)}
 		<div class="tree-element-details__item">
-			<Icon name="tokens" size="0.75rem" variant="secondary" />
-			{@render value(tokens, tokensTooltip)}
+			{#if metric.icon}
+				<Icon name={metric.icon} size="0.75rem" variant="secondary" />
+			{/if}
+			{@render value(metric.value, metric.tooltip)}
 		</div>
-	{/if}
-{/snippet}
-
-{#snippet costItem()}
-	{#if cost}
-		<div class="tree-element-details__item">
-			{@render value(cost, costTooltip)}
-		</div>
-	{/if}
+	{/each}
 {/snippet}
 
 <style lang="scss">
