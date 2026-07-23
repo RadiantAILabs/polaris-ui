@@ -435,3 +435,17 @@
 		</div>
 	{/snippet}
 </Story>
+
+<Story name="Label Tooltip">
+	{#snippet template()}
+		{#snippet card()}
+			<div style="display: flex; flex-direction: column; gap: 4px; padding: 8px 12px;">
+				<strong>checkout-agent</strong>
+				<span style="opacity: 0.75;">Handles checkout, refunds, and order lookups.</span>
+			</div>
+		{/snippet}
+		<div style="display: inline-flex; width: 20rem; border: 1px dashed purple;">
+			<Tree.Element tag="Agent" label="Agent Task" labelTooltip={card} />
+		</div>
+	{/snippet}
+</Story>

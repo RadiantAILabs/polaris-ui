@@ -1,10 +1,12 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import { cn } from '../../utils';
 	import TreeTrail from './TreeTrail.svelte';
 	import TreeElementTag from './TreeElementTag.svelte';
 	import TreeElementDetails, { type TreeElementDetailsProps } from './TreeElementDetails.svelte';
 	import TreeDropdown from './TreeDropdown.svelte';
 	import { Badge } from '../badge';
+	import { Tooltip } from '../tooltip';
 
 	/**
 	 * Props for a TreeElement component.
@@ -31,6 +33,8 @@
 		tag: string;
 		/** Label text for the tree element */
 		label: string;
+		/** Tooltip shown while hovering the label. */
+		labelTooltip?: Snippet;
 		/** Optional details to display */
 		details?: Omit<TreeElementDetailsProps, 'class'>;
 		/** Indentation level. Must be 0 or greater */
@@ -67,6 +71,7 @@
 		onSelectionChange,
 		tag,
 		label,
+		labelTooltip,
 		details,
 		indentLevel = 0,
 		upConnector = false,
@@ -171,7 +176,15 @@
 		<TreeElementTag text={tag} {upConnector} {downConnector} />
 
 		<!-- Content -->
-		<span class="tree-element__label" title={label}>{label}</span>
+		{#if labelTooltip}
+			<Tooltip side="top" align="start" sideOffset={8} content={labelTooltip}>
+				{#snippet trigger({ props })}
+					<span {...props} class="tree-element__label">{label}</span>
+				{/snippet}
+			</Tooltip>
+		{:else}
+			<span class="tree-element__label" title={label}>{label}</span>
+		{/if}
 
 		{#if badgeCount !== undefined}
 			<Badge text={String(badgeCount)} />

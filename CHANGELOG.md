@@ -22,6 +22,10 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   selection.
 - `Table.BodyCell` `tabularNumbers` and `alignment` props; `Table.HeaderCell`
   `alignment` prop.
+- `TreeElement` `labelTooltip` prop: a snippet shown in a tooltip while hovering
+  the label.
+- `Tooltip` `trigger` prop: a snippet that renders a custom trigger element in
+  place of the default `.tooltip-trigger` wrapper.
 - `$shadow-raised` SCSS token for raised-surface elevation.
 
 ### Changed
