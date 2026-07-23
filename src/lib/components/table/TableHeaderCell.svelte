@@ -13,11 +13,14 @@
 		onSort?: (direction: SortDirection) => void;
 		/** Column name for enhanced accessibility */
 		columnName?: string;
+		/** Horizontal alignment of the header content. */
+		alignment?: 'start' | 'end';
 	}
 </script>
 
 <script lang="ts">
 	import Icon from '../icon/icon.svelte';
+	import { cn } from '../../utils';
 
 	let {
 		ref = $bindable(null),
@@ -27,6 +30,7 @@
 		sortDirection = null,
 		onSort,
 		columnName,
+		alignment,
 		...restProps
 	}: TableHeaderCellProps = $props();
 
@@ -59,7 +63,11 @@
 	}
 </script>
 
-<th bind:this={ref} class="header-cell {className}" {...restProps}>
+<th
+	bind:this={ref}
+	class={cn('header-cell', alignment === 'end' && 'header-cell--align-end', className)}
+	{...restProps}
+>
 	{#if sortable}
 		<button
 			class="sort-button"
@@ -94,14 +102,14 @@
 	.header-cell {
 		padding: $space-0-5 $space-2;
 		vertical-align: middle;
-		color: var(--color-text-primary);
+		color: var(--color-text-secondary);
 		text-align: left;
 		white-space: nowrap;
 		background-color: var(--color-table-header-cell-background);
 		background-clip: padding-box;
 		border-bottom: $border-width-base solid var(--color-table-header-cell-border);
 
-		@include typography('button-base');
+		@include typography('body-base-regular');
 
 		&:first-child {
 			border-top-left-radius: $border-radius-base;
@@ -109,6 +117,10 @@
 
 		&:last-child {
 			border-top-right-radius: $border-radius-base;
+		}
+
+		&--align-end {
+			text-align: right;
 		}
 	}
 
@@ -120,7 +132,7 @@
 		justify-content: flex-start;
 		width: fit-content;
 		padding: calc($space-0-5) calc($space-1 - $border-width-base);
-		color: var(--color-text-primary);
+		color: var(--color-text-secondary);
 		text-align: left;
 		white-space: nowrap;
 		text-decoration: none;
@@ -131,7 +143,7 @@
 		border: none;
 		border-radius: $border-radius-base;
 
-		@include typography('button-base');
+		@include typography('body-base-regular');
 		@include transition-interactive;
 
 		&:disabled {

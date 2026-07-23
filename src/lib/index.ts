@@ -7,7 +7,13 @@ export { BlankState, type BlankStateProps } from './components/blank-state';
 export { CounterBadge, type CounterBadgeProps } from './components/counter-badge';
 export { Checkbox, type CheckboxProps } from './components/checkbox';
 export { RangeCalendar, type RangeCalendarProps } from './components/range-calendar';
-export { DataTable, type DataTableColumn, type DataTableProps } from './components/datatable';
+export {
+	DataTable,
+	type DataTableColumn,
+	type DataTableProps,
+	type ColumnFilter,
+	type ColumnType
+} from './components/datatable';
 export {
 	Table,
 	type TableProps,

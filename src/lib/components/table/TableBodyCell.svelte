@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type WithElementRef } from '../../utils';
+	import { cn, type WithElementRef } from '../../utils';
 	import type { HTMLTdAttributes } from 'svelte/elements';
 	import { getContext } from 'svelte';
 
@@ -7,15 +7,28 @@
 		ref = $bindable(null),
 		class: className,
 		children,
+		tabularNumbers = false,
+		alignment,
 		...restProps
-	}: WithElementRef<HTMLTdAttributes> = $props();
+	}: WithElementRef<HTMLTdAttributes> & {
+		/** Render the cell's figures as tabular numerals. Ensures digits line up by occupying equal width. */
+		tabularNumbers?: boolean;
+		/** Horizontal alignment of the cell content. */
+		alignment?: 'start' | 'end';
+	} = $props();
 
 	const primaryColumn = getContext<boolean>('table-primary-column') ?? false;
 </script>
 
 <td
 	bind:this={ref}
-	class="body-cell {primaryColumn ? 'body-cell--primary' : ''} {className}"
+	class={cn(
+		'body-cell',
+		primaryColumn && 'body-cell--primary',
+		tabularNumbers && 'body-cell--tabular',
+		alignment === 'end' && 'body-cell--align-end',
+		className
+	)}
 	{...restProps}
 >
 	{@render children?.()}
@@ -37,6 +50,14 @@
 			color: var(--color-text-primary);
 
 			@include typography('body-base-semibold');
+		}
+
+		&--tabular {
+			font-variant-numeric: tabular-nums;
+		}
+
+		&--align-end {
+			text-align: right;
 		}
 	}
 </style>

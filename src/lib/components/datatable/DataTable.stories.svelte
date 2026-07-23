@@ -28,21 +28,27 @@
 	];
 
 	let columns: DataTableColumn<CarData>[] = [
-		{ name: 'id', displayName: 'ID', sortType: 'number' },
-		{ name: 'maker', displayName: 'Car Manufacturer', sortType: 'string' },
-		{ name: 'type', displayName: 'Model Type', sortType: 'string' },
-		{ name: 'make', displayName: 'Year Made', sortType: 'number' }
+		{ name: 'id', displayName: 'ID', type: 'number' },
+		{ name: 'maker', displayName: 'Car Manufacturer', type: 'string' },
+		{ name: 'type', displayName: 'Model Type', type: 'string' },
+		{ name: 'make', displayName: 'Year Made', type: 'number' }
 	];
 
 	let advancedColumns: DataTableColumn<CarData>[] = [
-		{ name: 'id', displayName: 'ID', hugContent: true },
-		{ name: 'maker', displayName: 'Car Manufacturer', sortType: 'string' },
-		{ name: 'type', displayName: 'Model Type' },
-		{ name: 'make', displayName: 'Year Made', sortType: 'number' },
+		{ name: 'id', displayName: 'ID', type: 'number', sortable: false, hugContent: true },
+		{
+			name: 'maker',
+			displayName: 'Car Manufacturer',
+			type: 'string',
+			filter: { kind: 'select' }
+		},
+		{ name: 'type', displayName: 'Model Type', filter: { kind: 'search' } },
+		{ name: 'make', displayName: 'Year Made', type: 'number' },
 		{
 			name: 'status',
 			displayName: 'Status',
-			sortType: 'string',
+			type: 'string',
+			filter: { kind: 'select' },
 			render: statusBadge
 		}
 	];
@@ -87,8 +93,8 @@
 				DataTable with Actions, Search, Limited Sorting & Custom Cell Rendering
 			</h3>
 			<p style="margin: 0 0 16px; font-size: 12px; color: #666;">
-				Shows per-column sorting control (ID and Model Type are not sortable), custom badge
-				rendering for Status column, row actions menu, search functionality, and clickable rows.
+				Shows per-column sorting control, per-column filtering, custom badge rendering for Status
+				column, row actions menu, and clickable rows.
 			</p>
 			<DataTable
 				{items}
@@ -97,8 +103,6 @@
 				hoverable={true}
 				primaryColumn={true}
 				{actions}
-				searchable={true}
-				searchableColumns={['maker', 'type', 'status']}
 				onAction={handleAction}
 				onRowClick={(id) => alert(`Clicked row with ID: ${id}`)}
 			/>

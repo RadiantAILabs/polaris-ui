@@ -43,6 +43,10 @@
 				control: { type: 'text' },
 				description: 'Placeholder text when no option is selected'
 			},
+			label: {
+				control: { type: 'text' },
+				description: 'Field name displayed inside the trigger before the value/placeholder'
+			},
 			items: {
 				control: { type: 'object' },
 				description: 'Array of items with value, label, and optional disabled properties'
@@ -50,6 +54,11 @@
 			disabled: {
 				control: { type: 'boolean' },
 				description: 'Whether the dropdown selector is disabled'
+			},
+			clearable: {
+				control: { type: 'boolean' },
+				description:
+					'Whether to show a clear ("x") button that resets the selection while there is a value'
 			},
 			'aria-invalid': {
 				control: { type: 'boolean' },
@@ -309,6 +318,71 @@
 	{/snippet}
 </Story>
 
+<Story name="Inline Label">
+	{#snippet template()}
+		<div style="display: flex; flex-direction: column; gap: 32px; width: 300px;">
+			<div>
+				<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 500;">Single Select</h3>
+				<p style="margin: 0 0 16px; font-size: 12px; color: #666;">
+					The <code>label</code> prop renders a field name inside the trigger, before the value or placeholder.
+				</p>
+				<DropdownSelector
+					type="single"
+					items={sampleOptions}
+					label="Fruit"
+					placeholder="Select a fruit..."
+					showAsBadges={false}
+					bind:value={selectedValue}
+				/>
+			</div>
+
+			<div>
+				<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 500;">Multiple Select</h3>
+				<DropdownSelector
+					type="multiple"
+					items={sampleOptions}
+					label="Fruits"
+					placeholder="Select fruits..."
+					showAsBadges={false}
+					bind:value={multipleSelectedValues}
+				/>
+			</div>
+		</div>
+	{/snippet}
+</Story>
+
+<Story name="Clearable">
+	{#snippet template()}
+		<div style="display: flex; flex-direction: column; gap: 32px; width: 300px;">
+			<div>
+				<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 500;">Single Select</h3>
+				<p style="margin: 0 0 16px; font-size: 12px; color: #666;">
+					With a selection, the chevron becomes a clear button; clicking it resets the value.
+				</p>
+				<DropdownSelector
+					type="single"
+					items={sampleOptions}
+					placeholder="Select a fruit..."
+					showAsBadges={false}
+					clearable
+					bind:value={selectedValue}
+				/>
+			</div>
+
+			<div>
+				<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 500;">Multiple Select</h3>
+				<DropdownSelector
+					type="multiple"
+					items={sampleOptions}
+					placeholder="Select fruits..."
+					clearable
+					bind:value={multipleSelectedValues}
+				/>
+			</div>
+		</div>
+	{/snippet}
+</Story>
+
 <Story
 	name="Playground"
 	args={{
@@ -316,7 +390,9 @@
 		variant: 'default',
 		items: sampleOptions,
 		placeholder: 'Select a fruit...',
+		label: 'Fruit',
 		disabled: false,
+		clearable: false,
 		'aria-invalid': false,
 		value: '',
 		fullWidth: false

@@ -187,6 +187,46 @@
 	{/snippet}
 </Story>
 
+<Story name="Numeric Alignment">
+	{#snippet template()}
+		<div style="padding: 20px;">
+			<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 600;">Numeric Alignment</h3>
+			<p style="margin: 0 0 16px; font-size: 12px; color: #666;">
+				The Amount column uses <code>alignment="end"</code> on its header and body cells, plus
+				<code>tabularNumbers</code> on the body cells so digits line up column-to-column.
+			</p>
+			<Table.Root hoverable={true}>
+				<Table.Header>
+					<Table.HeaderCell>Invoice</Table.HeaderCell>
+					<Table.HeaderCell>Status</Table.HeaderCell>
+					<Table.HeaderCell>Method</Table.HeaderCell>
+					<Table.HeaderCell alignment="end">Amount</Table.HeaderCell>
+				</Table.Header>
+				<Table.Body>
+					<Table.BodyRow>
+						<Table.BodyCell>INV001</Table.BodyCell>
+						<Table.BodyCell>Paid</Table.BodyCell>
+						<Table.BodyCell>Credit Card</Table.BodyCell>
+						<Table.BodyCell alignment="end" tabularNumbers>$250.00</Table.BodyCell>
+					</Table.BodyRow>
+					<Table.BodyRow>
+						<Table.BodyCell>INV002</Table.BodyCell>
+						<Table.BodyCell>Pending</Table.BodyCell>
+						<Table.BodyCell>PayPal</Table.BodyCell>
+						<Table.BodyCell alignment="end" tabularNumbers>$1,150.00</Table.BodyCell>
+					</Table.BodyRow>
+					<Table.BodyRow>
+						<Table.BodyCell>INV003</Table.BodyCell>
+						<Table.BodyCell>Unpaid</Table.BodyCell>
+						<Table.BodyCell>Bank Transfer</Table.BodyCell>
+						<Table.BodyCell alignment="end" tabularNumbers>$90.00</Table.BodyCell>
+					</Table.BodyRow>
+				</Table.Body>
+			</Table.Root>
+		</div>
+	{/snippet}
+</Story>
+
 <Story name="Clickable Rows">
 	{#snippet template()}
 		<div style="padding: 20px;">
