@@ -84,11 +84,10 @@
 		);
 
 		if (!allFocusableElements || allFocusableElements.length === 0) {
-			// If no focusable elements, focus the content area
-			const contentArea = scrollAreaRef.querySelector('.dialog__content');
+			// If no focusable children, focus the Dialog.Content node itself.
 			// preventScroll: focus fires mid-animation while the sheet is still
 			// off-screen; letting the browser scroll it into view causes a bounce.
-			(contentArea as HTMLElement)?.focus({ preventScroll: true });
+			scrollAreaRef.parentElement?.focus({ preventScroll: true });
 			return;
 		}
 

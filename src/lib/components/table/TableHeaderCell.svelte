@@ -146,6 +146,11 @@
 		@include typography('body-base-regular');
 		@include transition-interactive;
 
+		.header-cell--align-end & {
+			flex-direction: row-reverse;
+			margin-left: auto;
+		}
+
 		&:disabled {
 			color: var(--color-text-disabled);
 			pointer-events: none;

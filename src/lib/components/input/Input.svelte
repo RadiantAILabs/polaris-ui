@@ -32,6 +32,9 @@
 		disabled = false,
 		...restProps
 	}: InputProps = $props();
+
+	const uid = $props.id();
+	const labelId = `${uid}-label`;
 </script>
 
 <div class={cn('input-wrapper', ariaInvalid && 'input-wrapper--error', className)}>
@@ -39,7 +42,7 @@
 		<Icon name={icon} size="0.75rem" aria-hidden="true" variant="tertiary" {disabled} />
 	{/if}
 	{#if label}
-		<span class="input-label">{label}</span>
+		<span id={labelId} class="input-label">{label}</span>
 	{/if}
 	<input
 		bind:this={ref}
@@ -47,6 +50,7 @@
 		{type}
 		bind:value
 		aria-invalid={ariaInvalid}
+		aria-labelledby={label ? labelId : undefined}
 		{disabled}
 		{...restProps}
 	/>
