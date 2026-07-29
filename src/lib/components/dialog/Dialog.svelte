@@ -70,6 +70,11 @@
 		isAtBottom = scrollTop + clientHeight >= scrollHeight - threshold;
 	}
 
+	function handleOpenAutoFocus(event: Event) {
+		event.preventDefault();
+		contentProps?.onOpenAutoFocus?.(event);
+	}
+
 	function focusFirstElement() {
 		if (!scrollAreaRef) return;
 
@@ -79,16 +84,17 @@
 		);
 
 		if (!allFocusableElements || allFocusableElements.length === 0) {
-			// If no focusable elements, focus the content area
-			const contentArea = scrollAreaRef.querySelector('.dialog__content');
-			(contentArea as HTMLElement)?.focus();
+			// If no focusable children, focus the Dialog.Content node itself.
+			// preventScroll: focus fires mid-animation while the sheet is still
+			// off-screen; letting the browser scroll it into view causes a bounce.
+			scrollAreaRef.parentElement?.focus({ preventScroll: true });
 			return;
 		}
 
 		// If close button is shown, focus the second element (or first if only one exists)
 		// If close button is hidden, focus the first element
 		const targetIndex = showCloseButton && allFocusableElements.length > 1 ? 1 : 0;
-		(allFocusableElements[targetIndex] as HTMLElement).focus();
+		(allFocusableElements[targetIndex] as HTMLElement).focus({ preventScroll: true });
 	}
 
 	$effect(() => {
@@ -147,14 +153,15 @@
 				></div>
 			{/snippet}
 		</Dialog.Overlay>
-		<Dialog.Content {...contentProps}>
+		<Dialog.Content {...contentProps} onOpenAutoFocus={handleOpenAutoFocus}>
 			{#snippet child({ props })}
 				<div
-					{...props}
 					class={cn('dialog', `dialog--${variant}`, `dialog--${size}`, className)}
+					data-state={props['data-state'] as string}
 					style:z-index={zIndex}
 				>
 					<div
+						{...props}
 						class="dialog__container"
 						data-has-overflow={hasOverflow}
 						data-is-at-bottom={isAtBottom}

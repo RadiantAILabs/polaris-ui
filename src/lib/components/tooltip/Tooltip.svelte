@@ -8,6 +8,11 @@
 	export interface TooltipProps {
 		/** The trigger the tooltip is attached to, passed between the tags. */
 		children?: Snippet;
+		/**
+		 * Render the trigger as a custom element instead of the default
+		 * `.tooltip-trigger` wrapper.
+		 */
+		trigger?: Snippet<[{ props: Record<string, unknown> }]>;
 		/** Plain-text tooltip body. */
 		text?: string;
 		/** Rich tooltip body. Takes precedence over [`text`] when both are set. */
@@ -32,6 +37,7 @@
 
 	let {
 		children,
+		trigger,
 		text,
 		content,
 		side = 'top',
@@ -49,7 +55,11 @@
 	<TooltipPrimitive.Root bind:open {disabled}>
 		<TooltipPrimitive.Trigger>
 			{#snippet child({ props })}
-				<span {...props} class="tooltip-trigger">{@render children?.()}</span>
+				{#if trigger}
+					{@render trigger({ props })}
+				{:else}
+					<span {...props} class="tooltip-trigger">{@render children?.()}</span>
+				{/if}
 			{/snippet}
 		</TooltipPrimitive.Trigger>
 

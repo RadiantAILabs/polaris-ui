@@ -168,6 +168,7 @@
 						sortable
 						sortDirection={sortState.column === 'amount' ? sortState.direction : null}
 						onSort={handleSort('amount')}
+						alignment="end"
 					>
 						Amount
 					</Table.HeaderCell>
@@ -178,7 +179,7 @@
 							<Table.BodyCell>{row.invoice}</Table.BodyCell>
 							<Table.BodyCell>{row.status}</Table.BodyCell>
 							<Table.BodyCell>{row.method}</Table.BodyCell>
-							<Table.BodyCell>${row.amount}.00</Table.BodyCell>
+							<Table.BodyCell alignment="end" tabularNumbers>${row.amount}.00</Table.BodyCell>
 						</Table.BodyRow>
 					{/each}
 				</Table.Body>

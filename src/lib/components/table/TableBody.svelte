@@ -4,6 +4,11 @@
 
 	export interface TableBodyProps extends WithElementRef<HTMLAttributes<HTMLTableSectionElement>> {
 		emptyMessage?: string;
+		/**
+		 * Whether the body has no rows. When set, it takes precedence over the DOM-based
+		 * row detection, letting callers drive the empty state reactively.
+		 */
+		isEmpty?: boolean;
 	}
 </script>
 
@@ -13,10 +18,13 @@
 		class: className,
 		children,
 		emptyMessage = 'No data available',
+		isEmpty,
 		...restProps
 	}: TableBodyProps = $props();
 
 	const hasContent = $derived.by(() => {
+		// An explicit `isEmpty` from the caller takes precedence over DOM inspection, which can't observe row-count changes when the row set mutates in place.
+		if (isEmpty !== undefined) return !isEmpty;
 		if (!children) return false;
 
 		// Check if there are any actual table rows rendered by children

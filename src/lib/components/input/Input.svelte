@@ -15,6 +15,8 @@
 		}
 	> & {
 		icon?: IconName;
+		/** Field name displayed inside the input before the value. */
+		label?: string;
 	};
 </script>
 
@@ -25,15 +27,22 @@
 		type = 'text',
 		class: className,
 		icon,
+		label,
 		'aria-invalid': ariaInvalid,
 		disabled = false,
 		...restProps
 	}: InputProps = $props();
+
+	const uid = $props.id();
+	const labelId = `${uid}-label`;
 </script>
 
 <div class={cn('input-wrapper', ariaInvalid && 'input-wrapper--error', className)}>
 	{#if icon}
 		<Icon name={icon} size="0.75rem" aria-hidden="true" variant="tertiary" {disabled} />
+	{/if}
+	{#if label}
+		<span id={labelId} class="input-label">{label}</span>
 	{/if}
 	<input
 		bind:this={ref}
@@ -41,6 +50,7 @@
 		{type}
 		bind:value
 		aria-invalid={ariaInvalid}
+		aria-labelledby={label ? labelId : undefined}
 		{disabled}
 		{...restProps}
 	/>

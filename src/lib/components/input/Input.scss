@@ -15,6 +15,14 @@
 	@include transition-interactive;
 }
 
+.input-label {
+	@include typography('body-base-regular');
+
+	flex-shrink: 0;
+	color: var(--color-text-secondary);
+	white-space: nowrap;
+}
+
 .input {
 	@include typography('body-base-regular');
 

@@ -22,6 +22,10 @@
 				control: { type: 'text' },
 				description: 'Placeholder text'
 			},
+			label: {
+				control: { type: 'text' },
+				description: 'Field name displayed inside the input before the value.'
+			},
 			disabled: {
 				control: { type: 'boolean' },
 				description: 'Whether the input is disabled'
@@ -57,10 +61,22 @@
 	{/snippet}
 </Story>
 
+<Story name="With Label">
+	{#snippet template()}
+		<div style="display: flex; flex-direction: column; gap: 16px; width: 320px;">
+			<Input label="ID" placeholder="Enter an ID..." />
+			<Input label="Search" icon="search" placeholder="Search by name..." />
+			<Input label="Amount" value="1024" disabled={true} />
+			<Input label="Email" placeholder="name@example.com" aria-invalid={true} />
+		</div>
+	{/snippet}
+</Story>
+
 <Story
 	name="Playground"
 	args={{
 		icon: 'search',
+		label: 'Search',
 		placeholder: 'Enter text...',
 		disabled: false,
 		'aria-invalid': false,

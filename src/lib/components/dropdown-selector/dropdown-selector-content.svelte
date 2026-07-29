@@ -84,9 +84,7 @@
 		background-color: var(--color-background-raised);
 		border: $border-width-base solid var(--color-control-border-active);
 		border-radius: $border-radius-base;
-
-		// TODO make box-shadow variable
-		box-shadow: 0 10px 30px 0 rgb(38 128 134 / 6%);
+		box-shadow: $shadow-raised;
 		transform-origin: var(--bits-select-content-transform-origin);
 	}
 </style>
