@@ -3,6 +3,7 @@
 	import { Tooltip as TooltipPrimitive } from 'bits-ui';
 	import { fade } from 'svelte/transition';
 	import { cn } from '../../utils';
+	import { hasTooltipProviderContext } from './tooltip-context.js';
 	import './Tooltip.scss';
 
 	export interface TooltipProps {
@@ -31,6 +32,8 @@
 		open?: boolean;
 		/** Whether the tooltip is suppressed. */
 		disabled?: boolean;
+		/** When `true`, the tooltip will not close when the user clicks on the trigger. */
+		disableCloseOnTriggerClick?: boolean;
 		/** Additional CSS class on the tooltip surface. */
 		class?: string;
 	}
@@ -47,12 +50,21 @@
 		disableHoverableContent = false,
 		open = $bindable(false),
 		disabled = false,
+		disableCloseOnTriggerClick = false,
 		class: className
 	}: TooltipProps = $props();
+
+	const sharedProvider = hasTooltipProviderContext();
 </script>
 
-<TooltipPrimitive.Provider {delayDuration} {disableHoverableContent}>
-	<TooltipPrimitive.Root bind:open {disabled}>
+{#snippet tooltip()}
+	<TooltipPrimitive.Root
+		bind:open
+		{disabled}
+		{delayDuration}
+		{disableHoverableContent}
+		{disableCloseOnTriggerClick}
+	>
 		<TooltipPrimitive.Trigger>
 			{#snippet child({ props })}
 				{#if trigger}
@@ -81,4 +93,12 @@
 			</TooltipPrimitive.Content>
 		</TooltipPrimitive.Portal>
 	</TooltipPrimitive.Root>
-</TooltipPrimitive.Provider>
+{/snippet}
+
+{#if sharedProvider}
+	{@render tooltip()}
+{:else}
+	<TooltipPrimitive.Provider>
+		{@render tooltip()}
+	</TooltipPrimitive.Provider>
+{/if}

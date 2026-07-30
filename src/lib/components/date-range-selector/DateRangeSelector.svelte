@@ -187,7 +187,7 @@
 					>
 						<span>{preset.label}</span>
 						{#if activePreset?.id === preset.id}
-							<Icon name="check" size="1rem" variant="primary" />
+							<Icon name="check" size="base" variant="primary" />
 						{/if}
 					</button>
 				{/each}

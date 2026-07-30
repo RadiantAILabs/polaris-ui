@@ -9,7 +9,8 @@
 		children?: Snippet;
 		footer?: Snippet;
 		titleActions?: Snippet;
-		triggerButtonProps: ButtonProps;
+		/** Props for the trigger button. Omit to render no trigger (controlled via `open`). */
+		triggerButtonProps?: ButtonProps;
 		disabled?: boolean;
 		title: string;
 		variant?: 'modal' | 'side-sheet';
@@ -27,7 +28,7 @@
 		children,
 		footer,
 		titleActions,
-		triggerButtonProps = { variant: 'secondary', size: 'base' },
+		triggerButtonProps,
 		disabled,
 		title,
 		variant = 'modal',
@@ -137,11 +138,13 @@
 </script>
 
 <Dialog.Root bind:open={getOpen, setOpen} {...restProps}>
-	<Dialog.Trigger>
-		{#snippet child({ props })}
-			<Button {...triggerButtonProps} {...props} {disabled} />
-		{/snippet}
-	</Dialog.Trigger>
+	{#if triggerButtonProps}
+		<Dialog.Trigger>
+			{#snippet child({ props })}
+				<Button {...triggerButtonProps} {...props} {disabled} />
+			{/snippet}
+		</Dialog.Trigger>
+	{/if}
 
 	<Dialog.Portal>
 		<Dialog.Overlay>

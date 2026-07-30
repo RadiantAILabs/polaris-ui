@@ -15,8 +15,15 @@
 		}
 	> & {
 		icon?: IconName;
-		/** Field name displayed inside the input before the value. */
+		/** Field name displayed inside the input, before the value. */
 		label?: string;
+		/** Show a trailing clear button while the input has a value. */
+		clearable?: boolean;
+		/**
+		 * Optional side-effect hook fired when the clear button is pressed. The value is
+		 * already cleared via an `input` event, so this is not needed to reset state.
+		 */
+		onClear?: () => void;
 	};
 </script>
 
@@ -28,6 +35,8 @@
 		class: className,
 		icon,
 		label,
+		clearable = false,
+		onClear,
 		'aria-invalid': ariaInvalid,
 		disabled = false,
 		...restProps
@@ -35,14 +44,28 @@
 
 	const uid = $props.id();
 	const labelId = `${uid}-label`;
+
+	const hasValue = $derived(value != null && String(value).length > 0);
+	const showClear = $derived(clearable && !disabled && hasValue);
+
+	function handleClear() {
+		if (ref instanceof HTMLInputElement) {
+			ref.value = '';
+			ref.dispatchEvent(new Event('input', { bubbles: true }));
+		}
+		onClear?.();
+		ref?.focus();
+	}
 </script>
 
 <div class={cn('input-wrapper', ariaInvalid && 'input-wrapper--error', className)}>
 	{#if icon}
-		<Icon name={icon} size="0.75rem" aria-hidden="true" variant="tertiary" {disabled} />
+		<span class="input-leading-icon">
+			<Icon name={icon} size="small" aria-hidden="true" variant="tertiary" {disabled} />
+		</span>
 	{/if}
 	{#if label}
-		<span id={labelId} class="input-label">{label}</span>
+		<span id={labelId} class={cn('input-label', hasValue && 'input-label--filled')}>{label}</span>
 	{/if}
 	<input
 		bind:this={ref}
@@ -54,6 +77,17 @@
 		{disabled}
 		{...restProps}
 	/>
+	{#if showClear}
+		<button
+			type="button"
+			class="input-clear"
+			aria-label="Clear search"
+			onpointerdown={(event) => event.preventDefault()}
+			onclick={handleClear}
+		>
+			<Icon name="cross" size="small" aria-hidden="true" variant="secondary" />
+		</button>
+	{/if}
 </div>
 
 <style lang="scss">

@@ -2,9 +2,11 @@
 	import type { ButtonProps } from '../button/Button.svelte';
 	import type { Snippet } from 'svelte';
 	import type { UnderlineNavProps } from '../underline-nav';
+	import type { BreadcrumbItem } from '../breadcrumbs';
 
 	export interface MainWindowProps {
 		title: string;
+		breadcrumbs?: BreadcrumbItem[];
 		button1?: Omit<ButtonProps, 'size'>;
 		button2?: Omit<ButtonProps, 'size'>;
 		button3?: Omit<ButtonProps, 'size'>;
@@ -24,6 +26,7 @@
 		showNavbar = false,
 		navProps,
 		title,
+		breadcrumbs,
 		button1,
 		button2,
 		button3,
@@ -36,8 +39,11 @@
 
 <div class="main-window">
 	<div class="main-window__header">
-		<div class="main-window__title-bar">
-			<PageTitleBar {title} {button1} {button2} {button3}>
+		<div
+			class="main-window__title-bar"
+			class:main-window__title-bar--with-nav={showNavbar && navProps != null}
+		>
+			<PageTitleBar {title} {breadcrumbs} {button1} {button2} {button3}>
 				{#snippet actions()}
 					{#if titleActions}
 						{@render titleActions()}
@@ -73,12 +79,16 @@
 			display: flex;
 			flex-direction: column;
 			width: 100%;
-			padding: 0 20px;
+			padding: 0 $space-2-5;
 			box-shadow: inset 0 -1px 0 0 var(--color-border-base);
 		}
 
 		&__title-bar {
 			padding: $space-2 0;
+
+			&--with-nav {
+				padding-bottom: $space-1;
+			}
 		}
 
 		&__content {
@@ -88,9 +98,10 @@
 			gap: $space-3;
 			width: 100%;
 			min-height: 0;
+			overflow-y: auto;
 
 			&--padded {
-				padding: 0 20px $space-2;
+				padding: 0 $space-2-5 $space-2;
 			}
 		}
 	}

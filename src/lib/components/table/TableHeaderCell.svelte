@@ -19,8 +19,11 @@
 </script>
 
 <script lang="ts">
+	import { getContext } from 'svelte';
 	import Icon from '../icon/icon.svelte';
 	import { cn } from '../../utils';
+
+	const stickyHeader = getContext<boolean>('table-sticky-header') ?? false;
 
 	let {
 		ref = $bindable(null),
@@ -65,7 +68,12 @@
 
 <th
 	bind:this={ref}
-	class={cn('header-cell', alignment === 'end' && 'header-cell--align-end', className)}
+	class={cn(
+		'header-cell',
+		alignment === 'end' && 'header-cell--align-end',
+		stickyHeader && 'header-cell--sticky',
+		className
+	)}
 	{...restProps}
 >
 	{#if sortable}
@@ -87,7 +95,8 @@
 					: getNextSortDirection() === 'asc'
 						? 'chevron-up'
 						: 'chevron-down'}
-				size="1rem"
+				size="base"
+				variant="tertiary"
 				hidden={!sortDirection && !isHovered}
 			/>
 		</button>
@@ -102,14 +111,14 @@
 	.header-cell {
 		padding: $space-0-5 $space-2;
 		vertical-align: middle;
-		color: var(--color-text-secondary);
+		color: var(--color-text-tertiary);
 		text-align: left;
 		white-space: nowrap;
 		background-color: var(--color-table-header-cell-background);
 		background-clip: padding-box;
 		border-bottom: $border-width-base solid var(--color-table-header-cell-border);
 
-		@include typography('body-base-regular');
+		@include typography('body-base-semibold');
 
 		&:first-child {
 			border-top-left-radius: $border-radius-base;
@@ -122,6 +131,12 @@
 		&--align-end {
 			text-align: right;
 		}
+
+		&--sticky {
+			position: sticky;
+			top: 0;
+			z-index: 2;
+		}
 	}
 
 	.sort-button {
@@ -132,7 +147,7 @@
 		justify-content: flex-start;
 		width: fit-content;
 		padding: calc($space-0-5) calc($space-1 - $border-width-base);
-		color: var(--color-text-secondary);
+		color: var(--color-text-tertiary);
 		text-align: left;
 		white-space: nowrap;
 		text-decoration: none;
@@ -143,7 +158,7 @@
 		border: none;
 		border-radius: $border-radius-base;
 
-		@include typography('body-base-regular');
+		@include typography('body-base-semibold');
 		@include transition-interactive;
 
 		.header-cell--align-end & {

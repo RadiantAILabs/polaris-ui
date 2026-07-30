@@ -3,7 +3,6 @@
 
 .input-wrapper {
 	display: flex;
-	gap: $space-1;
 	align-items: center;
 	width: 100%;
 	padding: calc($space-1 - $border-width-base);
@@ -15,12 +14,23 @@
 	@include transition-interactive;
 }
 
+.input-leading-icon {
+	display: inline-flex;
+	flex-shrink: 0;
+	margin-right: $space-1;
+}
+
 .input-label {
 	@include typography('body-base-regular');
 
 	flex-shrink: 0;
-	color: var(--color-text-secondary);
+	color: var(--color-text-tertiary);
 	white-space: nowrap;
+}
+
+.input-wrapper:focus-within .input-label,
+.input-label--filled {
+	margin-right: $space-0-5;
 }
 
 .input {
@@ -69,6 +79,30 @@
 	&[type='search']::-webkit-search-results-button,
 	&[type='search']::-webkit-search-results-decoration {
 		display: none;
+	}
+}
+
+.input-clear {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	padding: $space-0-25;
+	margin-left: calc(#{$space-1} - #{$space-0-25});
+	cursor: pointer;
+	background: transparent;
+	border: none;
+	border-radius: $border-radius-base;
+
+	@include transition-interactive;
+
+	&:hover,
+	&:focus-visible {
+		background-color: var(--color-control-clear-button-background-hover);
+	}
+
+	&:focus-visible {
+		outline: none;
 	}
 }
 

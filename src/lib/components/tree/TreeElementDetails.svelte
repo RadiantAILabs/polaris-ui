@@ -39,17 +39,25 @@
 	});
 </script>
 
-<div class={cn('tree-element-details', className)} role="status" aria-label={ariaLabel}>
+<div
+	class={cn(
+		'tree-element-details',
+		{ 'tree-element-details--error': status === 'failed' },
+		className
+	)}
+	role="status"
+	aria-label={ariaLabel}
+>
 	{#if status === 'processing'}
-		<Icon name="loader" size="0.75rem" variant="secondary" animation="spin" />
+		<Icon name="loader" size="small" variant="secondary" animation="spin" />
 		{#if time}
 			<span class="tree-element-details__value">{time}</span>
 		{/if}
 	{:else if status === 'failed'}
 		<div class="tree-element-details__item">
-			<Icon name="alert-circle" size="0.75rem" variant="error" />
+			<Icon name="alert-circle" size="small" variant="error" />
 			{#if time}
-				<span class="tree-element-details__value tree-element-details__error">{time}</span>
+				<span class="tree-element-details__value">{time}</span>
 			{/if}
 		</div>
 		{@render metricItems()}
@@ -82,7 +90,11 @@
 	{#each metrics as metric (metric.ariaLabel)}
 		<div class="tree-element-details__item">
 			{#if metric.icon}
-				<Icon name={metric.icon} size="0.75rem" variant="secondary" />
+				<Icon
+					name={metric.icon}
+					size="small"
+					variant={status === 'failed' ? 'error' : 'secondary'}
+				/>
 			{/if}
 			{@render value(metric.value, metric.tooltip)}
 		</div>
@@ -112,7 +124,7 @@
 			@include typography('body-small-regular');
 		}
 
-		&__error {
+		&--error &__value {
 			color: var(--color-text-error);
 		}
 	}

@@ -1,6 +1,18 @@
 // Component library exports
+export {
+	Alert,
+	AlertTitle,
+	AlertDescription,
+	AlertAction,
+	type AlertProps,
+	type AlertVariant,
+	type AlertTitleProps,
+	type AlertDescriptionProps,
+	type AlertActionProps
+} from './components/alert';
 export { default as Button, type ButtonProps } from './components/button/Button.svelte';
-export { Badge, BadgeGroup, type BadgeProps } from './components/badge';
+export { Badge, BadgeGroup, type BadgeProps, type BadgeVariant } from './components/badge';
+export { Breadcrumbs, type BreadcrumbItem, type BreadcrumbsProps } from './components/breadcrumbs';
 export * as Chart from './components/chart';
 export type { ChartConfig } from './components/chart';
 export { BlankState, type BlankStateProps } from './components/blank-state';
@@ -41,7 +53,14 @@ export {
 	type GalleryCardGridProps,
 	type GalleryCardLabelProps
 } from './components/gallery-card';
-export { Icon, getAvailableIcons, type IconName } from './components/icon';
+export {
+	Icon,
+	ICON_SIZES,
+	getAvailableIcons,
+	type IconName,
+	type IconProps,
+	type IconSize
+} from './components/icon';
 export { ListCard, type ListCardProps } from './components/list-card';
 export { MainWindow, type MainWindowProps } from './components/main-window';
 export { PageTitleBar, type PageTitleBarProps } from './components/page-title-bar';
@@ -81,7 +100,12 @@ export {
 } from './components/trace-timeline';
 export { Resizable } from './components/resizable';
 export { Popover, type PopoverProps, type PopoverHeaderProps } from './components/popover';
-export { Tooltip, type TooltipProps } from './components/tooltip';
+export {
+	Tooltip,
+	TooltipProvider,
+	type TooltipProps,
+	type TooltipProviderProps
+} from './components/tooltip';
 export { ConfigTabHeader, type ConfigTabHeaderProps } from './components/config-tab-header';
 export { NavButton, type NavButtonProps } from './components/nav-button';
 export { default as Toggle, type ToggleProps } from './components/toggle/Toggle.svelte';

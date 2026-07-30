@@ -21,8 +21,10 @@
 		labelFormatter = defaultFormatter,
 		labelClassName,
 		formatter,
+		valueFormatter,
 		nameKey,
 		color,
+		contained,
 		...restProps
 	}: WithoutChildren<WithElementRef<HTMLAttributes<HTMLDivElement>>> & {
 		hideLabel?: boolean;
@@ -34,6 +36,13 @@
 		labelClassName?: string;
 		labelFormatter?: // eslint-disable-next-line @typescript-eslint/no-explicit-any
 			((value: any, payload: TooltipPayload[]) => string | number | Snippet) | null;
+		/** Formats each series' value, e.g. for duration or currency. Defaults to `toLocaleString()`. */
+		valueFormatter?: (value: TooltipPayload['value']) => string;
+		/**
+		 * Bounds the tooltip is clamped to so it doesn't render off-screen.
+		 * `'container'` (the default) clamps to the chart's own bounding box.
+		 */
+		contained?: 'container' | 'window' | false;
 		formatter?: Snippet<
 			[
 				{
@@ -98,7 +107,7 @@
 	{/if}
 {/snippet}
 
-<TooltipPrimitive.Root variant="none">
+<TooltipPrimitive.Root variant="none" {contained}>
 	<div bind:this={ref} class={cn('chart-tooltip', className)} {...restProps}>
 		{#if !nestLabel}
 			{@render TooltipLabel()}
@@ -157,7 +166,7 @@
 							</div>
 							{#if item.value !== undefined}
 								<span class="chart-tooltip__value">
-									{item.value.toLocaleString()}
+									{valueFormatter ? valueFormatter(item.value) : item.value.toLocaleString()}
 								</span>
 							{/if}
 						</div>

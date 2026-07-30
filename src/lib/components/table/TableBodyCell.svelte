@@ -49,7 +49,7 @@
 		&.body-cell--primary:first-child {
 			color: var(--color-text-primary);
 
-			@include typography('body-base-semibold');
+			@include typography('body-base-medium');
 		}
 
 		&--tabular {

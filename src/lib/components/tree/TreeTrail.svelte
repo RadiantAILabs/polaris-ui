@@ -36,7 +36,7 @@
 		position: relative;
 		flex-shrink: 0;
 		width: 20px;
-		height: 32px;
+		height: $space-4;
 
 		&__line {
 			position: absolute;

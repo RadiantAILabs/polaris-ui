@@ -18,13 +18,17 @@
 				options: [null, ...availableIcons],
 				description: 'Icon name to display'
 			},
+			label: {
+				control: { type: 'text' },
+				description: 'Field name displayed inside the input, before the value.'
+			},
 			placeholder: {
 				control: { type: 'text' },
 				description: 'Placeholder text'
 			},
-			label: {
-				control: { type: 'text' },
-				description: 'Field name displayed inside the input before the value.'
+			clearable: {
+				control: { type: 'boolean' },
+				description: 'Show a trailing clear button while the input has a value.'
 			},
 			disabled: {
 				control: { type: 'boolean' },
@@ -40,6 +44,10 @@
 			}
 		}
 	});
+</script>
+
+<script lang="ts">
+	let searchValue = $state('run_01J...');
 </script>
 
 <Story name="All Variants">
@@ -61,13 +69,20 @@
 	{/snippet}
 </Story>
 
-<Story name="With Label">
+<Story name="Clearable">
 	{#snippet template()}
 		<div style="display: flex; flex-direction: column; gap: 16px; width: 320px;">
-			<Input label="ID" placeholder="Enter an ID..." />
-			<Input label="Search" icon="search" placeholder="Search by name..." />
-			<Input label="Amount" value="1024" disabled={true} />
-			<Input label="Email" placeholder="name@example.com" aria-invalid={true} />
+			<Input
+				bind:value={searchValue}
+				icon="search"
+				placeholder="Search by run"
+				clearable
+				onClear={() => (searchValue = '')}
+				aria-label="Search by run"
+			/>
+			<Input value="1024" placeholder="Amount" />
+			<Input label="Run" value="run_01J..." clearable aria-label="Search by run" />
+			<Input placeholder="name@example.com" aria-invalid={true} />
 		</div>
 	{/snippet}
 </Story>
@@ -76,7 +91,7 @@
 	name="Playground"
 	args={{
 		icon: 'search',
-		label: 'Search',
+		clearable: false,
 		placeholder: 'Enter text...',
 		disabled: false,
 		'aria-invalid': false,

@@ -97,7 +97,7 @@
 }
 
 .btn--small {
-	@include typography('button-base');
+	@include typography('button-small');
 
 	gap: $space-0-5;
 	height: $space-3;

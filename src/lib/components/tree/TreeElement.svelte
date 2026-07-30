@@ -134,6 +134,7 @@
 	bind:this={elementRef}
 	class={cn('tree-element', className)}
 	class:tree-element--selected={selected}
+	class:tree-element--error={details?.status === 'failed'}
 	role="treeitem"
 	data-type="tree-element"
 	aria-expanded={canExpand ? expanded : undefined}
@@ -173,7 +174,7 @@
 
 	<div class="tree-element__content">
 		<!-- Tag -->
-		<TreeElementTag text={tag} {upConnector} {downConnector} />
+		<TreeElementTag text={tag} {upConnector} {downConnector} error={details?.status === 'failed'} />
 
 		<!-- Content -->
 		{#if labelTooltip}
@@ -206,7 +207,7 @@
 		flex-shrink: 0;
 		align-items: center;
 		width: 100%;
-		height: 32px;
+		height: $space-4;
 		padding-right: $space-1;
 		outline: none;
 		background-color: transparent;
@@ -248,6 +249,32 @@
 			white-space: nowrap;
 
 			@include typography('body-base-regular');
+		}
+
+		&--error {
+			background-color: var(--color-background-error);
+
+			.tree-element__label {
+				font-weight: 500;
+				color: var(--color-text-error);
+			}
+
+			&:hover {
+				background-color: color-mix(
+					in srgb,
+					var(--color-background-error) 92%,
+					var(--color-text-error)
+				);
+			}
+
+			&.tree-element--selected,
+			&.tree-element--selected:hover {
+				background-color: color-mix(
+					in srgb,
+					var(--color-background-error) 88%,
+					var(--color-text-error)
+				);
+			}
 		}
 
 		// -- Details area --

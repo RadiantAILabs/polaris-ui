@@ -41,7 +41,7 @@
 			},
 			variant: {
 				control: { type: 'select' },
-				options: ['default', 'outline', 'inverse'],
+				options: ['default', 'outline', 'inverse', 'success', 'warning', 'error'],
 				description: 'Visual variant'
 			}
 		}
@@ -182,6 +182,16 @@
 					<Badge text="Base" variant="inverse" size="base" />
 					<Badge text="Large" variant="inverse" size="large" />
 					<Badge text="With icon" variant="inverse" leadingIcon="search" size="base" />
+				</div>
+			</div>
+
+			<div>
+				<h3 style="margin: 0 0 0.5rem; font-size: 0.85rem; font-weight: 500;">Status</h3>
+				<div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center;">
+					<Badge text="Running" variant="default" />
+					<Badge text="Success" variant="success" />
+					<Badge text="Warning" variant="warning" />
+					<Badge text="Error" variant="error" />
 				</div>
 			</div>
 		</div>

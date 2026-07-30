@@ -41,6 +41,24 @@
 		color: var(--color-text-inverse-primary);
 		background-color: var(--color-button-primary-background-active);
 	}
+
+	&--success {
+		color: var(--color-text-success);
+		background-color: var(--color-background-success);
+		border: $border-width-base solid var(--color-border-success);
+	}
+
+	&--warning {
+		color: var(--color-text-warning);
+		background-color: var(--color-background-warning);
+		border: $border-width-base solid var(--color-border-warning);
+	}
+
+	&--error {
+		color: var(--color-text-error);
+		background-color: var(--color-background-error);
+		border: $border-width-base solid var(--color-border-error);
+	}
 }
 
 .badge__icon {

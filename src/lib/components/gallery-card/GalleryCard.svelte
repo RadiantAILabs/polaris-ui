@@ -41,7 +41,7 @@
 	<header class="gallery-card__header">
 		<div class="gallery-card__header-left">
 			{#if icon}
-				<Icon name={icon} variant="secondary" size="1rem" />
+				<Icon name={icon} variant="secondary" size="base" />
 			{/if}
 			<h3 class="gallery-card__title">{title}</h3>
 		</div>

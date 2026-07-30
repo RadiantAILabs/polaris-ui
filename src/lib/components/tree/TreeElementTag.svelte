@@ -9,6 +9,8 @@
 		downConnector?: boolean;
 		/** Short text rendered inside the boxed tag */
 		text: string;
+		/** Whether the element is in an error state */
+		error?: boolean;
 		/** Additional CSS class */
 		class?: string;
 	}
@@ -17,6 +19,7 @@
 		upConnector = true,
 		downConnector = true,
 		text,
+		error = false,
 		class: className
 	}: TreeElementTagProps = $props();
 </script>
@@ -26,7 +29,7 @@
 		<div class="tree-element-tag__connector tree-element-tag__connector--up"></div>
 	{/if}
 
-	<Badge {text} variant="outline" size="small" style="height: 1.25rem;" />
+	<Badge {text} variant={error ? 'error' : 'outline'} size="small" style="height: 1.25rem;" />
 
 	{#if downConnector}
 		<div class="tree-element-tag__connector tree-element-tag__connector--down"></div>
@@ -43,7 +46,7 @@
 		align-items: center;
 		justify-content: center;
 		min-width: 20px;
-		height: 32px;
+		height: $space-4;
 
 		&__connector {
 			position: absolute;

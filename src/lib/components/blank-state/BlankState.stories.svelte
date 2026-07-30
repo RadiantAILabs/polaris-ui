@@ -92,6 +92,17 @@
 	{/snippet}
 </Story>
 
+<Story name="Inline (embedded in a card)">
+	{#snippet template()}
+		<div style="max-width: 22rem; overflow: hidden; border: 1px solid #e0e0e0; ">
+			<div style="padding: 12px 16px; font-weight: 600; border-bottom: 1px solid #e0e0e0;">
+				Recent activity
+			</div>
+			<BlankState size="inline" description="No runs observed yet for this agent." />
+		</div>
+	{/snippet}
+</Story>
+
 <Story
 	name="Playground"
 	args={{

@@ -20,7 +20,7 @@
 				 * raw value behind formatted or custom-rendered content. Defaults to the cell's text.
 				 */
 				accessor?: (item: T) => string;
-				/** Search input placeholder. Defaults to `Search by <displayName lowercased>`. */
+				/** Optional placeholder text shown after the column label while the field is empty. */
 				placeholder?: string;
 		  }
 		| {
@@ -60,7 +60,7 @@
 		filter?: ColumnFilter<T>;
 		/** Whether this column should shrink to fit its content (useful for action columns) */
 		hugContent?: boolean;
-		/** Whether this column should expand to fill all remaining space. Sets width: 100% */
+		/** Whether this column should expand into available space. */
 		fillRemaining?: boolean;
 		/** Allow column to shrink below its content width. Will lead to ellipsis truncation. */
 		shrinkBelowContent?: boolean;
@@ -112,9 +112,9 @@
 <script lang="ts" generics="T extends Record<string, unknown>, K extends keyof T = keyof T">
 	import { onDestroy } from 'svelte';
 	import { Table } from '../table/index';
-	import { Input } from '../input';
 	import DropdownSelector from '../dropdown-selector';
 	import { DataTableActions } from './index';
+	import DataTableFilterField from './DataTableFilterField.svelte';
 
 	type FilterValue = string | string[];
 
@@ -134,6 +134,7 @@
 		selectedId = null,
 		emptyMessage = 'No data available',
 		noResultsMessage = 'No results found',
+		stickyHeader = false,
 		...restProps
 	}: DataTableProps<T, K> = $props();
 
@@ -157,9 +158,15 @@
 	const hasActiveFilters = $derived(activeFilters().length > 0);
 
 	function activeFilters(): [keyof T, FilterValue][] {
-		return Object.entries(filters).filter(([, value]) =>
-			Array.isArray(value) ? value.length > 0 : typeof value === 'string' && value.trim() !== ''
-		) as [keyof T, FilterValue][];
+		const active: [keyof T, FilterValue][] = [];
+		for (const column of filterableColumns) {
+			const value = filterValue(column);
+			if (value == null) continue;
+			if (Array.isArray(value) ? value.length > 0 : value.trim() !== '') {
+				active.push([column.name, value]);
+			}
+		}
+		return active;
 	}
 
 	function setColumnFilter(column: keyof T, value: FilterValue): void {
@@ -197,8 +204,20 @@
 		)
 	);
 
+	function filterValue(column: DataTableColumn<T>): FilterValue | undefined {
+		const value = filters[column.name];
+		switch (column.filter?.kind) {
+			case 'select':
+				return Array.isArray(value) ? value : undefined;
+			case 'search':
+				return typeof value === 'string' ? value : undefined;
+			default:
+				return undefined;
+		}
+	}
+
 	function selectedValues(column: DataTableColumn<T>): string[] {
-		return (filters[column.name] as string[] | undefined) ?? [];
+		return (filterValue(column) as string[] | undefined) ?? [];
 	}
 
 	// Builds the default comparator for a column of the given type.
@@ -322,104 +341,116 @@
 	}
 </script>
 
-{#if filterableColumns.length > 0}
-	<div class="data-table-filters">
-		{#each filterableColumns as column (column.name)}
-			{#if column.filter?.kind === 'select'}
-				<DropdownSelector
-					type="multiple"
-					items={selectOptionsByColumn.get(column.name) ?? []}
-					value={selectedValues(column)}
-					onValueChange={(value: string[]) => setColumnFilter(column.name, value)}
-					clearable
-					label={column.displayName}
-					placeholder="All"
-					showAsBadges={false}
-					fullWidth={false}
-				/>
-			{:else if column.filter?.kind === 'search'}
-				<div class="data-table-filters__search">
-					<Input
-						value={(filters[column.name] as string | undefined) ?? ''}
+<div class="data-table" class:data-table--sticky-header={stickyHeader}>
+	{#if filterableColumns.length > 0}
+		<div class="data-table-filters">
+			{#each filterableColumns as column (column.name)}
+				{#if column.filter?.kind === 'select'}
+					<DropdownSelector
+						type="multiple"
+						items={selectOptionsByColumn.get(column.name) ?? []}
+						value={selectedValues(column)}
+						onValueChange={(value: string[]) => setColumnFilter(column.name, value)}
+						clearable
+						label={column.displayName}
+						showAsBadges={false}
+						fullWidth={false}
+					/>
+				{:else if column.filter?.kind === 'search'}
+					<DataTableFilterField
+						label={column.displayName}
+						value={(filterValue(column) as string | undefined) ?? ''}
 						oninput={(e) =>
 							setColumnFilter(column.name, (e.currentTarget as HTMLInputElement).value)}
-						placeholder={column.filter.placeholder ??
-							`Search by ${column.displayName.toLowerCase()}`}
-						label={column.displayName}
+						placeholder={column.filter.placeholder}
+						clearable
+						aria-label={`Search by ${column.displayName.toLowerCase()}`}
 					/>
-				</div>
-			{/if}
-		{/each}
-	</div>
-{/if}
-
-<Table.Root bind:ref style={minWidth ? `min-width: ${minWidth}` : undefined} {...restProps}>
-	<Table.Header>
-		{#each columns as column (column.name)}
-			<Table.HeaderCell
-				sortable={isColumnSortable(column)}
-				sortDirection={sortState.column === column.name ? sortState.direction : null}
-				onSort={isColumnSortable(column)
-					? (direction) => handleSort(column.name, direction)
-					: undefined}
-				alignment={columnAlign(column)}
-				style={getColumnStyle(column)}
-			>
-				{column.displayName}
-			</Table.HeaderCell>
-		{/each}
-		{#if actions && actions.length > 0}
-			<!-- Set width to 1px to prevent column from stretching -->
-			<Table.HeaderCell style="width: 1px; white-space: nowrap;"></Table.HeaderCell>
-		{/if}
-	</Table.Header>
-	<Table.Body
-		isEmpty={processedItems.length === 0}
-		emptyMessage={hasActiveFilters ? noResultsMessage : emptyMessage}
-	>
-		{#each processedItems as item (item[idField])}
-			<Table.BodyRow
-				onClick={onRowClick ? () => onRowClick(item[idField]) : undefined}
-				data-state={selectedId != null && item[idField] === selectedId ? 'selected' : undefined}
-			>
-				{#each columns as column (column.name)}
-					<Table.BodyCell
-						tabularNumbers={column.type === 'number'}
-						alignment={columnAlign(column)}
-						style={getColumnStyle(column)}
-					>
-						{#if column.render}
-							{@render column.render(item[column.name])}
-						{:else}
-							{item[column.name]}
-						{/if}
-					</Table.BodyCell>
-				{/each}
-				{#if actions && actions.length > 0}
-					<Table.BodyCell style="width: 1px; white-space: nowrap;">
-						<DataTableActions
-							{actions}
-							onAction={(actionValue: string) => onAction?.(item[idField], actionValue)}
-						/>
-					</Table.BodyCell>
 				{/if}
-			</Table.BodyRow>
-		{/each}
-	</Table.Body>
-</Table.Root>
+			{/each}
+		</div>
+	{/if}
+
+	<Table.Root
+		bind:ref
+		style={minWidth ? `min-width: ${minWidth}` : undefined}
+		{stickyHeader}
+		{...restProps}
+	>
+		<Table.Header>
+			{#each columns as column (column.name)}
+				<Table.HeaderCell
+					sortable={isColumnSortable(column)}
+					sortDirection={sortState.column === column.name ? sortState.direction : null}
+					onSort={isColumnSortable(column)
+						? (direction) => handleSort(column.name, direction)
+						: undefined}
+					alignment={columnAlign(column)}
+					style={getColumnStyle(column)}
+				>
+					{column.displayName}
+				</Table.HeaderCell>
+			{/each}
+			{#if actions && actions.length > 0}
+				<!-- Set width to 1px to prevent column from stretching -->
+				<Table.HeaderCell style="width: 1px; white-space: nowrap;"></Table.HeaderCell>
+			{/if}
+		</Table.Header>
+		<Table.Body
+			isEmpty={processedItems.length === 0}
+			emptyMessage={hasActiveFilters ? noResultsMessage : emptyMessage}
+		>
+			{#each processedItems as item (item[idField])}
+				<Table.BodyRow
+					onClick={onRowClick ? () => onRowClick(item[idField]) : undefined}
+					data-state={selectedId != null && item[idField] === selectedId ? 'selected' : undefined}
+				>
+					{#each columns as column (column.name)}
+						<Table.BodyCell
+							tabularNumbers={column.type === 'number' || column.type === 'date'}
+							alignment={columnAlign(column)}
+							style={getColumnStyle(column)}
+						>
+							{#if column.render}
+								{@render column.render(item[column.name])}
+							{:else}
+								{item[column.name]}
+							{/if}
+						</Table.BodyCell>
+					{/each}
+					{#if actions && actions.length > 0}
+						<Table.BodyCell style="width: 1px; white-space: nowrap;">
+							<DataTableActions
+								{actions}
+								onAction={(actionValue: string) => onAction?.(item[idField], actionValue)}
+							/>
+						</Table.BodyCell>
+					{/if}
+				</Table.BodyRow>
+			{/each}
+		</Table.Body>
+	</Table.Root>
+</div>
 
 <style lang="scss">
 	@use '../../styles/tokens' as *;
+
+	.data-table {
+		display: contents;
+
+		&--sticky-header {
+			display: flex;
+			flex: 0 1 auto;
+			flex-direction: column;
+			min-height: 0;
+			max-height: 100%;
+		}
+	}
 
 	.data-table-filters {
 		display: flex;
 		flex-wrap: wrap;
 		gap: $space-1;
 		margin-bottom: $space-1-5;
-	}
-
-	.data-table-filters__search {
-		min-width: 12rem;
-		max-width: 16rem;
 	}
 </style>

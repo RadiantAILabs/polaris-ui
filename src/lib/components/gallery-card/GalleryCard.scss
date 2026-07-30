@@ -69,12 +69,12 @@
 		white-space: nowrap;
 
 		.gallery-card--size-small & {
-			@include typography('heading-xsmall');
+			@include typography('body-base-medium');
 		}
 	}
 
 	&__caption {
-		@include typography('heading-xsmall');
+		@include typography('body-base-medium');
 
 		margin: 0;
 		overflow: hidden;
