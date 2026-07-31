@@ -66,7 +66,8 @@
 		</span>
 	{/if}
 	{#if label}
-		<label for={inputId} class={cn('input-label', hasValue && 'input-label--filled')}>{label}</label>
+		<label for={inputId} class={cn('input-label', hasValue && 'input-label--filled')}>{label}</label
+		>
 	{/if}
 	<input
 		bind:this={ref}

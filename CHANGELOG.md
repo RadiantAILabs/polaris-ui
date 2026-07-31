@@ -8,7 +8,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 
 - `Input` now renders its `label` as a `<label>` element linked to the input.
-Also adds an optional `id` prop.
+  Also adds an optional `id` prop.
 
 ## 0.4.0
 
