@@ -24,15 +24,15 @@
 		align?: 'start' | 'center' | 'end';
 		/** Gap in pixels between the trigger and the tooltip. */
 		sideOffset?: number;
-		/** Hover delay in milliseconds before the tooltip opens. */
+		/** Hover delay in milliseconds before the tooltip opens. Inherits from a surrounding provider when omitted. */
 		delayDuration?: number;
-		/** Prevents tooltip from remaining open when hovering over the content. */
+		/** Prevents tooltip from remaining open when hovering over the content. Inherits from a surrounding provider when omitted. */
 		disableHoverableContent?: boolean;
 		/** Controls whether the tooltip is open. */
 		open?: boolean;
 		/** Whether the tooltip is suppressed. */
 		disabled?: boolean;
-		/** When `true`, the tooltip will not close when the user clicks on the trigger. */
+		/** When `true`, the tooltip will not close when the trigger is clicked. Inherits from a surrounding provider when omitted. */
 		disableCloseOnTriggerClick?: boolean;
 		/** Additional CSS class on the tooltip surface. */
 		class?: string;
@@ -46,11 +46,11 @@
 		side = 'top',
 		align = 'center',
 		sideOffset = 6,
-		delayDuration = 200,
-		disableHoverableContent = false,
+		delayDuration,
+		disableHoverableContent,
 		open = $bindable(false),
 		disabled = false,
-		disableCloseOnTriggerClick = false,
+		disableCloseOnTriggerClick,
 		class: className
 	}: TooltipProps = $props();
 
@@ -98,7 +98,7 @@
 {#if sharedProvider}
 	{@render tooltip()}
 {:else}
-	<TooltipPrimitive.Provider>
+	<TooltipPrimitive.Provider delayDuration={200}>
 		{@render tooltip()}
 	</TooltipPrimitive.Provider>
 {/if}

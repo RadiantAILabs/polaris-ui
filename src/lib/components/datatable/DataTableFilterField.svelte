@@ -16,9 +16,9 @@
 	const hasValue = $derived(value != null && String(value).length > 0);
 </script>
 
-<label class={cn('filter-field', hasValue && 'filter-field--filled', className)}>
+<div class={cn('filter-field', hasValue && 'filter-field--filled', className)}>
 	<Input {label} {value} {...restProps} />
-</label>
+</div>
 
 <style lang="scss">
 	@use '../../styles/tokens' as *;
