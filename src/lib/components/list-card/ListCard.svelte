@@ -57,7 +57,7 @@
 		<div class="list-card__text">
 			<div class="list-card__primary-text">
 				{#if icon}
-					<Icon name={icon} variant="secondary" size="1rem" />
+					<Icon name={icon} variant="secondary" size="base" />
 				{/if}
 				<span class="list-card__primary-text-content">{primaryText}</span>
 			</div>
@@ -73,7 +73,7 @@
 				<Badge text={badgeText} leadingIcon={badgeLeadingIcon} iconProps={badgeIconProps} />
 			{/if}
 			{#if trailingIcon}
-				<Icon name={trailingIcon} size="1rem" variant="secondary" />
+				<Icon name={trailingIcon} size="base" variant="secondary" />
 			{/if}
 			{#if buttonLabel || buttonIcon}
 				<Button

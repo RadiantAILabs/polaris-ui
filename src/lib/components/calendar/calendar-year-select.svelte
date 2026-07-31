@@ -28,7 +28,7 @@
 			</select>
 			<span class="calendar-year-select__display" aria-hidden="true">
 				{yearItems.find((item) => item.value === value)?.label || selectedYearItem.label}
-				<Icon name="chevron-down" variant="secondary" size="0.75rem" />
+				<Icon name="chevron-down" variant="secondary" size="small" />
 			</span>
 		{/snippet}
 	</CalendarPrimitive.YearSelect>

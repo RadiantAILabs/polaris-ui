@@ -151,6 +151,19 @@
 			</div>
 
 			<div>
+				<h3 style="margin: 0 0 12px; font-size: 14px; font-weight: 500;">Failed</h3>
+				<div style="display: inline-flex; border: 1px dashed purple">
+					<Tree.Element
+						tag="Agent"
+						label="Failed Task"
+						details={{ status: 'failed', time: '125.8s', metrics: tokens('842') }}
+						upConnector={false}
+						downConnector={false}
+					/>
+				</div>
+			</div>
+
+			<div>
 				<h3
 					style="margin: 0 0 12px; font-size: 14px; font-weight:
 				500;"

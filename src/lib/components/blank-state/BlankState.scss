@@ -3,14 +3,10 @@
 .blank-state {
 	display: flex;
 	flex-direction: column;
-	gap: $space-3;
 	align-items: center;
 	justify-content: center;
 	width: 100%;
-	height: 100%;
-	padding: $space-2;
 	text-align: center;
-	background-color: var(--color-background-base);
 
 	&__text {
 		display: flex;
@@ -20,17 +16,48 @@
 	}
 
 	&__title {
-		@include typography('heading-base');
-
 		margin: 0;
 		color: var(--color-text-primary);
 	}
 
 	&__description {
-		@include typography('body-base-regular');
-
 		margin: 0;
 		color: var(--color-text-secondary);
 		white-space: pre-line;
+	}
+
+	/* Full-page empty state: fills its container with page-scale type. */
+	&--page {
+		gap: $space-3;
+		height: 100%;
+		padding: $space-2;
+		background-color: var(--color-background-base);
+
+		.blank-state__title {
+			@include typography('heading-base');
+		}
+
+		.blank-state__description {
+			@include typography('body-base-regular');
+		}
+	}
+
+	/* Compact, sizeless variant for embedding in a card, panel, or list. */
+	&--inline {
+		gap: $space-2;
+		padding: $space-2;
+
+		.blank-state__text {
+			width: 100%;
+			max-width: none;
+		}
+
+		.blank-state__title {
+			@include typography('body-base-medium');
+		}
+
+		.blank-state__description {
+			@include typography('body-base-regular');
+		}
 	}
 }

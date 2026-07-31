@@ -80,13 +80,13 @@
 		--normal-border: var(--color-toaster-border);
 		--normal-text: var(--color-text-primary);
 		--success-bg: var(--color-background-raised);
-		--success-border: var(--color-toaster-border);
+		--success-border: var(--color-border-success);
 		--success-text: var(--color-text-success);
 		--error-bg: var(--color-background-error);
 		--error-border: var(--color-border-error);
 		--error-text: var(--color-text-error);
 		--warning-bg: var(--color-background-raised);
-		--warning-border: var(--color-toaster-border);
+		--warning-border: var(--color-border-warning);
 		--warning-text: var(--color-text-warning);
 		--info-bg: var(--color-background-raised);
 		--info-border: var(--color-toaster-border);
@@ -98,23 +98,23 @@
 	{...restProps}
 >
 	{#snippet successIcon()}
-		<Icon name="check-circle" variant="success" size="1.25rem" />
+		<Icon name="check-circle" variant="success" size="large" />
 	{/snippet}
 
 	{#snippet errorIcon()}
-		<Icon name="crosscircle" variant="error" size="1.25rem" />
+		<Icon name="crosscircle" variant="error" size="large" />
 	{/snippet}
 
 	{#snippet warningIcon()}
-		<Icon name="alert-circle" variant="warning" size="1.25rem" />
+		<Icon name="alert-circle" variant="warning" size="large" />
 	{/snippet}
 
 	{#snippet infoIcon()}
-		<Icon name="alert-circle" variant="primary" size="1.25rem" />
+		<Icon name="alert-circle" variant="primary" size="large" />
 	{/snippet}
 
 	{#snippet loadingIcon()}
-		<Icon name="loader" variant="primary" size="1.25rem" animation="spin" />
+		<Icon name="loader" variant="primary" size="large" animation="spin" />
 	{/snippet}
 </Toaster>
 

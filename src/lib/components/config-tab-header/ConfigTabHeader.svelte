@@ -27,7 +27,7 @@
 <div class="config-tab-header">
 	{#if showBackLink}
 		<button class="config-tab-header__back-link" onclick={handleBackClick}>
-			<Icon name="arrow-left" variant="primary" size="1rem" />
+			<Icon name="arrow-left" variant="primary" size="base" />
 			Back to {backTo}
 		</button>
 	{/if}

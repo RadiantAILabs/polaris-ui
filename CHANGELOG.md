@@ -3,6 +3,27 @@
 All notable changes to `@radiantailabs/polaris-ui` are documented here. This
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.4.0
+
+### Added
+
+- `Alert` component with `AlertTitle`, `AlertDescription`, and `AlertAction`
+  subcomponents, in `default`, `success`, `warning`, and `error` variants.
+- `Breadcrumbs` component for navigation trails, with the `BreadcrumbItem` type.
+- `TooltipProvider` component: mount once above a subtree so descendant
+  `Tooltip`s share provider context.
+- `Icon` `ICON_SIZES` constant and `IconSize` / `IconProps` type exports.
+- `Badge` `BadgeVariant` type export.
+- Semantic status color tokens `background-success`, `background-warning`,
+  `border-success`, and `border-warning`.
+
+### Changed
+
+- Status color tokens `text-success`, `text-warning`, `icon-success`, and
+  `icon-warning` are now derived with `color.mix` for consistent contrast;
+  `text-tertiary` darkened one step.
+- Styling, accessibility, and design-token polish across shared components.
+
 ## 0.3.0
 
 ### Added

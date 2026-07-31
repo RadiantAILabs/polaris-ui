@@ -24,7 +24,7 @@
 		background-color: transparent;
 		border: none;
 
-		@include typography('button-large');
+		@include typography('button-base');
 
 		&:disabled {
 			color: var(--color-text-disabled);

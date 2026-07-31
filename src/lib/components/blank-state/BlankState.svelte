@@ -5,6 +5,12 @@
 		title?: string;
 		description: string;
 		buttonProps?: Omit<ButtonProps, 'size'>;
+		/**
+		 * Layout scale. `page` (default) fills its container for full-page empty
+		 * states; `inline` is compact and sizeless for embedding inside a card,
+		 * panel, or list.
+		 */
+		size?: 'page' | 'inline';
 		class?: string;
 	};
 </script>
@@ -13,10 +19,16 @@
 	import { Button } from '../button';
 	import { cn } from '../../utils';
 
-	let { title, description, buttonProps, class: className }: BlankStateProps = $props();
+	let {
+		title,
+		description,
+		buttonProps,
+		size = 'page',
+		class: className
+	}: BlankStateProps = $props();
 </script>
 
-<div class={cn('blank-state', className)}>
+<div class={cn('blank-state', `blank-state--${size}`, className)}>
 	<div class="blank-state__text">
 		{#if title}
 			<h2 class="blank-state__title">{title}</h2>

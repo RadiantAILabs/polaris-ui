@@ -1,0 +1,109 @@
+@use '../../styles/tokens' as *;
+
+.alert {
+	position: relative;
+	box-sizing: border-box;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: $space-0-5;
+	width: 100%;
+	padding: $space-1-25 $space-1-5;
+	text-align: left;
+	border: $border-width-base solid var(--color-border-base);
+	border-radius: $border-radius-base;
+
+	@include transition-interactive;
+}
+
+.alert--default {
+	color: var(--color-text-primary);
+	background-color: var(--color-background-base);
+}
+
+.alert--success {
+	color: var(--color-text-success);
+	background-color: var(--color-background-success);
+	border-color: var(--color-border-success);
+}
+
+.alert--warning {
+	color: var(--color-text-warning);
+	background-color: var(--color-background-warning);
+	border-color: var(--color-border-warning);
+}
+
+.alert--error {
+	color: var(--color-text-error);
+	background-color: var(--color-background-error);
+	border-color: var(--color-border-error);
+}
+
+.alert__title {
+	@include typography('body-base-semibold');
+}
+
+.alert__description {
+	color: var(--color-text-secondary);
+
+	@include typography('body-small-regular');
+}
+
+.alert--success .alert__description,
+.alert--warning .alert__description,
+.alert--error .alert__description {
+	color: inherit;
+}
+
+// Rich content passed into the description.
+.alert__description p {
+	margin: 0;
+	font: inherit;
+	color: inherit;
+	letter-spacing: inherit;
+}
+
+.alert__description p + p {
+	margin-top: $space-1;
+}
+
+.alert__description a {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.alert__description code {
+	color: var(--color-text-primary);
+
+	@include typography('codeblock-small');
+}
+
+.alert__action {
+	grid-row: 1 / span 2;
+	grid-column: -2 / -1;
+	align-self: start;
+}
+
+.alert:has(> svg) {
+	grid-template-columns: auto minmax(0, 1fr);
+	column-gap: $space-1;
+}
+
+.alert > svg {
+	grid-row: span 2;
+	align-self: start;
+	margin-top: $space-0-25;
+}
+
+.alert:has(> svg) .alert__title,
+.alert:has(> svg) .alert__description {
+	grid-column-start: 2;
+}
+
+.alert:has(.alert__action) {
+	grid-template-columns: minmax(0, 1fr) auto;
+	column-gap: $space-1;
+}
+
+.alert:has(> svg):has(.alert__action) {
+	grid-template-columns: auto minmax(0, 1fr) auto;
+}

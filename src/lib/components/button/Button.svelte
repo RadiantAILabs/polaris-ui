@@ -92,7 +92,7 @@
 		{...restProps}
 	>
 		{#if icon && iconPosition === 'left'}
-			<Icon variant={iconVariant} {disabled} name={icon} size="1rem" />
+			<Icon variant={iconVariant} {disabled} name={icon} size="base" />
 		{/if}
 		{#if label}
 			{label}
@@ -108,7 +108,7 @@
 			</div>
 		{/if}
 		{#if icon && iconPosition === 'right'}
-			<Icon variant={iconVariant} {disabled} name={icon} size="1rem" />
+			<Icon variant={iconVariant} {disabled} name={icon} size="base" />
 		{/if}
 		<div class="btn__counter-badge">
 			{#if counterBadge}
@@ -131,7 +131,7 @@
 		{...restProps}
 	>
 		{#if icon && iconPosition === 'left'}
-			<Icon variant={iconVariant} {disabled} name={icon} size="1rem" />
+			<Icon variant={iconVariant} {disabled} name={icon} size="base" />
 		{/if}
 		{#if label}
 			{label}
@@ -147,7 +147,7 @@
 			</div>
 		{/if}
 		{#if icon && iconPosition === 'right'}
-			<Icon variant={iconVariant} {disabled} name={icon} size="1rem" />
+			<Icon variant={iconVariant} {disabled} name={icon} size="base" />
 		{/if}
 		<div class="btn__counter-badge">
 			{#if counterBadge}

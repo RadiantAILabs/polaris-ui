@@ -216,7 +216,6 @@
 		open={customDialogOpen}
 		title="Custom repeat schedule"
 		size="small"
-		triggerButtonProps={{ label: '', variant: 'invisible', style: 'display: none;' }}
 		showCloseButton={false}
 		zIndex={80}
 	>

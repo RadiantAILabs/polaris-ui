@@ -11,6 +11,7 @@
 		class: className,
 		children,
 		label,
+		leadingIcon,
 		placeholder,
 		value = [],
 		showAsBadges = true,
@@ -26,6 +27,8 @@
 	}: Omit<WithoutChild<SelectPrimitive.TriggerProps>, 'value'> & {
 		value?: T[];
 		label?: string;
+		/** Icon displayed at the start of the trigger. */
+		leadingIcon?: IconName;
 		showAsBadges?: boolean;
 		allowDelete?: boolean;
 		onBadgeDelete?: (value: T['value']) => void;
@@ -58,10 +61,31 @@
 <SelectPrimitive.Trigger bind:ref {disabled} {...restProps}>
 	{#snippet child({ props })}
 		<div class={cn('trigger-wrapper', fullWidth && 'full-width')}>
-			<button class={cn('trigger', variant, fullWidth && 'full-width', className)} {...props}>
+			<button
+				class={cn(
+					'trigger',
+					variant,
+					fullWidth && 'full-width',
+					leadingIcon && 'has-leading-icon',
+					className
+				)}
+				{...props}
+			>
 				{#if children}
 					{@render children()}
 				{:else}
+					{#if leadingIcon}
+						<div class="leading-icon">
+							<Icon
+								name={leadingIcon}
+								size="small"
+								variant="tertiary"
+								aria-hidden="true"
+								{disabled}
+							/>
+						</div>
+					{/if}
+
 					{#if label}
 						<span class="label">{label}</span>
 					{/if}
@@ -80,17 +104,19 @@
 									dynamicSizing={true}
 								/>
 							{:else}
-								<span class="selected-text">
+								<span class:with-leading-icon={leadingIcon} class="selected-text">
 									{value.map((item) => item.label).join(', ')}
 								</span>
 							{/if}
 						</div>
-					{:else}
-						<span class="placeholder">{placeholder}</span>
+					{:else if placeholder}
+						<span class:with-leading-icon={leadingIcon} class="placeholder">
+							{placeholder}
+						</span>
 					{/if}
 
 					<div class="icon" aria-hidden={hasSelectedItems && clearable ? 'true' : undefined}>
-						<Icon name={hasSelectedItems && clearable ? 'cross' : icon} size="0.75rem" />
+						<Icon name={hasSelectedItems && clearable ? 'cross' : icon} size="small" />
 					</div>
 				{/if}
 			</button>
@@ -104,7 +130,7 @@
 					onpointerdown={(e) => e.stopPropagation()}
 					onclick={handleClear}
 				>
-					<Icon name="cross" size="0.75rem" variant="secondary" />
+					<Icon name="cross" size="small" variant="secondary" />
 				</button>
 			{/if}
 		</div>
@@ -142,6 +168,10 @@
 
 		&.full-width {
 			width: 100%;
+		}
+
+		&.has-leading-icon {
+			padding-left: $space-1;
 		}
 
 		&:hover {
@@ -202,8 +232,15 @@
 
 		flex-shrink: 0;
 		padding-left: $space-0-5;
-		color: var(--color-text-secondary);
+		color: var(--color-text-tertiary);
 		white-space: nowrap;
+	}
+
+	.leading-icon {
+		display: flex;
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.placeholder {
@@ -222,12 +259,16 @@
 		@include typography('body-base-regular');
 
 		flex: 1;
-		padding-left: $space-0-5;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		color: var(--color-text-primary);
 		text-align: left;
 		white-space: nowrap;
+	}
+
+	.placeholder.with-leading-icon,
+	.selected-text.with-leading-icon {
+		padding-left: 0;
 	}
 
 	.selected-items {
@@ -237,6 +278,7 @@
 		gap: $space-1;
 		align-items: center;
 		min-width: 0;
+		padding-left: $space-0-5;
 	}
 
 	.icon {
@@ -244,6 +286,7 @@
 		flex-shrink: 0;
 		align-items: center;
 		justify-content: center;
+		margin-left: $space-0-5;
 		color: var(--color-icon-secondary);
 
 		// Rotate icon when dropdown is open
@@ -275,7 +318,7 @@
 
 		&:hover,
 		&:focus-visible {
-			background-color: var(--color-badge-delete-button-background-hover);
+			background-color: var(--color-control-clear-button-background-hover);
 		}
 
 		&:focus-visible {

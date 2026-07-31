@@ -30,7 +30,7 @@
 			</select>
 			<span class="calendar-month-select__display" aria-hidden="true">
 				{monthItems.find((item) => item.value === value)?.label || selectedMonthItem.label}
-				<Icon name="chevron-down" variant="secondary" size="0.75rem" />
+				<Icon name="chevron-down" variant="secondary" size="small" />
 			</span>
 		{/snippet}
 	</CalendarPrimitive.MonthSelect>

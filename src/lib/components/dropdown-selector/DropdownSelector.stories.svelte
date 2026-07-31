@@ -47,6 +47,10 @@
 				control: { type: 'text' },
 				description: 'Field name displayed inside the trigger before the value/placeholder'
 			},
+			leadingIcon: {
+				control: { type: 'text' },
+				description: 'Icon displayed at the start of the trigger'
+			},
 			items: {
 				control: { type: 'object' },
 				description: 'Array of items with value, label, and optional disabled properties'
@@ -90,11 +94,27 @@
 			</div>
 
 			<div>
+				<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 500;">Clearable</h3>
+				<DropdownSelector type="single" items={sampleOptions} label="Fruit" clearable />
+			</div>
+
+			<div>
 				<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 500;">With Selected Value</h3>
 				<DropdownSelector
 					type="single"
 					items={sampleOptions}
 					placeholder="Select a fruit..."
+					bind:value={selectedValue}
+				/>
+			</div>
+
+			<div>
+				<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 500;">Leading Icon</h3>
+				<DropdownSelector
+					type="single"
+					items={sampleOptions}
+					leadingIcon="timer"
+					showAsBadges={false}
 					bind:value={selectedValue}
 				/>
 			</div>

@@ -1,10 +1,18 @@
-<script lang="ts">
+<script lang="ts" module>
 	import type { HTMLAttributes } from 'svelte/elements';
-	import { iconRegistry, type IconName } from './icon-registry';
+	import type { IconName } from './icon-registry';
+
+	export const ICON_SIZES = {
+		small: '0.75rem',
+		base: '1rem',
+		large: '1.25rem'
+	} as const;
+
+	export type IconSize = keyof typeof ICON_SIZES | string | number;
 
 	export interface IconProps extends HTMLAttributes<SVGElement> {
 		name: IconName;
-		size?: string | number;
+		size?: IconSize;
 		variant?:
 			| 'primary'
 			| 'secondary'
@@ -18,6 +26,10 @@
 		class?: string;
 		disabled?: boolean | null;
 	}
+</script>
+
+<script lang="ts">
+	import { iconRegistry } from './icon-registry';
 
 	let {
 		name,
@@ -29,6 +41,12 @@
 		disabled = false,
 		...props
 	}: IconProps = $props();
+
+	const resolvedSize = $derived(
+		typeof size === 'string' && size in ICON_SIZES
+			? ICON_SIZES[size as keyof typeof ICON_SIZES]
+			: size
+	);
 
 	// Determine color based on variant (must be reactive to variant changes)
 	const iconColor = $derived(
@@ -83,8 +101,8 @@
 </script>
 
 <svg
-	width={size}
-	height={size}
+	width={resolvedSize}
+	height={resolvedSize}
 	viewBox="0 0 24 24"
 	fill="currentColor"
 	class="icon {animation === 'spin' ? 'icon--spin' : ''} {className}"

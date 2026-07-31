@@ -61,7 +61,7 @@ $tab-spacing: calc($space-0-75 - $border-width-base);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		min-height: 32px;
+		min-height: $space-4;
 		padding: $space-0-5 $space-1;
 		color: var(--color-text-tertiary);
 		appearance: none;

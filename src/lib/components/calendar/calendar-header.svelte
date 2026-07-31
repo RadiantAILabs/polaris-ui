@@ -28,6 +28,6 @@
 		justify-content: space-between;
 		width: 100%;
 
-		@include typography('button-large');
+		@include typography('button-base');
 	}
 </style>

@@ -3,6 +3,7 @@
 	import { Tooltip as TooltipPrimitive } from 'bits-ui';
 	import { fade } from 'svelte/transition';
 	import { cn } from '../../utils';
+	import { hasTooltipProviderContext } from './tooltip-context.js';
 	import './Tooltip.scss';
 
 	export interface TooltipProps {
@@ -23,14 +24,16 @@
 		align?: 'start' | 'center' | 'end';
 		/** Gap in pixels between the trigger and the tooltip. */
 		sideOffset?: number;
-		/** Hover delay in milliseconds before the tooltip opens. */
+		/** Hover delay in milliseconds before the tooltip opens. Inherits from a surrounding provider when omitted. */
 		delayDuration?: number;
-		/** Prevents tooltip from remaining open when hovering over the content. */
+		/** Prevents tooltip from remaining open when hovering over the content. Inherits from a surrounding provider when omitted. */
 		disableHoverableContent?: boolean;
 		/** Controls whether the tooltip is open. */
 		open?: boolean;
 		/** Whether the tooltip is suppressed. */
 		disabled?: boolean;
+		/** When `true`, the tooltip will not close when the trigger is clicked. Inherits from a surrounding provider when omitted. */
+		disableCloseOnTriggerClick?: boolean;
 		/** Additional CSS class on the tooltip surface. */
 		class?: string;
 	}
@@ -43,16 +46,25 @@
 		side = 'top',
 		align = 'center',
 		sideOffset = 6,
-		delayDuration = 200,
-		disableHoverableContent = false,
+		delayDuration,
+		disableHoverableContent,
 		open = $bindable(false),
 		disabled = false,
+		disableCloseOnTriggerClick,
 		class: className
 	}: TooltipProps = $props();
+
+	const sharedProvider = hasTooltipProviderContext();
 </script>
 
-<TooltipPrimitive.Provider {delayDuration} {disableHoverableContent}>
-	<TooltipPrimitive.Root bind:open {disabled}>
+{#snippet tooltip()}
+	<TooltipPrimitive.Root
+		bind:open
+		{disabled}
+		{delayDuration}
+		{disableHoverableContent}
+		{disableCloseOnTriggerClick}
+	>
 		<TooltipPrimitive.Trigger>
 			{#snippet child({ props })}
 				{#if trigger}
@@ -81,4 +93,12 @@
 			</TooltipPrimitive.Content>
 		</TooltipPrimitive.Portal>
 	</TooltipPrimitive.Root>
-</TooltipPrimitive.Provider>
+{/snippet}
+
+{#if sharedProvider}
+	{@render tooltip()}
+{:else}
+	<TooltipPrimitive.Provider delayDuration={200}>
+		{@render tooltip()}
+	</TooltipPrimitive.Provider>
+{/if}

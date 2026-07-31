@@ -43,7 +43,7 @@
 	>
 		<div class="tree-dropdown__hover-area">
 			<div class="tree-dropdown__icon" class:tree-dropdown__icon--open={open}>
-				<Icon name="triangle-right" variant="tertiary" size="0.75rem" />
+				<Icon name="triangle-right" variant="tertiary" size="small" />
 			</div>
 		</div>
 	</button>

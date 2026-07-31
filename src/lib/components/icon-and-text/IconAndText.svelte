@@ -60,7 +60,7 @@
 
 		&--large {
 			.icon-and-text__text {
-				@include typography('button-large');
+				@include typography('button-base');
 			}
 		}
 	}

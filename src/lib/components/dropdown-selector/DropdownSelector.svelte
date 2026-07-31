@@ -9,6 +9,8 @@
 		placeholder?: string;
 		/** Field name displayed inside the input before the value/placeholder. */
 		label?: string;
+		/** Icon displayed at the start of the trigger. */
+		leadingIcon?: IconName;
 		contentProps?: WithoutChildren<SelectPrimitive.Content>;
 		showAsBadges?: boolean;
 		allowDelete?: boolean;
@@ -49,6 +51,8 @@
 		placeholder,
 		// Inline selector label
 		label,
+		// Leading icon
+		leadingIcon,
 		// Select.Content props
 		contentProps,
 		// Whether to display selected items as badges
@@ -115,6 +119,7 @@
 		{disabled}
 		{placeholder}
 		{label}
+		{leadingIcon}
 		value={selectedItems}
 		{showAsBadges}
 		{allowDelete}

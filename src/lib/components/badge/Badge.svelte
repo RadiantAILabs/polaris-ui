@@ -4,6 +4,8 @@
 	import type { IconName } from '../icon/icon-registry';
 	import { Icon, type IconProps } from '../icon';
 
+	export type BadgeVariant = 'default' | 'outline' | 'inverse' | 'success' | 'warning' | 'error';
+
 	export type BadgeProps = WithElementRef<HTMLAttributes<HTMLDivElement>> & {
 		text?: string;
 		leadingIcon?: IconName;
@@ -12,7 +14,7 @@
 		onDelete?: () => void;
 		disabled?: boolean;
 		size?: 'small' | 'base' | 'large';
-		variant?: 'default' | 'outline' | 'inverse';
+		variant?: BadgeVariant;
 	};
 </script>
 
@@ -29,6 +31,14 @@
 		ref = $bindable(null),
 		...restProps
 	}: BadgeProps = $props();
+
+	const iconVariant = $derived<IconProps['variant']>(
+		variant === 'inverse'
+			? 'inverse-primary'
+			: variant === 'success' || variant === 'warning' || variant === 'error'
+				? variant
+				: 'primary'
+	);
 
 	function handleDelete(event: MouseEvent) {
 		if (disabled) return;
@@ -63,8 +73,8 @@
 		<div class="badge__icon">
 			<Icon
 				name={leadingIcon}
-				size={size === 'small' ? '0.625rem' : '0.75rem'}
-				variant={variant === 'inverse' ? 'inverse-primary' : 'primary'}
+				size={size === 'small' ? '0.625rem' : 'small'}
+				variant={iconVariant}
 				{...iconProps}
 			/>
 		</div>
@@ -86,7 +96,7 @@
 		>
 			<Icon
 				name="cross"
-				size={size === 'small' ? '0.625rem' : '0.75rem'}
+				size={size === 'small' ? '0.625rem' : 'small'}
 				variant={variant === 'inverse' ? 'inverse-primary' : 'secondary'}
 			/>
 		</button>

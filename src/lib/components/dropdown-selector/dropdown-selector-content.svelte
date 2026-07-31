@@ -6,6 +6,7 @@
 		ref = $bindable(null),
 		class: className,
 		sideOffset = 8,
+		align = 'start',
 		collisionPadding = 8,
 		avoidCollisions = true,
 		portalProps,
@@ -52,6 +53,7 @@
 	<SelectPrimitive.Content
 		bind:ref
 		{sideOffset}
+		{align}
 		{avoidCollisions}
 		{collisionPadding}
 		{...restProps}

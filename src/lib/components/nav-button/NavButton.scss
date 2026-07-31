@@ -20,7 +20,7 @@
 	border: $border-width-base solid transparent;
 	border-radius: $border-radius-base;
 
-	@include typography('button-base');
+	@include typography('body-base-medium');
 	@include transition-interactive;
 
 	&:disabled,

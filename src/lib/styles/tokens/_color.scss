@@ -3,6 +3,7 @@
 // ============================================
 
 @use 'primitives' as *;
+@use 'sass:color';
 
 $themes: (
 	// Light Theme Semantic Tokens
@@ -11,10 +12,10 @@ $themes: (
 			text-primary: $base-neutral-950,
 			text-inverse-primary: $base-neutral-50,
 			text-secondary: $base-neutral-850,
-			text-tertiary: $base-neutral-500,
+			text-tertiary: $base-neutral-600,
 			text-disabled: $base-neutral-400,
-			text-success: #17b26a,
-			text-warning: #f80,
+			text-success: color.mix($base-success, $base-black, 70%),
+			text-warning: color.mix($base-warning, $base-black, 65%),
 			text-error: $base-red-600,
 			text-on-emphasized: $base-neutral-900,
 			text-blue: $base-blue-600,
@@ -30,6 +31,8 @@ $themes: (
 			background-emphasized-2: $base-neutral-200,
 			background-disabled: $base-neutral-50,
 			background-hidden: rgb(7 7 7 / 40%),
+			background-success: color.mix($base-success, $base-white, 6%),
+			background-warning: color.mix($base-warning, $base-white, 6%),
 			background-error: $base-red-50,
 
 			// Icons
@@ -38,17 +41,19 @@ $themes: (
 			icon-secondary: $base-neutral-750,
 			icon-tertiary: $base-neutral-600,
 			icon-disabled: $base-neutral-500,
-			icon-success: #17b26a,
-			icon-warning: #f80,
+			icon-success: color.mix($base-success, $base-black, 70%),
+			icon-warning: color.mix($base-warning, $base-black, 65%),
 			icon-error: $base-red-600,
 
 			// Borders
 			border-base: $base-neutral-200,
 			border-strong: $base-neutral-800,
+			border-success: color.mix($base-success, $base-white, 30%),
+			border-warning: color.mix($base-warning, $base-white, 30%),
 			border-error: $base-red-200,
 
 			// Sidebar
-			sidebar-background: $base-neutral-50,
+			sidebar-background: $base-neutral-25,
 			sidebar-button-background-hover: $base-neutral-100,
 			sidebar-button-background-active: $base-neutral-125,
 
@@ -74,6 +79,7 @@ $themes: (
 			control-background-rest: $base-white,
 			control-background-hover: $base-neutral-50,
 			control-background-active: $base-neutral-50,
+			control-clear-button-background-hover: $base-neutral-100,
 
 			// Toggle
 			toggle-background-active: $base-neutral-900,
@@ -107,6 +113,7 @@ $themes: (
 
 			// Charts
 			charts-axes: $base-neutral-200,
+			charts-crosshair: $base-neutral-400,
 			charts-primary: $base-neutral-900,
 			charts-secondary: $base-neutral-600,
 			charts-tertiary: $base-neutral-500,
@@ -129,14 +136,14 @@ $themes: (
 			text-secondary: $base-neutral-100,
 			text-tertiary: $base-neutral-300,
 			text-disabled: $base-neutral-400,
-			text-success: #17b26a,
-			text-warning: #f80,
-			text-error: $base-red-600,
+			text-success: $base-success,
+			text-warning: $base-warning,
+			text-error: $base-red-400,
 			text-on-emphasized: $base-neutral-50,
 			text-blue: $base-blue-400,
 			text-green: $base-success,
 			text-amber: $base-warning,
-			text-red: $base-red-600,
+			text-red: $base-red-400,
 
 			// Background
 			background-base: $base-neutral-900,
@@ -146,6 +153,8 @@ $themes: (
 			background-emphasized-2: $base-neutral-600,
 			background-disabled: $base-neutral-850,
 			background-hidden: rgb(7 7 7 / 50%),
+			background-success: color.mix($base-success, $base-neutral-900, 12%),
+			background-warning: color.mix($base-warning, $base-neutral-900, 12%),
 			background-error: $base-red-950,
 
 			// Icons
@@ -154,13 +163,15 @@ $themes: (
 			icon-secondary: $base-neutral-100,
 			icon-tertiary: $base-neutral-200,
 			icon-disabled: $base-neutral-400,
-			icon-success: #17b26a,
-			icon-warning: #f80,
-			icon-error: $base-red-600,
+			icon-success: $base-success,
+			icon-warning: $base-warning,
+			icon-error: $base-red-400,
 
 			// Borders
 			border-base: $base-neutral-700,
 			border-strong: $base-neutral-50,
+			border-success: color.mix($base-success, $base-neutral-900, 55%),
+			border-warning: color.mix($base-warning, $base-neutral-900, 55%),
 			border-error: $base-red-700,
 
 			// Sidebar
@@ -190,6 +201,7 @@ $themes: (
 			control-background-rest: $base-neutral-850,
 			control-background-hover: $base-neutral-800,
 			control-background-active: $base-neutral-800,
+			control-clear-button-background-hover: $base-neutral-700,
 
 			// Toggle
 			toggle-background-active: $base-neutral-500,
@@ -223,6 +235,7 @@ $themes: (
 
 			// Charts
 			charts-axes: $base-neutral-500,
+			charts-crosshair: $base-neutral-500,
 			charts-primary: $base-neutral-50,
 			charts-secondary: $base-neutral-200,
 			charts-tertiary: $base-neutral-400,

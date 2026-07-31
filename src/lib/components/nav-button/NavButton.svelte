@@ -42,7 +42,7 @@
 		tabindex={disabled ? -1 : undefined}
 		{onclick}
 	>
-		<Icon variant="primary" {disabled} name={icon} size="1rem" />
+		<Icon variant="primary" {disabled} name={icon} size="base" />
 		<span class="nav-btn__label" class:nav-btn__label--hidden={!expanded}>{label}</span>
 	</a>
 {:else}
@@ -55,7 +55,7 @@
 		aria-label={!expanded ? label : undefined}
 		{onclick}
 	>
-		<Icon variant="primary" {disabled} name={icon} size="1rem" />
+		<Icon variant="primary" {disabled} name={icon} size="base" />
 		<span class="nav-btn__label" class:nav-btn__label--hidden={!expanded}>{label}</span>
 	</button>
 {/if}

@@ -56,7 +56,7 @@
 							aria-label="Unsaved changes"
 						></span>
 					{:else if shouldShowSaveIndicators && saveState === 'saved'}
-						<Icon name="check" variant="tertiary" size="0.75rem" aria-label="Saved" />
+						<Icon name="check" variant="tertiary" size="small" aria-label="Saved" />
 					{/if}
 				</div>
 			{/if}

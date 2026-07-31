@@ -27,6 +27,11 @@
 		{ id: 4, maker: 'Saab', type: 'IJK', make: 2020, status: 'active' }
 	];
 
+	const overflowingItems: CarData[] = Array.from({ length: 20 }, (_, index) => ({
+		...items[index % items.length]!,
+		id: index + 1
+	}));
+
 	let columns: DataTableColumn<CarData>[] = [
 		{ name: 'id', displayName: 'ID', type: 'number' },
 		{ name: 'maker', displayName: 'Car Manufacturer', type: 'string' },
@@ -78,6 +83,23 @@
 		<div style="padding: 20px;">
 			<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 600;">Sortable DataTable</h3>
 			<DataTable {items} {columns} idField="id" hoverable={true} />
+		</div>
+	{/snippet}
+</Story>
+
+<Story name="Adaptive Sticky Header">
+	{#snippet template()}
+		<div
+			style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; height: 320px;"
+		>
+			<div style="display: flex; flex-direction: column; min-height: 0;">
+				<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 600;">Short table</h3>
+				<DataTable {items} {columns} idField="id" hoverable={true} stickyHeader />
+			</div>
+			<div style="display: flex; flex-direction: column; min-height: 0;">
+				<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 600;">Overflowing table</h3>
+				<DataTable items={overflowingItems} {columns} idField="id" hoverable={true} stickyHeader />
+			</div>
 		</div>
 	{/snippet}
 </Story>

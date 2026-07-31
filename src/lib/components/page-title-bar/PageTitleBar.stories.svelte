@@ -73,6 +73,17 @@
 	<PageTitleBar title="Page Title" />
 </Story>
 
+<Story name="With Breadcrumbs">
+	<PageTitleBar
+		title="Support Bot"
+		breadcrumbs={[
+			{ label: 'Agents', href: '#' },
+			{ label: 'Support Bot', href: '#' }
+		]}
+		button3={sampleButton3}
+	/>
+</Story>
+
 <Story
 	name="Playground"
 	args={{

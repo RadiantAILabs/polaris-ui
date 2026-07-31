@@ -25,6 +25,6 @@
 		width: var(--cell-size);
 		color: var(--color-text-disabled);
 
-		@include typography('button-large');
+		@include typography('button-base');
 	}
 </style>
