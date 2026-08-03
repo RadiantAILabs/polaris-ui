@@ -38,12 +38,13 @@
 		clearable = false,
 		onClear,
 		'aria-invalid': ariaInvalid,
+		id,
 		disabled = false,
 		...restProps
 	}: InputProps = $props();
 
 	const uid = $props.id();
-	const labelId = `${uid}-label`;
+	const inputId = $derived(id ?? `${uid}-input`);
 
 	const hasValue = $derived(value != null && String(value).length > 0);
 	const showClear = $derived(clearable && !disabled && hasValue);
@@ -65,15 +66,16 @@
 		</span>
 	{/if}
 	{#if label}
-		<span id={labelId} class={cn('input-label', hasValue && 'input-label--filled')}>{label}</span>
+		<label for={inputId} class={cn('input-label', hasValue && 'input-label--filled')}>{label}</label
+		>
 	{/if}
 	<input
 		bind:this={ref}
+		id={inputId}
 		class="input"
 		{type}
 		bind:value
 		aria-invalid={ariaInvalid}
-		aria-labelledby={label ? labelId : undefined}
 		{disabled}
 		{...restProps}
 	/>

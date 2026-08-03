@@ -3,6 +3,13 @@
 All notable changes to `@radiantailabs/polaris-ui` are documented here. This
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.4.1
+
+### Fixed
+
+- `Input` now renders its `label` as a `<label>` element linked to the input.
+  Also adds an optional `id` prop.
+
 ## 0.4.0
 
 ### Added
