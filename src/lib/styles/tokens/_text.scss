@@ -75,9 +75,9 @@ $text: (
 		weight: $base-typography-weight-regular
 	),
 	button-large: (
-		size: $base-typography-size-14,
-		line-height: $base-typography-line-height-14,
-		tracking: $base-typography-tracking-14,
+		size: $base-typography-size-16,
+		line-height: $base-typography-line-height-16,
+		tracking: $base-typography-tracking-16,
 		weight: $base-typography-weight-medium
 	),
 	button-base: (
@@ -107,6 +107,17 @@ $text: (
 		family: $base-typography-family-mono
 	)
 );
+
+// Line height of a typography style.
+@function line-height($style) {
+	$map: map.get($text, $style);
+
+	@if not $map {
+		@error "Unknown typography style '#{$style}'.";
+	}
+
+	@return map.get($map, 'line-height');
+}
 
 @mixin typography($style) {
 	// Find the style map in the main $text map

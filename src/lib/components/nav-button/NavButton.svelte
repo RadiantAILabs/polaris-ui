@@ -1,19 +1,16 @@
 <script lang="ts" module>
-	import { cn } from '../../utils';
+	import { cn, type WithElementRef } from '../../utils';
+	import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements';
 	import type { IconName } from '../icon/icon-registry';
 	import { Icon } from '../icon';
 
-	export type NavButtonProps = {
-		icon: IconName;
-		label: string;
-		active?: boolean;
-		expanded?: boolean;
-		href?: string;
-		disabled?: boolean;
-		class?: string;
-		ref?: HTMLElement | null;
-		onclick?: (event: MouseEvent) => void;
-	};
+	export type NavButtonProps = WithElementRef<HTMLButtonAttributes> &
+		WithElementRef<HTMLAnchorAttributes> & {
+			icon: IconName;
+			label: string;
+			active?: boolean;
+			expanded?: boolean;
+		};
 </script>
 
 <script lang="ts">
@@ -23,10 +20,11 @@
 		label,
 		active = false,
 		expanded = true,
-		href,
+		href = undefined,
+		type = 'button',
 		disabled,
-		onclick,
-		ref = $bindable(null)
+		ref = $bindable(null),
+		...restProps
 	}: NavButtonProps = $props();
 </script>
 
@@ -40,7 +38,7 @@
 		aria-current={active ? 'page' : undefined}
 		aria-label={!expanded ? label : undefined}
 		tabindex={disabled ? -1 : undefined}
-		{onclick}
+		{...restProps}
 	>
 		<Icon variant="primary" {disabled} name={icon} size="base" />
 		<span class="nav-btn__label" class:nav-btn__label--hidden={!expanded}>{label}</span>
@@ -49,11 +47,11 @@
 	<button
 		bind:this={ref}
 		class={cn('nav-btn', active && 'nav-btn--active', !expanded && 'nav-btn--collapsed', className)}
-		type="button"
+		{type}
 		{disabled}
 		aria-current={active ? 'page' : undefined}
 		aria-label={!expanded ? label : undefined}
-		{onclick}
+		{...restProps}
 	>
 		<Icon variant="primary" {disabled} name={icon} size="base" />
 		<span class="nav-btn__label" class:nav-btn__label--hidden={!expanded}>{label}</span>

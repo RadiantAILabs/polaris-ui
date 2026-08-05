@@ -3,6 +3,24 @@
 All notable changes to `@radiantailabs/polaris-ui` are documented here. This
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.4.2
+
+### Fixed
+
+- `Alert` icons now centre on the first line of text at any icon size, instead of
+  relying on a fixed offset tuned for one title size.
+- `Alert` no longer adds a row gap on top of the title's line-height leading, so
+  the title and description sit closer together.
+
+### Changed
+
+- `AlertDescription` type is now `body-base-regular` (14px, was 12px), and inline
+  `<code>` inside it `codeblock-base` (13px, was 12px).
+- `NavButton` accepts all native `<button>` and `<a>` attributes, so any event
+  handler or ARIA attribute passes through (previously only `onclick`). `type`
+  defaults to `'button'` and can be overridden.
+- `button-large` typography token is now 16px (was 14px).
+
 ## 0.4.1
 
 ### Fixed
