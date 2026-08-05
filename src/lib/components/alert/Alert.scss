@@ -5,7 +5,7 @@
 	box-sizing: border-box;
 	display: grid;
 	grid-template-columns: 1fr;
-	gap: $space-0-5;
+	gap: 0 $space-1;
 	width: 100%;
 	padding: $space-1-25 $space-1-5;
 	text-align: left;
@@ -45,7 +45,7 @@
 .alert__description {
 	color: var(--color-text-secondary);
 
-	@include typography('body-small-regular');
+	@include typography('body-base-regular');
 }
 
 .alert--success .alert__description,
@@ -74,7 +74,7 @@
 .alert__description code {
 	color: var(--color-text-primary);
 
-	@include typography('codeblock-small');
+	@include typography('codeblock-base');
 }
 
 .alert__action {
@@ -85,13 +85,15 @@
 
 .alert:has(> svg) {
 	grid-template-columns: auto minmax(0, 1fr);
-	column-gap: $space-1;
 }
 
 .alert > svg {
 	grid-row: span 2;
 	align-self: start;
-	margin-top: $space-0-25;
+
+	// Stretch the icon's box to one line of text so it centres on the first
+	// line. The viewBox keeps the glyph its own size, centred in that box.
+	min-height: line-height('body-base-regular');
 }
 
 .alert:has(> svg) .alert__title,
@@ -101,7 +103,6 @@
 
 .alert:has(.alert__action) {
 	grid-template-columns: minmax(0, 1fr) auto;
-	column-gap: $space-1;
 }
 
 .alert:has(> svg):has(.alert__action) {
