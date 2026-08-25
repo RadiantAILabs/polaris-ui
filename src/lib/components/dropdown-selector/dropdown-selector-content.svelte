@@ -84,7 +84,7 @@
 		padding: $space-0-5;
 		overflow: hidden auto;
 		background-color: var(--color-background-raised);
-		border: $border-width-base solid var(--color-control-border-active);
+		border: $border-width-base solid var(--color-border-base);
 		border-radius: $border-radius-base;
 		box-shadow: $shadow-raised;
 		transform-origin: var(--bits-select-content-transform-origin);

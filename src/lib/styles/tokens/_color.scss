@@ -18,6 +18,7 @@ $themes: (
 			text-warning: color.mix($base-warning, $base-black, 65%),
 			text-error: $base-red-600,
 			text-on-emphasized: $base-neutral-900,
+			text-on-destructive: $base-neutral-50,
 			text-blue: $base-blue-600,
 			text-green: $base-success,
 			text-amber: $base-warning,
@@ -44,8 +45,10 @@ $themes: (
 			icon-success: color.mix($base-success, $base-black, 70%),
 			icon-warning: color.mix($base-warning, $base-black, 65%),
 			icon-error: $base-red-600,
+			icon-on-destructive: $base-neutral-50,
 
 			// Borders
+			border-subtle: $base-neutral-150,
 			border-base: $base-neutral-200,
 			border-strong: $base-neutral-800,
 			border-success: color.mix($base-success, $base-white, 30%),
@@ -56,6 +59,9 @@ $themes: (
 			sidebar-background: $base-neutral-25,
 			sidebar-button-background-hover: $base-neutral-100,
 			sidebar-button-background-active: $base-neutral-125,
+
+			// Settings card
+			settings-card-footer-background: $base-neutral-50,
 
 			// Buttons
 			button-border-base: $base-neutral-600,
@@ -140,6 +146,7 @@ $themes: (
 			text-warning: $base-warning,
 			text-error: $base-red-400,
 			text-on-emphasized: $base-neutral-50,
+			text-on-destructive: $base-neutral-50,
 			text-blue: $base-blue-400,
 			text-green: $base-success,
 			text-amber: $base-warning,
@@ -166,8 +173,10 @@ $themes: (
 			icon-success: $base-success,
 			icon-warning: $base-warning,
 			icon-error: $base-red-400,
+			icon-on-destructive: $base-neutral-50,
 
 			// Borders
+			border-subtle: $base-neutral-750,
 			border-base: $base-neutral-700,
 			border-strong: $base-neutral-50,
 			border-success: color.mix($base-success, $base-neutral-900, 55%),
@@ -178,6 +187,9 @@ $themes: (
 			sidebar-background: $base-neutral-950,
 			sidebar-button-background-hover: $base-neutral-800,
 			sidebar-button-background-active: $base-neutral-700,
+
+			// Settings card
+			settings-card-footer-background: $base-neutral-850,
 
 			// Buttons
 			button-border-base: $base-neutral-600,

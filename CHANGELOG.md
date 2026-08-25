@@ -3,6 +3,28 @@
 All notable changes to `@radiantailabs/polaris-ui` are documented here. This
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.5.0
+
+### Changed
+
+- `Button` destructive variant text and icon color now use dedicated
+  `--color-text-on-destructive` / `--color-on-destructive` tokens instead of
+  reusing the inverse-primary tokens.
+- `DropdownMenu` and dropdown-selector content borders now use
+  `--color-border-base`, replacing tokens that were not semantically correct
+  for a dropdown panel border.
+- `FormField` no longer renders a `*` for required fields. Consumers should
+  append `(optional)` to the label text for optional fields instead.
+  `aria-required` is still set for assistive tech.
+- `MultilineInput` adds a `showLineNumbers` prop (default `true`) to control
+  the CodeMirror line-number gutter.
+
+### Removed
+
+- `FormField` no longer accepts `size` (`'base'` | `'large'`) or
+  `descriptionType` (`'default'` | `'info'`) props. Passing either is now a
+  type error.
+
 ## 0.4.2
 
 ### Fixed

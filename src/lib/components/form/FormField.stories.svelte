@@ -18,19 +18,9 @@
 				control: { type: 'text' },
 				description: 'Label text for the form field'
 			},
-			size: {
-				control: { type: 'select' },
-				options: ['base', 'large'],
-				description: 'Size variant of the form field'
-			},
 			description: {
 				control: { type: 'text' },
 				description: 'Help text for the field'
-			},
-			descriptionType: {
-				control: { type: 'select' },
-				options: ['default', 'info'],
-				description: 'Style variant of the description'
 			},
 			required: {
 				control: { type: 'boolean' },
@@ -62,76 +52,20 @@
 	let promptValue = $state('Write a {{type}} about {{subject}}');
 </script>
 
-<Story name="Sizes">
+<Story name="Detail Types">
 	{#snippet template()}
-		<div style="display: flex; flex-direction: column; gap: 32px; width: 400px;">
-			<div>
-				<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 500;">Base Size</h3>
-				<div style="display: flex; flex-direction: column; gap: 16px;">
-					<Form.Field name="field1" label="Without Detail">
-						{#snippet children({ props })}
-							<Input {...props} placeholder="Enter value..." />
-						{/snippet}
-					</Form.Field>
+		<div style="display: flex; flex-direction: column; gap: 16px; width: 400px;">
+			<Form.Field name="field1" label="Without Detail">
+				{#snippet children({ props })}
+					<Input {...props} placeholder="Enter value..." />
+				{/snippet}
+			</Form.Field>
 
-					<Form.Field
-						name="field2"
-						label="Default Detail"
-						description="This is a default detail message"
-						descriptionType="default"
-					>
-						{#snippet children({ props })}
-							<Input {...props} placeholder="Enter value..." />
-						{/snippet}
-					</Form.Field>
-
-					<Form.Field
-						name="field3"
-						label="Info Detail"
-						description="This is an info detail message with icon"
-						descriptionType="info"
-					>
-						{#snippet children({ props })}
-							<Input {...props} placeholder="Enter value..." />
-						{/snippet}
-					</Form.Field>
-				</div>
-			</div>
-
-			<div>
-				<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 500;">Large Size</h3>
-				<div style="display: flex; flex-direction: column; gap: 16px;">
-					<Form.Field name="field4" label="Without Detail" size="large">
-						{#snippet children({ props })}
-							<Input {...props} placeholder="Enter value..." />
-						{/snippet}
-					</Form.Field>
-
-					<Form.Field
-						name="field5"
-						label="Default Detail"
-						size="large"
-						description="This is a default detail message"
-						descriptionType="default"
-					>
-						{#snippet children({ props })}
-							<Input {...props} placeholder="Enter value..." />
-						{/snippet}
-					</Form.Field>
-
-					<Form.Field
-						name="field6"
-						label="Info Detail"
-						size="large"
-						description="This is an info detail message with icon"
-						descriptionType="info"
-					>
-						{#snippet children({ props })}
-							<Input {...props} placeholder="Enter value..." />
-						{/snippet}
-					</Form.Field>
-				</div>
-			</div>
+			<Form.Field name="field2" label="With Detail" description="This is a detail message">
+				{#snippet children({ props })}
+					<Input {...props} placeholder="Enter value..." />
+				{/snippet}
+			</Form.Field>
 		</div>
 	{/snippet}
 </Story>
@@ -143,12 +77,7 @@
 			<div style="display: flex; flex-direction: column; gap: 32px; width: 500px;">
 				<h3 style="margin: 0 0 16px; font-size: 16px; font-weight: 500;">Normal State</h3>
 
-				<Form.Field
-					name="textInput"
-					label="Text Input"
-					description="Single line text input"
-					descriptionType="info"
-				>
+				<Form.Field name="textInput" label="Text Input" description="Single line text input">
 					{#snippet children({ props })}
 						<Input {...props} bind:value={inputValue} placeholder="Type something..." />
 					{/snippet}
@@ -158,7 +87,6 @@
 					name="dropdown"
 					label="Dropdown Selector"
 					description="Select from available options"
-					descriptionType="info"
 				>
 					{#snippet children({ props })}
 						<DropdownSelector
@@ -171,12 +99,7 @@
 					{/snippet}
 				</Form.Field>
 
-				<Form.Field
-					name="multiline"
-					label="Multiline Input"
-					description="Multi-line text editor"
-					descriptionType="info"
-				>
+				<Form.Field name="multiline" label="Multiline Input" description="Multi-line text editor">
 					{#snippet children({ props })}
 						<MultilineInput
 							{...props}
@@ -190,7 +113,6 @@
 					name="prompt"
 					label="Prompt Editor"
 					description="AI prompt template with variables"
-					descriptionType="info"
 				>
 					{#snippet children({ props })}
 						<PromptEditor
@@ -211,7 +133,6 @@
 					name="textInputError"
 					label="Text Input"
 					description="Single line text input"
-					descriptionType="info"
 					error="This field is required and cannot be empty"
 				>
 					{#snippet children({ props })}
@@ -223,7 +144,6 @@
 					name="dropdownError"
 					label="Dropdown Selector"
 					description="Select from available options"
-					descriptionType="info"
 					error="Please select a valid option"
 				>
 					{#snippet children({ props })}
@@ -241,7 +161,6 @@
 					name="multilineError"
 					label="Multiline Input"
 					description="Multi-line text editor"
-					descriptionType="info"
 					error="Content must be at least 10 characters long"
 				>
 					{#snippet children({ props })}
@@ -253,7 +172,6 @@
 					name="promptError"
 					label="Prompt Editor"
 					description="AI prompt template with variables"
-					descriptionType="info"
 					error="Template must contain at least one variable placeholder"
 				>
 					{#snippet children({ props })}
@@ -275,10 +193,8 @@
 	args={{
 		name: 'overflow',
 		label: 'This is a very long input label which should be handled properly when it overflows',
-		size: 'base',
 		description:
-			'This is a very long detail message that should wrap properly and test the icon alignment when text overflows to multiple lines',
-		descriptionType: 'info'
+			'This is a very long detail message that should wrap properly when text overflows to multiple lines'
 	}}
 >
 	{#snippet template(args)}
@@ -297,9 +213,7 @@
 	args={{
 		name: 'playground',
 		label: 'Form Field Label',
-		size: 'base',
 		description: 'This is a helpful detail message',
-		descriptionType: 'info',
 		error: ''
 	}}
 >
@@ -310,42 +224,6 @@
 					<Input {...props} value="Sample Value" placeholder="Enter value..." />
 				{/snippet}
 			</Form.Field>
-		</div>
-	{/snippet}
-</Story>
-
-<Story name="ID Collision Test">
-	{#snippet template()}
-		<div style="display: flex; flex-direction: column; gap: 16px;">
-			<!-- Multiple identical FormFields to trigger collisions -->
-			{#each Array(5).keys() as i (i)}
-				<Form.Field
-					name="test-field-{i}"
-					label="Test Field {i + 1}"
-					description="This field tests ID generation"
-					descriptionType="info"
-					error={i === 2 ? 'Test error message' : ''}
-				>
-					<Input value="Test value {i + 1}" />
-				</Form.Field>
-			{/each}
-
-			<button
-				onclick={() => {
-					// Run collision check in Storybook
-					const allIds = Array.from(document.querySelectorAll('[id]')).map((el) => el.id);
-					const duplicates = allIds.filter((id, index) => allIds.indexOf(id) !== index);
-
-					if (duplicates.length > 0) {
-						alert(`ID Collisions detected: ${[...new Set(duplicates)].join(', ')}`);
-						console.error('Duplicate IDs:', duplicates);
-					} else {
-						alert('No ID collisions found!');
-					}
-				}}
-			>
-				Check for ID Collisions
-			</button>
 		</div>
 	{/snippet}
 </Story>

@@ -15,6 +15,8 @@
 		readonly?: boolean;
 		/** Show a copy button to copy the content. */
 		showCopyButton?: boolean;
+		/** Show line numbers in the gutter. */
+		showLineNumbers?: boolean;
 		/** Language to use for syntax highlighting. Disabled if not provided. */
 		language?: MultilineInputLanguage;
 		/** Additional CodeMirror extensions to include. */
@@ -55,6 +57,7 @@
 		disabled = false,
 		readonly = false,
 		showCopyButton = false,
+		showLineNumbers = true,
 		placeholder = '',
 		language,
 		extensions = [],
@@ -190,7 +193,7 @@
 		const startState = EditorState.create({
 			doc: value || '',
 			extensions: [
-				lineNumbers(),
+				...(showLineNumbers ? [lineNumbers()] : []),
 				history(),
 				keymap.of(defaultKeymap),
 				EditorView.lineWrapping,

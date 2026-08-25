@@ -17,22 +17,14 @@
 .form-field {
 	display: flex;
 	flex-direction: column;
+	gap: $space-1;
 	width: 100%;
-
-	&--size-base {
-		gap: $space-1;
-	}
-
-	&--size-large {
-		gap: $space-1-5;
-	}
 
 	&__header {
 		display: flex;
-		gap: $space-1;
-		align-items: center;
+		flex-direction: column;
+		gap: $space-0-25;
 		align-self: stretch;
-		justify-content: space-between;
 	}
 
 	&__label {
@@ -41,17 +33,7 @@
 		align-items: center;
 		color: var(--color-text-secondary);
 
-		.form-field--size-base & {
-			@include typography('label');
-		}
-
-		.form-field--size-large & {
-			@include typography('heading-small');
-		}
-	}
-
-	&__required {
-		color: var(--color-text-error);
+		@include typography('body-base-semibold');
 	}
 
 	&__save-indicator {
@@ -67,25 +49,8 @@
 	}
 
 	&__description {
-		display: flex;
-		gap: $space-0-5;
-		align-items: flex-start;
-		justify-content: flex-end;
-
 		@include typography('body-base-regular');
 
-		&--default {
-			color: var(--color-text-secondary);
-		}
-
-		&--info {
-			color: var(--color-text-warning);
-		}
-	}
-
-	&__icon {
-		display: flex;
-		align-items: center;
-		height: 1lh;
+		color: var(--color-text-tertiary);
 	}
 }
