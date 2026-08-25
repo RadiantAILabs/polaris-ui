@@ -11,6 +11,7 @@ import terminal from './icons/terminal.svg?raw';
 import chevronUp from './icons/chevron-up.svg?raw';
 import fileText from './icons/file-text.svg?raw';
 import chevronRight from './icons/chevron-right.svg?raw';
+import slidersHorizontal from './icons/sliders-horizontal.svg?raw';
 import arrowRight from './icons/arrow-right.svg?raw';
 import bellActive from './icons/bell-active.svg?raw';
 import expand from './icons/expand.svg?raw';
@@ -79,6 +80,7 @@ export const iconRegistry = {
 	'chevron-up': chevronUp,
 	'file-text': fileText,
 	'chevron-right': chevronRight,
+	'sliders-horizontal': slidersHorizontal,
 	'arrow-right': arrowRight,
 	'bell-active': bellActive,
 	expand: expand,

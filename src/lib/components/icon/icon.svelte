@@ -18,6 +18,7 @@
 			| 'secondary'
 			| 'tertiary'
 			| 'inverse-primary'
+			| 'on-destructive'
 			| 'warning'
 			| 'error'
 			| 'success';

@@ -63,7 +63,11 @@
 	// Auto-detect icon-only mode if no label provided
 	const isIconOnly = $derived(icon && !label);
 	const iconVariant = $derived(
-		variant === 'primary' || variant === 'destructive' ? 'inverse-primary' : 'primary'
+		variant === 'destructive'
+			? 'on-destructive'
+			: variant === 'primary'
+				? 'inverse-primary'
+				: 'primary'
 	);
 
 	// Determine badge size based on button size

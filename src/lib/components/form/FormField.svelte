@@ -7,9 +7,7 @@
 		form?: FormInstance<T>;
 		name: keyof T;
 		label?: string;
-		size?: 'base' | 'large';
 		description?: string;
-		descriptionType?: 'default' | 'info';
 		required?: boolean;
 		error?: string;
 		children: Snippet<[{ props: Record<string, unknown> }]>;
@@ -18,10 +16,8 @@
 	let {
 		form,
 		name,
-		size = 'base',
 		label,
 		description,
-		descriptionType = 'default',
 		required = false,
 		error,
 		children: childrenSnippet
@@ -44,12 +40,12 @@
 </script>
 
 <div class="form-field-container">
-	<div class="form-field form-field--size-{size}">
+	<div class="form-field">
 		<div class="form-field__header">
 			{#if label}
+				<!-- No required indicator by default; consumers should append "(optional)" to the label text for optional fields -->
 				<div id={labelId} class="form-field__label">
 					{label}
-					{#if required}<span class="form-field__required">*</span>{/if}
 					{#if shouldShowSaveIndicators && saveState === 'unsaved'}
 						<span
 							class="form-field__save-indicator form-field__save-indicator--unsaved"
@@ -61,12 +57,7 @@
 				</div>
 			{/if}
 			{#if description}
-				<div class="form-field__description form-field__description--{descriptionType}">
-					{#if descriptionType === 'info'}
-						<div class="form-field__icon">
-							<Icon name="alert-circle" variant="warning" size="0.875rem" />
-						</div>
-					{/if}
+				<div class="form-field__description">
 					<span id={descriptionId}>{description}</span>
 				</div>
 			{/if}

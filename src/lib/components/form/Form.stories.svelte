@@ -170,7 +170,6 @@
 						name="username"
 						label="Username"
 						description="Choose carefully - this cannot be changed later"
-						descriptionType="info"
 						required
 					>
 						{#snippet children({ props })}
