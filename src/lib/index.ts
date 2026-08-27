@@ -114,5 +114,13 @@ export type { FormInstance, FormOptions } from './components/form';
 export { IconAndText, type IconAndTextProps } from './components/icon-and-text';
 export { default as Toaster, toast, type ToasterProps } from './components/toaster';
 
+// Block exports
+export {
+	SignInForm,
+	type SignInCredentials,
+	type SignInFormProps,
+	type SignInSubmitHandler
+} from './blocks/sign-in-form';
+
 // Utils
 export { cn } from './utils';
