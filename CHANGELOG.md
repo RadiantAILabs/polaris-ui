@@ -3,6 +3,13 @@
 All notable changes to `@radiantailabs/polaris-ui` are documented here. This
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.6.0
+
+### Added
+
+- `SignInForm` block with email and password validation, accessible error
+  messaging, pending state, optional branding, and configurable heading text.
+
 ## 0.5.0
 
 ### Changed
