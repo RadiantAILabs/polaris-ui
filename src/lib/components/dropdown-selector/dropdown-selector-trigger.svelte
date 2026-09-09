@@ -149,7 +149,6 @@
 		}
 	}
 
-	// Trigger styles
 	.trigger {
 		display: flex;
 		gap: $space-0-5;
@@ -164,7 +163,7 @@
 		border-radius: $border-radius-base;
 		box-shadow: inset 0 0 0 $border-width-base var(--color-control-border-rest);
 
-		@include transition-interactive;
+		@include transition-interactive(color, background-color, box-shadow);
 
 		&.full-width {
 			width: 100%;
@@ -289,7 +288,6 @@
 		margin-left: $space-0-5;
 		color: var(--color-icon-secondary);
 
-		// Rotate icon when dropdown is open
 		.trigger[data-state='open'] & {
 			transform: rotate(180deg);
 		}
@@ -302,7 +300,7 @@
 	.clear-button {
 		position: absolute;
 		top: 50%;
-		right: calc(#{$space-1} - #{$space-0-25});
+		right: calc($space-1 - $space-0-25);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -314,7 +312,7 @@
 		border-radius: $border-radius-base;
 		transform: translateY(-50%);
 
-		@include transition-interactive;
+		@include transition-interactive(color, background-color);
 
 		&:hover,
 		&:focus-visible {

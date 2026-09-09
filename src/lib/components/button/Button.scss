@@ -16,7 +16,7 @@
 	border: $border-width-base solid transparent;
 	border-radius: $border-radius-base;
 
-	@include transition-interactive;
+	@include transition-interactive(color, background-color, border-color, box-shadow);
 
 	&:disabled,
 	&[aria-disabled='true'] {
