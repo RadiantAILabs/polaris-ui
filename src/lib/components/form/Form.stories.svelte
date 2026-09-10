@@ -164,7 +164,11 @@
 	{#snippet template()}
 		<div style="display: flex; flex-direction: column; gap: 16px;">
 			<Form.Root form={submitForm}>
-				<Form.Section title="Account Information">
+				<Form.Section
+					title="Account Information"
+					description="Enter the details used to identify this account."
+					error="Check the account information and try again."
+				>
 					<Form.Field
 						form={submitForm}
 						name="username"

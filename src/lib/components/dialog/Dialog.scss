@@ -122,15 +122,15 @@
 		gap: $space-1;
 		align-items: center;
 		justify-content: flex-end;
-		padding: 0 $space-3 $space-3;
 
-		@include transition-interactive(border-top);
+		// Overflow is measured after opening, so its state must not change footer geometry.
+		padding: $space-2 $space-3 $space-3;
+		border-top: $border-width-base solid transparent;
 	}
 
-	// Show footer border when content overflows and add extra padding
+	// Show the footer border when content overflows.
 	&__container[data-has-overflow='true'] &__footer {
-		padding-top: $space-2;
-		border-top: $border-width-base solid var(--color-border-base);
+		border-top-color: var(--color-border-base);
 	}
 
 	// Hide footer border when scrolled to bottom
@@ -217,24 +217,20 @@
 @keyframes dialog-modal-fade-in {
 	from {
 		opacity: 0;
-		transform: scale(0.96);
 	}
 
 	to {
 		opacity: 1;
-		transform: scale(1);
 	}
 }
 
 @keyframes dialog-modal-fade-out {
 	from {
 		opacity: 1;
-		transform: scale(1);
 	}
 
 	to {
 		opacity: 0;
-		transform: scale(0.96);
 	}
 }
 

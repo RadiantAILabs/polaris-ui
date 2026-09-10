@@ -11,7 +11,7 @@
 	border-color: var(--color-control-border-rest);
 	border-radius: $border-radius-base;
 
-	@include transition-interactive;
+	@include transition-interactive(background-color, border-color, box-shadow);
 }
 
 .input-leading-icon {
@@ -94,7 +94,7 @@
 	border: none;
 	border-radius: $border-radius-base;
 
-	@include transition-interactive;
+	@include transition-interactive(color, background-color);
 
 	&:hover,
 	&:focus-visible {
