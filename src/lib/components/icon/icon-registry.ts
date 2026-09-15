@@ -19,6 +19,7 @@ import agent from './icons/agent.svg?raw';
 import server from './icons/server.svg?raw';
 import tokens from './icons/tokens.svg?raw';
 import arrowTop from './icons/arrow-top.svg?raw';
+import bot from './icons/bot.svg?raw';
 import bell from './icons/bell.svg?raw';
 import code from './icons/code.svg?raw';
 import stop from './icons/stop.svg?raw';
@@ -88,6 +89,7 @@ export const iconRegistry = {
 	server: server,
 	tokens: tokens,
 	'arrow-top': arrowTop,
+	bot: bot,
 	bell: bell,
 	code: code,
 	stop: stop,
