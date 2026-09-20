@@ -135,7 +135,7 @@
 
 		th {
 			color: var(--color-text-secondary);
-			background: var(--color-background-emphasized-1);
+			background: var(--color-background-raised);
 
 			@include typography('body-small-semibold');
 		}
