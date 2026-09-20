@@ -39,12 +39,32 @@ function greet(name: string) {
 }
 \`\`\`
 `;
+
+	const tableSource = `Three earlier runs hit the same retry loop.
+
+| Run | Started | Outcome | What happened |
+| --- | --- | --- | --- |
+| \`run-7f3a\` | 09:41:03 | error | Three retries, then a timeout from the vector store |
+| \`run-c21d\` | 09:52:47 | ok | Two retries; the third attempt returned 40 documents |
+| \`run-08e1\` | 10:05:12 | ok | One retry; slow but within budget |
+
+The common factor is the **first retrieval call** after a cold start. See
+[the trace](https://example.com/traces/7f3a) for details.
+`;
 </script>
 
 <Story name="All elements">
 	{#snippet template()}
 		<div style="max-width: 32rem;">
 			<Markdown {source} />
+		</div>
+	{/snippet}
+</Story>
+
+<Story name="GFM tables">
+	{#snippet template()}
+		<div style="max-width: 32rem;">
+			<Markdown source={tableSource} tables />
 		</div>
 	{/snippet}
 </Story>

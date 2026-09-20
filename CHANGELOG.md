@@ -3,6 +3,28 @@
 All notable changes to `@radiantailabs/polaris-ui` are documented here. This
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.7.0
+
+### Added
+
+- `Markdown` accepts a `tables` prop (default `false`). When enabled it
+  parses GitHub-flavoured Markdown, including pipe tables, and gives any
+  table cell holding a single token that contains a digit (an id, a time, a
+  date, or a number) a `cell--narrow` class so those columns stay tight
+  while prose columns get the room.
+
+### Changed
+
+- `Markdown`'s sanitizer is now hardened by default, regardless of the
+  `tables` flag: `<img>` and other media tags (`picture`, `source`,
+  `video`, `audio`, `track`) and inline `style` attributes are stripped,
+  and links to a different origin than the page open in a new tab with
+  `rel="noopener noreferrer"`. This tightens (never widens) what the
+  previous, unconfigured `DOMPurify.sanitize()` call allowed through, so it
+  is a pure hardening with no legitimate use case removed - existing
+  consumers whose markdown source never used `<img>`, inline `style`, or
+  external links are unaffected.
+
 ## 0.6.0
 
 ### Added
