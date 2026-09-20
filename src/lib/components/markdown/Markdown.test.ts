@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { renderMarkdown } from './Markdown.svelte';
+import { renderMarkdown } from './render-markdown';
 
 const tableMarkdown = `Three earlier runs hit the same retry loop.
 
