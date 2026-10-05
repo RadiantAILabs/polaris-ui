@@ -4,21 +4,31 @@ import path from 'path';
 const iconsDir = 'src/lib/components/icon/icons';
 const outputFile = 'src/lib/components/icon/icon-registry.ts';
 
-// Convert kebab-case to camelCase for valid JS identifiers
+// Prefix every identifier so numeric names and reserved words remain valid.
 function toCamelCase(str: string): string {
 	const camelCase = str.replace(/-([a-z])/g, (match, letter) => letter.toUpperCase());
-	// Handle reserved keywords by adding 'Icon' suffix
-	const reservedWords = ['export', 'import', 'default', 'class', 'const', 'let', 'var', 'function'];
-	return reservedWords.includes(camelCase) ? camelCase + 'Icon' : camelCase;
+	return `icon_${camelCase.replace(/-/g, '_')}`;
 }
 
 const iconFiles = fs
 	.readdirSync(iconsDir)
 	.filter((file) => file.endsWith('.svg'))
+	.sort()
 	.map((file) => ({
 		filename: path.basename(file, '.svg'),
 		identifier: toCamelCase(path.basename(file, '.svg'))
 	}));
+
+const identifiers = new Set<string>();
+for (const { filename, identifier } of iconFiles) {
+	if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(filename)) {
+		throw new Error(`Invalid icon filename: ${filename}.svg (expected lowercase kebab-case)`);
+	}
+	if (identifiers.has(identifier)) {
+		throw new Error(`Icon import identifier collision: ${filename}`);
+	}
+	identifiers.add(identifier);
+}
 
 const imports = iconFiles
 	.map(({ filename, identifier }) => `import ${identifier} from './icons/${filename}.svg?raw';`)
@@ -26,7 +36,7 @@ const imports = iconFiles
 
 const registryEntries = iconFiles
 	.map(({ filename, identifier }, index) => {
-		const key = filename.includes('-') ? `'${filename}'` : filename;
+		const key = filename.includes('-') || /^\d/.test(filename) ? `'${filename}'` : filename;
 		const comma = index === iconFiles.length - 1 ? '' : ',';
 		return `	${key}: ${identifier}${comma}`;
 	})

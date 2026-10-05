@@ -34,3 +34,5 @@ storybook-static
 
 # MCP
 .mcp.json
+
+/.local/

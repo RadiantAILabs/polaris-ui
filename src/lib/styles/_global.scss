@@ -1,10 +1,7 @@
 /* Global base styles */
 @use 'tokens' as *;
 @use 'tokens/primitives' as *;
-
-/* Import Google Fonts */
-@import 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap';
-@import 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap';
+@use 'fonts';
 @layer theme, base, components, utilities;
 
 * {
