@@ -3,7 +3,7 @@
 All notable changes to `@radiantailabs/polaris-ui` are documented here. This
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 0.7.0
 
 ### Added
 
