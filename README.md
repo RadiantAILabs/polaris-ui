@@ -52,6 +52,15 @@ If your app wants direct access to Polaris design tokens in its own styles, impo
 
 That keeps token imports local to the stylesheet that needs them and avoids duplicate global Sass imports.
 
+## Fonts
+
+The package includes Hanken Grotesk (normal and italic, weights 100–900) and Fira Code
+(weights 300–700) as local variable WOFF2 files. Importing the package styles loads them
+automatically. Their supported Unicode subsets and SIL Open Font License notices are included
+under `dist/styles/fonts/`; there are no runtime requests to Google Fonts or another font CDN.
+
+Vite bundles these font files with an application's assets.
+
 ## Theming
 
 Light and dark mode are controlled by the `data-theme` attribute on `<html>`. If unset, the browser preference is used.

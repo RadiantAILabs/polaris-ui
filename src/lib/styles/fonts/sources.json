@@ -1,0 +1,18 @@
+[
+	{
+		"package": "@fontsource-variable/hanken-grotesk",
+		"version": "5.3.0",
+		"url": "https://www.npmjs.com/package/@fontsource-variable/hanken-grotesk/v/5.3.0",
+		"license": "SIL Open Font License 1.1",
+		"licenseFile": "hanken-grotesk-LICENSE.txt",
+		"archiveSha256": "ceaf44924113b0dfe025b2bc4e263ccc64a2414559bbcb5966a480a3c45eba35"
+	},
+	{
+		"package": "@fontsource-variable/fira-code",
+		"version": "5.3.0",
+		"url": "https://www.npmjs.com/package/@fontsource-variable/fira-code/v/5.3.0",
+		"license": "SIL Open Font License 1.1",
+		"licenseFile": "fira-code-LICENSE.txt",
+		"archiveSha256": "af619e11ef7aa082f8065594de942fa278a3860c0b9d429d5c9d9eb58fca8955"
+	}
+]

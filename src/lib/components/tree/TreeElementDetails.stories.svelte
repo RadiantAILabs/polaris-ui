@@ -66,3 +66,32 @@
 		</div>
 	{/snippet}
 </Story>
+
+<Story name="Errors independent of status">
+	{#snippet template()}
+		<div style="display: flex; flex-direction: column; gap: 16px;">
+			<TreeElementDetails
+				status="completed"
+				time="1.2s"
+				error={{ message: '2 descendant spans have errors.' }}
+				metrics={sampleMetrics}
+			/>
+			<TreeElementDetails
+				status="failed"
+				time="1.2s"
+				error={{ message: 'This span and 2 descendant spans have errors.' }}
+				metrics={sampleMetrics}
+			/>
+			<TreeElementDetails
+				status="processing"
+				time="1.2s"
+				error={{ message: '2 descendant spans have errors.' }}
+				metrics={sampleMetrics}
+			/>
+			<TreeElementDetails
+				error={{ message: '2 descendant spans have errors.' }}
+				metrics={sampleMetrics}
+			/>
+		</div>
+	{/snippet}
+</Story>

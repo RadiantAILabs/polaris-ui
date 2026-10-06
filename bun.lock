@@ -3,7 +3,7 @@
   "configVersion": 0,
   "workspaces": {
     "": {
-      "name": "@polaris/ui",
+      "name": "@radiantailabs/polaris-ui",
       "dependencies": {
         "@codemirror/commands": "^6.8.1",
         "@codemirror/lang-json": "^6.0.2",

@@ -3,6 +3,26 @@
 All notable changes to `@radiantailabs/polaris-ui` are documented here. This
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.7.0
+
+### Added
+
+- Optional `TreeElementDetails.error` highlights rows with descendant errors
+  without changing their status. The existing error icon beside the duration
+  supports a tooltip and an optional action to reveal affected descendants.
+- 467 outline icons from the Polaris Figma library, preserving existing icon
+  names and artwork.
+- New custom `bot` and `branch` icons.
+- Searchable Icon gallery in Storybook.
+- Bundled variable Hanken Grotesk and Fira Code fonts, including Unicode subsets
+  and license notices, for offline dashboard deployments.
+
+### Fixed
+
+- Icon registry generation supports numeric names such as `360-degrees`, validates
+  filenames, and rejects import identifier collisions.
+- Styles load fonts from local package assets instead of Google Fonts URLs.
+
 ## 0.6.0
 
 ### Added
