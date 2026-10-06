@@ -134,7 +134,7 @@
 	bind:this={elementRef}
 	class={cn('tree-element', className)}
 	class:tree-element--selected={selected}
-	class:tree-element--error={details?.status === 'failed'}
+	class:tree-element--error={details?.status === 'failed' || !!details?.error}
 	role="treeitem"
 	data-type="tree-element"
 	aria-expanded={canExpand ? expanded : undefined}
@@ -174,7 +174,12 @@
 
 	<div class="tree-element__content">
 		<!-- Tag -->
-		<TreeElementTag text={tag} {upConnector} {downConnector} error={details?.status === 'failed'} />
+		<TreeElementTag
+			text={tag}
+			{upConnector}
+			{downConnector}
+			error={details?.status === 'failed' || !!details?.error}
+		/>
 
 		<!-- Content -->
 		{#if labelTooltip}

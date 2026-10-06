@@ -61,6 +61,11 @@
 	});
 </script>
 
+<script lang="ts">
+	let errorsExpanded = $state(false);
+	let errorRowSelected = $state(false);
+</script>
+
 <Story name="Element Types">
 	{#snippet template()}
 		<div style="display: flex; flex-direction: column; gap: 16px; padding: 24px;">
@@ -459,6 +464,51 @@
 		{/snippet}
 		<div style="display: inline-flex; width: 20rem; border: 1px dashed purple;">
 			<Tree.Element tag="Agent" label="Agent Task" labelTooltip={card} />
+		</div>
+	{/snippet}
+</Story>
+
+<Story name="Descendant errors">
+	{#snippet template()}
+		<div style="width: 640px;">
+			<div role="tree" aria-label="Trace with descendant errors">
+				<Tree.Element
+					tag="Agent"
+					label="Successful parent"
+					canExpand
+					bind:expanded={errorsExpanded}
+					bind:selected={errorRowSelected}
+					details={{
+						status: 'completed',
+						time: '1.2s',
+						error: {
+							message: '2 descendant spans have errors. Click to reveal.',
+							onClick: () => (errorsExpanded = true)
+						},
+						metrics: tokens('120')
+					}}
+				/>
+				{#if errorsExpanded}
+					<Tree.Element
+						tag="Tool"
+						label="First failed attempt"
+						indentLevel={1}
+						inwardTrail
+						upConnector
+						downConnector
+						details={{ status: 'failed', time: '200ms' }}
+					/>
+					<Tree.Element
+						tag="Tool"
+						label="Second failed attempt"
+						indentLevel={1}
+						inwardTrail
+						upConnector
+						details={{ status: 'failed', time: '300ms' }}
+					/>
+				{/if}
+			</div>
+			<p>Parent selected: {errorRowSelected ? 'yes' : 'no'}</p>
 		</div>
 	{/snippet}
 </Story>

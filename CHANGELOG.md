@@ -7,6 +7,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Optional `TreeElementDetails.error` highlights rows with descendant errors
+  without changing their status. The existing error icon beside the duration
+  supports a tooltip and an optional action to reveal affected descendants.
 - 467 outline icons from the Polaris Figma library, preserving existing icon
   names and artwork.
 - New custom `bot` and `branch` icons.

@@ -19,6 +19,8 @@
 	export interface TreeElementDetailsProps {
 		/** Time duration to display. */
 		time?: string;
+		/** Error tooltip and optional action, independent of the element’s own status. */
+		error?: { message: string; onClick?: () => void };
 		/** Metrics to display after the time, in order. */
 		metrics?: TreeElementMetric[];
 		/** Status of the element. */
@@ -27,12 +29,16 @@
 		class?: string;
 	}
 
-	let { time, metrics = [], status, class: className }: TreeElementDetailsProps = $props();
+	let { time, error, metrics = [], status, class: className }: TreeElementDetailsProps = $props();
 
 	const ariaLabel = $derived.by(() => {
-		if (status === 'processing') return time ? `Processing, ${time} elapsed` : 'Processing';
+		if (status === 'processing')
+			return [time ? `Processing, ${time} elapsed` : 'Processing', error?.message]
+				.filter(Boolean)
+				.join(', ');
 		const parts: string[] = [];
-		if (status === 'failed') parts.push('Failed');
+		if (error) parts.push(error.message);
+		else if (status === 'failed') parts.push('Failed');
 		if (time) parts.push(time);
 		for (const metric of metrics) parts.push(metric.ariaLabel);
 		return parts.length > 0 ? parts.join(', ') : undefined;
@@ -42,7 +48,7 @@
 <div
 	class={cn(
 		'tree-element-details',
-		{ 'tree-element-details--error': status === 'failed' },
+		{ 'tree-element-details--error': status === 'failed' || !!error },
 		className
 	)}
 	role="status"
@@ -50,12 +56,13 @@
 >
 	{#if status === 'processing'}
 		<Icon name="loader" size="small" variant="secondary" animation="spin" />
+		{#if error}{@render errorIndicator()}{/if}
 		{#if time}
 			<span class="tree-element-details__value">{time}</span>
 		{/if}
-	{:else if status === 'failed'}
+	{:else if status === 'failed' || error}
 		<div class="tree-element-details__item">
-			<Icon name="alert-circle" size="small" variant="error" />
+			{@render errorIndicator()}
 			{#if time}
 				<span class="tree-element-details__value">{time}</span>
 			{/if}
@@ -71,6 +78,36 @@
 		{@render metricItems()}
 	{/if}
 </div>
+
+{#snippet errorIndicator()}
+	{#if error}
+		<Tooltip text={error.message} align="end">
+			{#snippet trigger({ props })}
+				{#if error.onClick}
+					<button
+						{...props}
+						type="button"
+						class="tree-element-details__error"
+						aria-label={error.message}
+						onclick={(event) => {
+							event.stopPropagation();
+							error?.onClick?.();
+						}}
+						onkeydown={(event) => event.stopPropagation()}
+					>
+						<Icon name="alert-circle" size="small" variant="error" />
+					</button>
+				{:else}
+					<span {...props} class="tree-element-details__error" aria-label={error.message}>
+						<Icon name="alert-circle" size="small" variant="error" />
+					</span>
+				{/if}
+			{/snippet}
+		</Tooltip>
+	{:else}
+		<Icon name="alert-circle" size="small" variant="error" />
+	{/if}
+{/snippet}
 
 <!-- A value that opens a tooltip on hover when `tip` is supplied, otherwise plain text. -->
 {#snippet value(text: string, tip?: Snippet)}
@@ -93,7 +130,7 @@
 				<Icon
 					name={metric.icon}
 					size="small"
-					variant={status === 'failed' ? 'error' : 'secondary'}
+					variant={status === 'failed' || error ? 'error' : 'secondary'}
 				/>
 			{/if}
 			{@render value(metric.value, metric.tooltip)}
@@ -108,6 +145,22 @@
 		display: inline-flex;
 		gap: $space-2;
 		align-items: center;
+
+		&__error {
+			display: inline-flex;
+			align-items: center;
+			padding: 0;
+			color: var(--color-text-error);
+			background: transparent;
+			border: 0;
+		}
+		button.tree-element-details__error {
+			cursor: pointer;
+		}
+		&__error:focus-visible {
+			outline: 2px solid currentColor;
+			outline-offset: 2px;
+		}
 
 		// -- Item container --
 		&__item {
