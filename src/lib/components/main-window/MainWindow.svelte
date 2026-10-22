@@ -14,6 +14,7 @@
 		headerContent?: Snippet;
 		showNavbar?: boolean;
 		navProps?: UnderlineNavProps;
+		/** Horizontal and bottom insets. Top spacing is styled with --main-window-content-spacing. */
 		contentPadding?: boolean;
 	}
 </script>
@@ -70,7 +71,6 @@
 	.main-window {
 		display: flex;
 		flex-direction: column;
-		gap: $space-3;
 		width: 100%;
 		height: 100%;
 		background-color: var(--color-background-base);
@@ -98,10 +98,12 @@
 			gap: $space-3;
 			width: 100%;
 			min-height: 0;
+			padding-top: var(--main-window-content-spacing, #{$space-3});
 			overflow-y: auto;
 
 			&--padded {
-				padding: 0 $space-2-5 $space-2;
+				padding-inline: $space-2-5;
+				padding-bottom: $space-2;
 			}
 		}
 	}

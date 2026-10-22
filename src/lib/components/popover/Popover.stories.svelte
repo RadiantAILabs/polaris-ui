@@ -1,5 +1,6 @@
 <script module lang="ts">
 	import { defineMeta } from '@storybook/addon-svelte-csf';
+	import { expect, within, userEvent, waitFor } from 'storybook/test';
 	import { Popover } from './index.js';
 	import { Button } from '../button';
 	import { Input } from '../input';
@@ -107,5 +108,65 @@
 				</div>
 			</Popover>
 		</div>
+	{/snippet}
+</Story>
+
+{#snippet customContentExample()}
+	<Popover.Root>
+		<Popover.Trigger
+			>{#snippet child({ props })}<Button
+					{...props}
+					variant="secondary"
+					label="Select a value"
+					icon="chevron-down"
+				/>{/snippet}</Popover.Trigger
+		>
+		<Popover.Content
+			style="width: var(--bits-popover-anchor-width); min-width: 240px;"
+			onOpenAutoFocus={(event) => event.preventDefault()}
+		>
+			<div style="padding: 8px;"><Input aria-label="Value" placeholder="Value" /></div>
+		</Popover.Content>
+	</Popover.Root>
+{/snippet}
+
+<Story name="Custom Content" template={customContentExample} />
+<Story
+	name="Custom Content interactions"
+	tags={['interaction', '!dev', '!autodocs']}
+	play={async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const trigger = canvas.getByRole('button', { name: 'Select a value' });
+		await userEvent.click(trigger);
+		const input = await within(canvasElement.ownerDocument.body).findByRole('textbox', {
+			name: 'Value'
+		});
+		const surface = input.closest('.polaris-popover-surface')!;
+		await waitFor(() =>
+			expect(
+				Math.abs(surface.getBoundingClientRect().top - trigger.getBoundingClientRect().bottom - 4),
+				'custom content stays anchored below its trigger'
+			).toBeLessThan(2)
+		);
+		await userEvent.keyboard('{Escape}');
+	}}
+	template={customContentExample}
+/>
+
+<Story
+	name="Disabled trigger"
+	tags={['interaction']}
+	play={async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		await expect(
+			canvas.getByRole('button', { name: 'Disabled through popover' }),
+			'popover configuration disables the trigger'
+		).toBeDisabled();
+	}}
+>
+	{#snippet template()}
+		<Popover disabled triggerButtonProps={{ label: 'Disabled through popover' }}
+			>Unavailable</Popover
+		>
 	{/snippet}
 </Story>

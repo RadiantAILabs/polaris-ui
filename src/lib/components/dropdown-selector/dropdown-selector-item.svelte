@@ -19,9 +19,9 @@
 	} = $props();
 </script>
 
-<SelectPrimitive.Item bind:ref {value} {label} {disabled} class={className} {...restProps}>
+<SelectPrimitive.Item bind:ref {value} {label} {disabled} {...restProps}>
 	{#snippet child({ props, selected })}
-		<div {...props} class="item">
+		<div {...props} class={['item', className]}>
 			{#if isMultiSelect}
 				<Checkbox checked={selected} {disabled} />
 			{:else}
@@ -43,32 +43,10 @@
 
 <style lang="scss">
 	@use '../../styles/tokens' as *;
+	@use '../../styles/floating';
 
-	// Item styles
 	.item {
-		display: flex;
-		gap: $space-2;
-		align-items: center;
-		align-self: stretch;
-		padding: $space-1;
-		cursor: pointer;
-		outline: none;
-		border-radius: $border-radius-base;
-
-		&:hover,
-		&[data-highlighted] {
-			background-color: var(--color-button-background-active);
-		}
-
-		&:focus-visible {
-			outline: none;
-			background-color: var(--color-button-background-active);
-		}
-
-		&[data-disabled] {
-			cursor: not-allowed;
-			background-color: transparent;
-		}
+		@include floating.item($managed-highlight: true);
 	}
 
 	.item-text {
@@ -76,7 +54,10 @@
 
 		flex: 1;
 		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
 		color: var(--color-text-primary);
+		white-space: nowrap;
 
 		.item[data-disabled] & {
 			color: var(--color-text-disabled);

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { cn, type WithElementRef } from '../../utils';
 	import type { HTMLTdAttributes } from 'svelte/elements';
-	import { getContext } from 'svelte';
+	import { getTableContext } from './context';
 
 	let {
 		ref = $bindable(null),
@@ -17,14 +17,14 @@
 		alignment?: 'start' | 'end';
 	} = $props();
 
-	const primaryColumn = getContext<boolean>('table-primary-column') ?? false;
+	const table = getTableContext();
 </script>
 
 <td
 	bind:this={ref}
 	class={cn(
 		'body-cell',
-		primaryColumn && 'body-cell--primary',
+		table?.primaryColumn && 'body-cell--primary',
 		tabularNumbers && 'body-cell--tabular',
 		alignment === 'end' && 'body-cell--align-end',
 		className
@@ -41,6 +41,7 @@
 		padding: $space-2 $space-3;
 		vertical-align: middle;
 		color: var(--color-text-secondary);
+		overflow-wrap: break-word;
 		white-space: nowrap;
 		background-clip: padding-box;
 

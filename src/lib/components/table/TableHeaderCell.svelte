@@ -1,4 +1,5 @@
 <script lang="ts" module>
+	import type { Snippet } from 'svelte';
 	import { type WithElementRef } from '../../utils';
 	import type { HTMLThAttributes } from 'svelte/elements';
 
@@ -13,22 +14,25 @@
 		onSort?: (direction: SortDirection) => void;
 		/** Column name for enhanced accessibility */
 		columnName?: string;
+		/** Additional controls rendered beside the header content. */
+		trailing?: Snippet;
 		/** Horizontal alignment of the header content. */
 		alignment?: 'start' | 'end';
 	}
 </script>
 
 <script lang="ts">
-	import { getContext } from 'svelte';
+	import { getTableContext } from './context';
 	import Icon from '../icon/icon.svelte';
 	import { cn } from '../../utils';
 
-	const stickyHeader = getContext<boolean>('table-sticky-header') ?? false;
+	const table = getTableContext();
 
 	let {
 		ref = $bindable(null),
 		class: className,
 		children,
+		trailing,
 		sortable = false,
 		sortDirection = null,
 		onSort,
@@ -71,7 +75,7 @@
 	class={cn(
 		'header-cell',
 		alignment === 'end' && 'header-cell--align-end',
-		stickyHeader && 'header-cell--sticky',
+		table?.stickyHeader && 'header-cell--sticky',
 		className
 	)}
 	{...restProps}
@@ -86,7 +90,7 @@
 			onmouseleave={() => (isHovered = false)}
 			onclick={handleClick}
 		>
-			{@render children?.()}
+			<span class="header-label">{@render children?.()}</span>
 			<Icon
 				name={sortDirection
 					? sortDirection === 'asc'
@@ -103,12 +107,14 @@
 	{:else}
 		<div class="header-text">{@render children?.()}</div>
 	{/if}
+	{@render trailing?.()}
 </th>
 
 <style lang="scss">
 	@use '../../styles/tokens' as *;
 
 	.header-cell {
+		position: relative;
 		padding: $space-0-5 $space-2;
 		vertical-align: middle;
 		color: var(--color-text-tertiary);
@@ -146,6 +152,8 @@
 		align-items: center;
 		justify-content: flex-start;
 		width: fit-content;
+		min-width: 0;
+		max-width: 100%;
 		padding: calc($space-0-5) calc($space-1 - $border-width-base);
 		color: var(--color-text-tertiary);
 		text-align: left;
@@ -184,7 +192,16 @@
 		}
 	}
 
+	.header-label {
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
 	.header-text {
+		max-width: 100%;
 		padding: calc($space-0-5) calc($space-1 - $border-width-base);
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 </style>

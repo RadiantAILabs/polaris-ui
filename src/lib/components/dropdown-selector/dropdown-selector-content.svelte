@@ -15,38 +15,6 @@
 	}: WithoutChild<SelectPrimitive.ContentProps> & {
 		portalProps?: SelectPrimitive.PortalProps;
 	} = $props();
-
-	function handleContentHeight(el: HTMLElement) {
-		function updateHeight() {
-			requestAnimationFrame(() => {
-				const availableHeight = parseInt(
-					window
-						.getComputedStyle(el)
-						.getPropertyValue('--bits-select-content-available-height')
-						.replace('px', '')
-				);
-
-				if (!isNaN(availableHeight)) {
-					// Set max height and apply scroll area styling
-					el.style.maxHeight = `${availableHeight}px`;
-				}
-			});
-		}
-
-		// Initial height calculation
-		updateHeight();
-
-		// Add resize listener to recalculate on window resize
-		const handleResize = () => updateHeight();
-		window.addEventListener('resize', handleResize);
-
-		// Cleanup function
-		return {
-			destroy() {
-				window.removeEventListener('resize', handleResize);
-			}
-		};
-	}
 </script>
 
 <SelectPrimitive.Portal {...portalProps}>
@@ -60,7 +28,7 @@
 	>
 		{#snippet child({ wrapperProps, props })}
 			<div {...wrapperProps}>
-				<div {...props} class={cn('content scroll-area', className)} use:handleContentHeight>
+				<div {...props} class={cn('content scroll-area', className)}>
 					{@render children?.()}
 				</div>
 			</div>
@@ -69,24 +37,17 @@
 </SelectPrimitive.Portal>
 
 <style lang="scss">
-	@use '../../styles/tokens' as *;
+	@use '../../styles/floating';
 
-	// Content (dropdown) styles
 	.content {
-		z-index: 50;
+		@include floating.surface(24rem);
+
 		display: flex;
 		flex-direction: column;
-		gap: $space-1;
-		align-items: flex-start;
+		align-items: stretch;
 		width: max-content;
 		min-width: var(--bits-select-anchor-width);
-		max-height: 24rem;
-		padding: $space-0-5;
 		overflow: hidden auto;
-		background-color: var(--color-background-raised);
-		border: $border-width-base solid var(--color-border-base);
-		border-radius: $border-radius-base;
-		box-shadow: $shadow-raised;
 		transform-origin: var(--bits-select-content-transform-origin);
 	}
 </style>

@@ -23,7 +23,7 @@ export {
 	DataTable,
 	type DataTableColumn,
 	type DataTableProps,
-	type ColumnFilter,
+	type DataTableSort,
 	type ColumnType
 } from './components/datatable';
 export {
@@ -74,7 +74,9 @@ export {
 } from './components/dropdown-selector';
 export {
 	default as UnderlineNav,
-	type UnderlineNavProps
+	type UnderlineNavProps,
+	type Tab,
+	type TabAction
 } from './components/underline-nav/UnderlineNav.svelte';
 export {
 	SideWindow,
@@ -113,6 +115,13 @@ export { default as Form, FormSectionLegend, createForm } from './components/for
 export type { FormInstance, FormOptions } from './components/form';
 export { IconAndText, type IconAndTextProps } from './components/icon-and-text';
 export { default as Toaster, toast, type ToasterProps } from './components/toaster';
+export { FilterChip, type FilterChipProps } from './components/filter-chip';
+export {
+	SearchablePicker,
+	type SearchablePickerProps,
+	type PickerOption
+} from './components/searchable-picker';
+export { Skeleton, type SkeletonProps } from './components/skeleton';
 
 // Block exports
 export {

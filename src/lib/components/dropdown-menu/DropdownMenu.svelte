@@ -1,120 +1,77 @@
 <script lang="ts">
-	import { DropdownMenu, type WithoutChildren } from 'bits-ui';
+	import type { WithoutChildren, DropdownMenu as Menu } from 'bits-ui';
+	import { DropdownMenu as Primitive } from 'bits-ui';
 	import { Button, type ButtonProps } from '../button';
-	import type { IconName } from '../icon/icon-registry';
+	import { Icon, type IconName } from '../icon';
+	import Content from './DropdownMenuContent.svelte';
+	import Item from './DropdownMenuItem.svelte';
 
-	export type DropdownMenuProps = WithoutChildren<DropdownMenu.RootProps> & {
-		buttonLabel: string;
-		buttonProps?: Omit<ButtonProps, 'disabled' | 'children'>;
-		items: string[] | Array<{ label: string; icon?: IconName; href?: string }>;
-		contentProps?: WithoutChildren<DropdownMenu.ContentProps>;
-		align?: 'start' | 'end';
+	export interface DropdownMenuProps extends WithoutChildren<Menu.RootProps> {
+		buttonLabel?: string;
+		buttonProps?: Omit<ButtonProps, 'disabled' | 'children' | 'label'>;
+		items: (string | { label: string; icon?: IconName; href?: string; disabled?: boolean })[];
+		contentProps?: Omit<Menu.ContentProps, 'children' | 'child'>;
+		align?: 'start' | 'center' | 'end';
 		disabled?: boolean;
 		showIcons?: boolean;
-		onSelect?: (value: string) => void;
-	};
-
+		onSelect?: (label: string) => void;
+	}
 	let {
 		open = $bindable(false),
-		items,
 		buttonLabel,
 		buttonProps = { variant: 'secondary', icon: 'chevron-down', iconPosition: 'right' },
+		items,
 		contentProps,
 		align = 'start',
-		disabled = false,
+		disabled,
 		showIcons = true,
 		onSelect,
-		...restProps
+		...props
 	}: DropdownMenuProps = $props();
-
-	function handleContentHeight(el: HTMLElement) {
-		function updateHeight() {
-			requestAnimationFrame(() => {
-				const availableHeight = parseInt(
-					window
-						.getComputedStyle(el)
-						.getPropertyValue('--bits-dropdown-menu-content-available-height')
-						.replace('px', '')
-				);
-
-				if (!isNaN(availableHeight)) {
-					// Set max height
-					el.style.maxHeight = `${availableHeight}px`;
-				}
-			});
-		}
-
-		// Initial height calculation
-		updateHeight();
-
-		// Add resize listener to recalculate on window resize
-		const handleResize = () => updateHeight();
-		window.addEventListener('resize', handleResize);
-
-		// Cleanup function
-		return {
-			destroy() {
-				window.removeEventListener('resize', handleResize);
-			}
-		};
-	}
 </script>
 
-<!-- TODO break this component down into smaller components for better maintainability, like was done
-for the DropdownSelector component -->
-
-<DropdownMenu.Root bind:open {...restProps}>
-	<DropdownMenu.Trigger {disabled}>
-		{#snippet child({ props })}
-			<Button {...buttonProps} {...props} {disabled} label={buttonLabel} />
-		{/snippet}
-	</DropdownMenu.Trigger>
-
-	<DropdownMenu.Portal>
-		<DropdownMenu.Content
-			sideOffset={8}
-			avoidCollisions={true}
-			collisionPadding={8}
-			{align}
-			{...contentProps}
-		>
-			{#snippet child({ wrapperProps, props })}
-				<div {...wrapperProps}>
-					<div {...props} class="dropdown-menu__content scroll-area" use:handleContentHeight>
-						{#if items.length === 0}
-							<div class="dropdown-menu__no-options">No options</div>
-						{:else}
-							{#each items as item (typeof item === 'string' ? item : item.label)}
-								{@const itemLabel = typeof item === 'string' ? item : item.label}
-								{@const itemIcon = showIcons
-									? typeof item === 'string'
-										? 'plus'
-										: item.icon
-									: undefined}
-								{@const itemHref = typeof item === 'string' ? undefined : item.href}
-								<DropdownMenu.Item
-									textValue={itemLabel}
-									onSelect={() => !itemHref && onSelect?.(itemLabel)}
-									style="width: 100%; "
-								>
-									<Button
-										variant="invisible"
-										label={itemLabel}
-										icon={itemIcon}
-										iconPosition="left"
-										href={itemHref}
-										style="justify-content: flex-start; width: 100%; "
-									/>
-								</DropdownMenu.Item>
-							{/each}
-						{/if}
-					</div>
-				</div>
-			{/snippet}
-		</DropdownMenu.Content>
-	</DropdownMenu.Portal>
-</DropdownMenu.Root>
+<Primitive.Root bind:open {...props}>
+	<Primitive.Trigger {disabled}>
+		{#snippet child({ props })}<Button label={buttonLabel} {...buttonProps} {...props} />{/snippet}
+	</Primitive.Trigger>
+	<Content {align} {...contentProps}>
+		{#each items as item, index (index)}
+			{@const option = typeof item === 'string' ? { label: item, icon: 'plus' as const } : item}
+			{#if option.href}
+				<Item disabled={option.disabled}>
+					{#snippet child({ props })}
+						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+						<a {...props} href={option.disabled ? undefined : option.href}>
+							{#if showIcons && option.icon}<Icon name={option.icon} size="base" />{/if}
+							<span class="polaris-menu-text">{option.label}</span>
+						</a>
+					{/snippet}
+				</Item>
+			{:else}
+				<Item
+					icon={showIcons ? option.icon : undefined}
+					disabled={option.disabled}
+					onSelect={() => onSelect?.(option.label)}
+				>
+					{option.label}
+				</Item>
+			{/if}
+		{:else}
+			<div class="menu-empty" role="presentation">No options</div>
+		{/each}
+	</Content>
+</Primitive.Root>
 
 <style lang="scss">
-	@use './DropdownMenu';
+	@use '../../styles/floating';
+
+	.polaris-menu-text {
+		@include floating.text;
+	}
+
+	.menu-empty {
+		padding: 8px;
+		font-size: 13px;
+		color: var(--color-text-tertiary);
+	}
 </style>

@@ -81,7 +81,7 @@
 	{/snippet}
 </Story>
 
-<Story name="Server error" play={showValidationErrors}>
+<Story name="Server error">
 	{#snippet template()}
 		<SignInForm action="/login" serverError="Invalid email or password." />
 	{/snippet}

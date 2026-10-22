@@ -1,17 +1,19 @@
 @use '../../styles/tokens' as *;
+@use '../../styles/floating';
 
 .popover {
-	z-index: 50;
+	@include floating.surface;
+
 	display: flex;
 	flex-direction: column;
-	gap: $space-1-5;
 	align-items: stretch;
-	max-width: var(--bits-popover-content-available-width);
-	padding: $space-2;
-	background-color: var(--color-background-raised);
-	border: $border-width-base solid var(--color-border-base);
-	border-radius: $border-radius-base;
-	box-shadow: $shadow-raised;
+	min-width: 0;
+	padding: 0;
+	overflow: hidden;
+
+	&__viewport {
+		min-height: 0;
+	}
 
 	// -- Content section --
 	&__content {
@@ -19,6 +21,12 @@
 		flex-direction: column;
 		gap: $space-1-5;
 		align-items: stretch;
+		min-height: 0;
+		padding: $space-2;
+	}
+
+	&__viewport:has(+ .popover__actions) .popover__content {
+		padding-bottom: 0;
 	}
 
 	// -- Header section --
@@ -39,8 +47,15 @@
 	// -- Actions section --
 	&__actions {
 		display: flex;
+		flex-shrink: 0;
 		gap: $space-2;
 		align-items: center;
 		justify-content: flex-end;
+		padding: $space-2;
+		border-top: $border-width-base solid transparent;
+
+		&--divided {
+			border-top-color: var(--color-border-base);
+		}
 	}
 }
