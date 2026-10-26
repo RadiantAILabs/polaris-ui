@@ -175,6 +175,21 @@ export async function scrollPageAndTable({ canvasElement }: { canvasElement: HTM
 	await waitFor(() => expect(Math.abs(sizes()[0]! - initial[0]!)).toBeLessThan(1));
 	outer.style.width = '240px';
 	await waitFor(() => expect(bodyViewport.scrollWidth).toBeGreaterThan(bodyViewport.clientWidth));
+	await waitFor(() => expect(sizes().slice(0, 4)).toEqual([100, 100, 100, 100]));
+	const saves = widthChanges.mock.calls.length;
+	handle.focus();
+	await userEvent.keyboard('{ArrowRight}');
+	await waitFor(() => expect(sizes().slice(0, 4)).toEqual([100, 110, 100, 100]));
+	await expect(handle).toHaveAttribute('aria-valuemax', '1600');
+	mouse('mousedown', 100);
+	mouse('mousemove', 140);
+	await waitFor(() => expect(sizes().slice(0, 4)).toEqual([100, 150, 100, 100]));
+	mouse('mouseup', 140);
+	await tick();
+	await expect(sizes().slice(0, 4), 'overflow growth persists after releasing the divider').toEqual(
+		[100, 150, 100, 100]
+	);
+	await expect(widthChanges).toHaveBeenCalledTimes(saves + 2);
 	const scrollbar = await canvas.findByRole('group', { name: 'Scroll table horizontally' });
 	outer.scrollTop = 0;
 	await waitFor(() =>

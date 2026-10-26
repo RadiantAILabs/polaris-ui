@@ -64,6 +64,15 @@ it('resizing stops when either adjacent column reaches its bounds', () => {
 	).toEqual({ a: 210, b: 110 });
 });
 
+it('allows overflowing page columns to grow independently from minimum widths', () => {
+	const column = { name: 'a', minWidth: 100, maxWidth: 180 };
+	const adjacent = { name: 'b', minWidth: 100 };
+	const sizes = { a: 100, b: 100 };
+	expect(resizePair(column, adjacent, sizes, 40, true)).toEqual({ a: 140 });
+	expect(resizePair(column, adjacent, sizes, 200, true)).toEqual({ a: 180 });
+	expect(resizePair(column, adjacent, sizes, -40, true)).toEqual({ a: 100 });
+});
+
 it('uses preferred widths before the viewport is measured', () => {
 	expect(sizeColumns(columns, {}), 'SSR and initial rendering use preferred sizes').toEqual({
 		a: 100,

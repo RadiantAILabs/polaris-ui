@@ -17,6 +17,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Removed the table-wide `minWidth` prop and the `fillRemaining`, `hugContent`,
   and `shrinkBelowContent` column flags. Use per-column widths and bounds instead.
 - `DataTableActions` no longer forwards `DropdownMenu` props such as `align`.
+- `DataTable` custom `sortFn` no longer receives `null` or `undefined`. These sort
+  last ascending and first descending.
 - `UnderlineNav` now generates instance-scoped DOM IDs. If you render your own
   tab panels, set each tab's `buttonId` and `panelId` explicitly.
 

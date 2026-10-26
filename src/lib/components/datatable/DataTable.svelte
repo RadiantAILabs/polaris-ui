@@ -46,7 +46,7 @@
 		sortable?: boolean;
 		/** Header/cell alignment. Defaults to `'start'`; `'end'` right-aligns. */
 		align?: 'start' | 'end';
-		/** Custom sort function. Takes precedence over the `type` comparator if both are provided */
+		/** Custom comparator for non-nullish values. Null/undefined sort last ascending and first descending. Takes precedence over `type`. */
 		sortFn?: (a: T[keyof T], b: T[keyof T]) => number;
 		/** Keep cell contents on one line and truncate overflow. Defaults to false. */
 		truncate?: boolean;
@@ -83,7 +83,7 @@
 		sort?: DataTableSort<keyof T> | null;
 		/** Reports the requested sort in both local and manual modes. */
 		onSortChange?: (sort: DataTableSort<keyof T>) => void;
-		/** Preferred pixel widths. Columns adapt to the viewport within their bounds; dragging changes only the adjacent pair. */
+		/** Preferred pixel widths. Columns adapt to the viewport within their bounds; overflowing page tables resize columns independently. */
 		columnWidths?: Partial<Record<keyof T, number>>;
 		/** Fires once per completed resize that changes rendered widths; returning to the initial widths does not fire. */
 		onColumnWidthsChange?: (widths: Partial<Record<keyof T, number>>) => void;
@@ -148,12 +148,24 @@
 		)
 	);
 	let draft = $state<ColumnSizingState>();
+	// Keep space explicitly added by resizing an overflowing page table.
+	let overflowWidth = $state(0);
+	const availableWidth = $derived(
+		viewportWidth - tableBorderWidth - (actions?.length ? ACTIONS_WIDTH : 0)
+	);
 	const sizing = $derived(
 		sizeColumns(
 			columns,
 			draft ?? savedSizing,
 			viewportWidth
-				? viewportWidth - tableBorderWidth - (actions?.length ? ACTIONS_WIDTH : 0)
+				? Math.max(
+						availableWidth,
+						scrollMode === 'page'
+							? draft
+								? Object.values(draft).reduce((sum, width) => sum + width, 0)
+								: overflowWidth
+							: 0
+					)
 				: undefined
 		)
 	);
@@ -187,7 +199,7 @@
 	const sorting = $derived(
 		sort ? [{ id: String(sort.column), desc: sort.direction === 'desc' }] : []
 	);
-	let resizeStart: { index: number; sizes: ColumnSizingState } | undefined;
+	let resizeStart: { index: number; sizes: ColumnSizingState; overflow: boolean } | undefined;
 
 	const table = createTable({
 		features,
@@ -217,12 +229,15 @@
 		},
 		onColumnSizingChange: (updater) => {
 			if (!resizeStart) return;
-			const { index, sizes } = resizeStart;
+			const { index, sizes, overflow } = resizeStart;
 			const column = columns[index]!,
 				adjacent = columns[index + 1]!;
 			const next = typeof updater === 'function' ? updater(sizing) : updater;
 			const id = String(column.name);
-			draft = { ...draft, ...resizePair(column, adjacent, sizes, next[id]! - sizes[id]!) };
+			draft = {
+				...draft,
+				...resizePair(column, adjacent, sizes, next[id]! - sizes[id]!, overflow)
+			};
 		},
 		onSortingChange: (updater) => {
 			const next = (typeof updater === 'function' ? updater(sorting) : updater)[0];
@@ -237,10 +252,12 @@
 	const tableWidth = $derived(
 		table.getTotalSize() + (actions?.length ? ACTIONS_WIDTH : 0) + tableBorderWidth
 	);
+	const overflowResize = $derived(scrollMode === 'page' && tableWidth - viewportWidth > 0.5);
 	const tableStyle = $derived(
 		`${customStyle ?? ''}; table-layout: fixed; min-width: 0; width: ${tableWidth}px`
 	);
 	function saveWidths(next: ColumnSizingState) {
+		if (overflowResize) overflowWidth = Object.values(next).reduce((sum, width) => sum + width, 0);
 		const widths: Partial<Record<keyof T, number>> = {};
 		for (const column of columns)
 			widths[column.name] = clampWidth(column, next[String(column.name)]!);
@@ -256,8 +273,8 @@
 		const column = columns[index],
 			adjacent = columns[index + 1];
 		if (!column || !adjacent) return;
-		resizeStart = { index, sizes: sizing };
-		draft = { ...sizing, ...resizePair(column, adjacent, sizing, 0) };
+		resizeStart = { index, sizes: sizing, overflow: overflowResize };
+		draft = { ...sizing, ...resizePair(column, adjacent, sizing, 0, overflowResize) };
 		header.getResizeHandler()(event);
 	}
 	function commitResize() {
@@ -282,7 +299,7 @@
 		const column = columns[index],
 			adjacent = columns[index + 1];
 		if (!column || !adjacent) return;
-		const next = resizePair(column, adjacent, sizing, delta);
+		const next = resizePair(column, adjacent, sizing, delta, overflowResize);
 		if (next[header.column.id] !== Math.round(header.getSize())) saveWidths({ ...sizing, ...next });
 	}
 
@@ -360,11 +377,16 @@
 				{column.displayName}
 				{#snippet trailing()}
 					{#if interactive && header.column.getCanResize() && index < columns.length - 1}
-						{@const bounds = pairBounds(
-							column,
-							columns[index + 1]!,
-							Math.round(header.getSize() + headers[index + 1]!.getSize())
-						)}
+						{@const bounds = overflowResize
+							? {
+									minWidth: column.minWidth ?? MIN_COLUMN_WIDTH,
+									maxWidth: column.maxWidth ?? MAX_COLUMN_WIDTH
+								}
+							: pairBounds(
+									column,
+									columns[index + 1]!,
+									Math.round(header.getSize() + headers[index + 1]!.getSize())
+								)}
 						<ColumnResizeHandle
 							label={`Resize ${column.displayName}`}
 							width={header.getSize()}

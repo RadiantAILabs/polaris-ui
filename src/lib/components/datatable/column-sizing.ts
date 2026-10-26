@@ -63,16 +63,18 @@ export function sizeColumns(
 	return sizes;
 }
 
-/** Move one divider while preserving the combined width and bounds of its two columns. */
+/** Trade width between neighbours, or resize independently in an overflowing page table. */
 export function resizePair(
 	column: ColumnDimensions & { name: PropertyKey },
 	adjacent: ColumnDimensions & { name: PropertyKey },
 	sizes: ColumnSizingState,
-	delta: number
+	delta: number,
+	overflow = false
 ): ColumnSizingState {
 	const id = String(column.name),
 		nextId = String(adjacent.name);
 	const width = sizes[id]!;
+	if (overflow) return { [id]: clampWidth(column, width + delta) };
 	const total = Math.round(width + sizes[nextId]!);
 	const nextWidth = clampWidth(pairBounds(column, adjacent, total), width + delta);
 	return { [id]: nextWidth, [nextId]: total - nextWidth };
