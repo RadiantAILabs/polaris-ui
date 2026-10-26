@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - 'src/**'
+      - '.storybook/**'
+      - 'scripts/**'
+      - 'tests/**'
       - 'package.json'
       - 'bun.lock'
       - 'tsconfig.json'
@@ -51,7 +54,13 @@ jobs:
         run: bun install --ci
 
       - name: Run tests
-        run: bun test
+        run: bun run test
+
+      - name: Install browsers
+        run: bunx playwright install --with-deps chromium webkit
+
+      - name: Check component interactions
+        run: bun run test:browser
 
       - name: Run lint checks
         run: bun run lint

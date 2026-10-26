@@ -9,7 +9,7 @@
 	export interface PopoverProps extends WithoutChildren<PopoverPrimitive.RootProps> {
 		children?: Snippet;
 		actions?: Snippet;
-		triggerButtonProps: ButtonProps;
+		triggerButtonProps: Omit<ButtonProps, 'disabled'>;
 		portalProps?: PopoverPrimitive.PortalProps;
 		align?: 'start' | 'end';
 		disabled?: boolean;
@@ -27,57 +27,44 @@
 		...restProps
 	}: PopoverProps = $props();
 
-	function handleContentHeight(el: HTMLElement) {
-		function updateHeight() {
-			requestAnimationFrame(() => {
-				const availableHeight = parseInt(
-					window
-						.getComputedStyle(el)
-						.getPropertyValue('--bits-popover-content-available-height')
-						.replace('px', '')
-				);
+	let viewport: HTMLDivElement | undefined = $state();
+	let content: HTMLDivElement | undefined = $state();
+	let overflowing = $state(false);
 
-				if (!isNaN(availableHeight)) {
-					// Set max height and apply scroll area styling
-					el.style.maxHeight = `${availableHeight}px`;
-				}
-			});
-		}
-
-		// Initial height calculation
-		updateHeight();
-
-		// Add resize listener to recalculate on window resize
-		const handleResize = () => updateHeight();
-		window.addEventListener('resize', handleResize);
-
-		// Cleanup function
-		return {
-			destroy() {
-				window.removeEventListener('resize', handleResize);
-			}
+	$effect(() => {
+		if (!viewport || !content) return;
+		const element = viewport;
+		const measure = () => {
+			overflowing = element.scrollHeight > element.clientHeight;
 		};
-	}
+		const observer = new ResizeObserver(measure);
+		observer.observe(element);
+		observer.observe(content);
+		measure();
+		return () => observer.disconnect();
+	});
 </script>
 
 <PopoverPrimitive.Root {...restProps}>
-	<PopoverPrimitive.Trigger>
+	<PopoverPrimitive.Trigger {disabled}>
 		{#snippet child({ props })}
-			<Button {...triggerButtonProps} {...props} {disabled} />
+			<Button {...triggerButtonProps} {...props} />
 		{/snippet}
 	</PopoverPrimitive.Trigger>
 
 	<PopoverPrimitive.Portal {...portalProps}>
-		<PopoverPrimitive.Content {align} sideOffset={8} avoidCollisions={true} collisionPadding={8}>
+		<PopoverPrimitive.Content {align} sideOffset={4} avoidCollisions={true} collisionPadding={8}>
 			{#snippet child({ wrapperProps, props })}
 				<div {...wrapperProps} transition:fade={{ duration: 150 }}>
-					<div {...props} class={cn('popover', className)} use:handleContentHeight>
-						<div class="popover__content scroll-area">
-							{@render children?.()}
+					<div {...props} class={cn('popover', className)}>
+						<div bind:this={viewport} class="popover__viewport scroll-area">
+							<div bind:this={content} class="popover__content">
+								{@render children?.()}
+							</div>
 						</div>
 
 						{#if actions}
-							<div class="popover__actions">
+							<div class="popover__actions" class:popover__actions--divided={overflowing}>
 								{@render actions()}
 							</div>
 						{/if}

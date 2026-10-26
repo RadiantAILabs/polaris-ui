@@ -1,133 +1,282 @@
 <script module lang="ts">
 	import { defineMeta } from '@storybook/addon-svelte-csf';
-	import { DataTable, type DataTableColumn, type DataTableActionItem } from './index';
+	import {
+		DataTable,
+		type DataTableColumn,
+		type DataTableSort,
+		type DataTableActionItem
+	} from './index';
 	import { Badge } from '../badge';
-
-	const { Story } = defineMeta({
-		title: 'Components/DataTable',
-		component: DataTable,
-		parameters: {
-			layout: 'padded'
-		},
-		tags: ['autodocs']
-	});
-
-	type CarData = {
+	import { Button } from '../button';
+	import { Input } from '../input';
+	import {
+		localSorting,
+		rowActions,
+		resizeColumns,
+		manualSorting,
+		scrollPageAndTable,
+		scrollContainer,
+		wrapping,
+		fitsViewport,
+		widthChanges,
+		sortChanges
+	} from './DataTable.interactions';
+	type Car = {
 		id: number;
-		maker: string;
-		type: string;
-		make: number;
+		manufacturer: string;
+		model: string;
+		year: number;
 		status: 'active' | 'pending' | 'inactive';
 	};
 
-	let items: CarData[] = [
-		{ id: 1, maker: 'Toyota', type: 'ABC', make: 2017, status: 'active' },
-		{ id: 2, maker: 'Ford', type: 'CDE', make: 2018, status: 'pending' },
-		{ id: 3, maker: 'Volvo', type: 'FGH', make: 2019, status: 'inactive' },
-		{ id: 4, maker: 'Saab', type: 'IJK', make: 2020, status: 'active' }
+	const cars: Car[] = [
+		{ id: 1, manufacturer: 'Toyota', model: 'Corolla', year: 2017, status: 'active' },
+		{ id: 2, manufacturer: 'Ford', model: 'Focus', year: 2018, status: 'pending' },
+		{ id: 3, manufacturer: 'Volvo', model: 'XC40', year: 2019, status: 'inactive' },
+		{ id: 4, manufacturer: 'Saab', model: '900', year: 1993, status: 'active' }
 	];
-
-	const overflowingItems: CarData[] = Array.from({ length: 20 }, (_, index) => ({
-		...items[index % items.length]!,
-		id: index + 1
-	}));
-
-	let columns: DataTableColumn<CarData>[] = [
+	const manyCars: Car[] = Array.from({ length: 8 }, (_, batch) =>
+		cars.map((car, index) => ({ ...car, id: batch * cars.length + index + 1 }))
+	).flat();
+	const columns = [
 		{ name: 'id', displayName: 'ID', type: 'number' },
-		{ name: 'maker', displayName: 'Car Manufacturer', type: 'string' },
-		{ name: 'type', displayName: 'Model Type', type: 'string' },
-		{ name: 'make', displayName: 'Year Made', type: 'number' }
+		{ name: 'manufacturer', displayName: 'Manufacturer', type: 'string' },
+		{ name: 'model', displayName: 'Model', type: 'string' },
+		{ name: 'year', displayName: 'Year', type: 'number' }
+	] satisfies DataTableColumn<Car>[];
+	const customColumns = (): DataTableColumn<Car>[] => [
+		...columns.map((column) => ({ ...column, sortable: column.name !== 'id' })),
+		{ name: 'status', displayName: 'Status', type: 'string', render: statusBadge }
 	];
-
-	let advancedColumns: DataTableColumn<CarData>[] = [
-		{ name: 'id', displayName: 'ID', type: 'number', sortable: false, hugContent: true },
-		{
-			name: 'maker',
-			displayName: 'Car Manufacturer',
-			type: 'string',
-			filter: { kind: 'select' }
-		},
-		{ name: 'type', displayName: 'Model Type', filter: { kind: 'search' } },
-		{ name: 'make', displayName: 'Year Made', type: 'number' },
-		{
-			name: 'status',
-			displayName: 'Status',
-			type: 'string',
-			filter: { kind: 'select' },
-			render: statusBadge
-		}
-	];
-
+	const resizableColumns = columns.map((column) => ({
+		...column,
+		minWidth: 60,
+		maxWidth: column.name === 'manufacturer' ? 400 : 240
+	}));
+	const serverColumns = columns.map((column) => ({ ...column, sortable: true }));
 	const actions: DataTableActionItem[] = [
 		{ label: 'Edit', value: 'edit' },
-		{ label: 'Delete', value: 'delete' },
-		{ label: 'Duplicate', value: 'duplicate' }
+		{ label: 'Delete', value: 'delete', disabled: true }
 	];
 
-	function handleAction(itemId: string | number, actionValue: string) {
-		alert(`Action "${actionValue}" triggered for item ID: ${itemId}`);
-	}
+	const paragraph =
+		'Searches indexed documents, ranks matching results, and returns a concise summary with source links. Requests share a bounded execution window so slow providers can be retried without delaying the remaining results.';
+	const wrappingRows = [
+		{
+			id: 1,
+			name: 'Mina Patel',
+			owner: 'Jane Smith',
+			updated: 'Oct 21, 2026',
+			description: paragraph
+		}
+	];
+	const wrappingColumns: DataTableColumn<(typeof wrappingRows)[number]>[] = [
+		{ name: 'name', displayName: 'Name' },
+		{ name: 'owner', displayName: 'Owner' },
+		{ name: 'updated', displayName: 'Last updated' },
+		{ name: 'description', displayName: 'Description' }
+	];
+	const pageColumns = columns.map((column) => ({ ...column, minWidth: 100 }));
+	const { Story } = defineMeta({
+		title: 'Components/DataTable',
+		component: DataTable,
+		parameters: { layout: 'padded' },
+		tags: ['autodocs'],
+		args: { items: cars, columns, idField: 'id' }
+	});
 </script>
 
-<Story name="Basic">
-	{#snippet template()}
-		<div style="padding: 20px;">
-			<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 600;">DataTable Example</h3>
-			<DataTable {items} {columns} idField="id" hoverable={true} />
-		</div>
-	{/snippet}
-</Story>
+<script lang="ts">
+	let columnWidths = $state<Partial<Record<keyof Car, number>>>({
+		id: 70,
+		manufacturer: 240,
+		model: 150,
+		year: 120
+	});
+	let fluidWidths = $state<Partial<Record<keyof Car, number>>>({});
+	let sort = $state<DataTableSort<keyof Car> | null>(null);
+	let lastInteraction = $state('');
+</script>
 
-<Story name="Sortable">
-	{#snippet template()}
-		<div style="padding: 20px;">
-			<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 600;">Sortable DataTable</h3>
-			<DataTable {items} {columns} idField="id" hoverable={true} />
-		</div>
-	{/snippet}
-</Story>
+{#snippet statusBadge(value: string | number)}<Badge text={String(value)} />{/snippet}
 
-<Story name="Adaptive Sticky Header">
-	{#snippet template()}
-		<div
-			style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; height: 320px;"
-		>
-			<div style="display: flex; flex-direction: column; min-height: 0;">
-				<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 600;">Short table</h3>
-				<DataTable {items} {columns} idField="id" hoverable={true} stickyHeader />
-			</div>
-			<div style="display: flex; flex-direction: column; min-height: 0;">
-				<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 600;">Overflowing table</h3>
-				<DataTable items={overflowingItems} {columns} idField="id" hoverable={true} stickyHeader />
-			</div>
-		</div>
-	{/snippet}
-</Story>
+<Story name="Basic" />
+<Story name="Basic interactions" tags={['interaction', '!dev', '!autodocs']} play={localSorting} />
 
-{#snippet statusBadge(value: string | number)}
-	<Badge text={String(value)} />
+{#snippet customCellsExample()}
+	<div class="story">
+		<DataTable
+			items={cars}
+			columns={customColumns()}
+			idField="id"
+			hoverable
+			primaryColumn
+			{actions}
+			onAction={(id, action) => (lastInteraction = `${action} car ${id}`)}
+			onRowClick={(id) => (lastInteraction = `Selected car ${id}`)}
+		/>
+		{#if lastInteraction}<output>{lastInteraction}</output>{/if}
+	</div>
 {/snippet}
+<Story name="Custom Cells And Row Actions" template={customCellsExample} />
+<Story
+	name="Custom Cells And Row Actions interactions"
+	tags={['interaction', '!dev', '!autodocs']}
+	play={rowActions}
+	template={customCellsExample}
+/>
 
-<Story name="Advanced Features">
-	{#snippet template()}
-		<div style="padding: 20px;">
-			<h3 style="margin: 0 0 16px; font-size: 14px; font-weight: 600;">
-				DataTable with Actions, Search, Limited Sorting & Custom Cell Rendering
-			</h3>
-			<p style="margin: 0 0 16px; font-size: 12px; color: #666;">
-				Shows per-column sorting control, per-column filtering, custom badge rendering for Status
-				column, row actions menu, and clickable rows.
-			</p>
-			<DataTable
-				{items}
-				columns={advancedColumns}
-				idField="id"
-				hoverable={true}
-				primaryColumn={true}
-				{actions}
-				onAction={handleAction}
-				onRowClick={(id) => alert(`Clicked row with ID: ${id}`)}
+{#snippet resizingExample()}
+	<div class="story">
+		<DataTable
+			items={cars}
+			columns={resizableColumns}
+			idField="id"
+			density="compact"
+			columnDividers
+			resizableColumns
+			bind:columnWidths
+			onColumnWidthsChange={widthChanges}
+		/>
+	</div>
+{/snippet}
+<Story name="Resizable Columns" template={resizingExample} />
+<Story
+	name="Resizable Columns interactions"
+	tags={['interaction', '!dev', '!autodocs']}
+	play={resizeColumns}
+	template={resizingExample}
+/>
+
+{#snippet manualSortingExample()}
+	<div class="story">
+		<DataTable
+			items={cars}
+			columns={serverColumns}
+			idField="id"
+			sortingMode="manual"
+			bind:sort
+			onSortChange={sortChanges}
+		/>
+	</div>
+{/snippet}
+<Story name="Server Sorting" template={manualSortingExample} />
+<Story
+	name="Server Sorting interactions"
+	tags={['interaction', '!dev', '!autodocs']}
+	play={manualSorting}
+	template={manualSortingExample}
+/>
+
+{#snippet containerScrollingExample()}
+	<div class="scroll-container">
+		<DataTable items={manyCars} {columns} idField="id" hoverable stickyHeader />
+	</div>
+{/snippet}
+<Story name="Container Scrolling" template={containerScrollingExample} />
+<Story
+	name="Container Scrolling interactions"
+	tags={['interaction', '!dev', '!autodocs']}
+	template={containerScrollingExample}
+	play={scrollContainer}
+/>
+
+{#snippet pageScrollingExample()}
+	<div class="page-scroll">
+		<div class="sticky-filter-bar">
+			<Input placeholder="Search" aria-label="Search table" />
+			<Button
+				label="Refresh"
+				aria-label="Refresh widths"
+				variant="secondary"
+				size="small"
+				onclick={() => (fluidWidths = { ...fluidWidths })}
 			/>
 		</div>
-	{/snippet}
-</Story>
+		<div class="page-content">
+			<DataTable
+				items={manyCars}
+				columns={pageColumns}
+				bind:columnWidths={fluidWidths}
+				onColumnWidthsChange={widthChanges}
+				idField="id"
+				density="compact"
+				columnDividers
+				resizableColumns
+				stickyHeader
+				scrollMode="page"
+				stickyHeaderOffset={48}
+			/>
+			<div class="page-end" aria-hidden="true"></div>
+		</div>
+	</div>
+{/snippet}
+<Story name="Page Scrolling" template={pageScrollingExample} />
+<Story
+	name="Page Scrolling interactions"
+	tags={['interaction', '!dev', '!autodocs']}
+	play={scrollPageAndTable}
+	template={pageScrollingExample}
+/>
+
+{#snippet wrappingExample()}
+	<div class="story"><DataTable items={wrappingRows} columns={wrappingColumns} idField="id" /></div>
+{/snippet}
+<Story name="Wrapping" template={wrappingExample} />
+<Story
+	name="Wrapping interactions"
+	tags={['interaction', '!dev', '!autodocs']}
+	play={wrapping}
+	template={wrappingExample}
+/>
+
+<Story name="Loading" args={{ items: [], loading: true }} />
+<Story name="Empty" args={{ items: [] }} />
+<Story
+	name="Empty interactions"
+	tags={['interaction', '!dev', '!autodocs']}
+	args={{ items: [], emptyMessage: paragraph }}
+	play={fitsViewport}
+/>
+
+<style lang="scss">
+	.story {
+		display: grid;
+		gap: 16px;
+		max-width: 720px;
+	}
+
+	.scroll-container {
+		display: flex;
+		flex-direction: column;
+		height: 320px;
+	}
+
+	.page-scroll {
+		min-width: 0;
+		max-width: 720px;
+		height: 400px;
+		overflow: hidden auto;
+	}
+
+	.page-content {
+		display: grid;
+		gap: 16px;
+		min-width: 0;
+	}
+
+	.page-end {
+		min-height: 400px;
+	}
+
+	.sticky-filter-bar {
+		position: sticky;
+		top: 0;
+		z-index: 3;
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		height: 48px;
+		background: var(--color-background-base);
+	}
+</style>

@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts">
-	import { getContext } from 'svelte';
+	import { getTableContext } from './context';
 
 	let {
 		ref = $bindable(null),
@@ -18,11 +18,11 @@
 		...restProps
 	}: TableBodyRowProps = $props();
 
-	const hoverable = getContext<boolean>('table-hoverable') ?? false;
+	const table = getTableContext();
 	const isClickable = $derived(!!onClick);
 
 	function handleKeydown(event: KeyboardEvent) {
-		if (!isClickable || !onClick) return;
+		if (!isClickable || !onClick || event.target !== event.currentTarget) return;
 
 		if (event.key === 'Enter' || event.key === ' ') {
 			event.preventDefault();
@@ -33,7 +33,9 @@
 
 <tr
 	bind:this={ref}
-	class="row {hoverable ? 'row--hoverable' : ''} {isClickable ? 'row--clickable' : ''} {className}"
+	class="row {table?.hoverable ? 'row--hoverable' : ''} {isClickable
+		? 'row--clickable'
+		: ''} {className}"
 	onclick={onClick}
 	onkeydown={handleKeydown}
 	role={isClickable ? 'button' : undefined}

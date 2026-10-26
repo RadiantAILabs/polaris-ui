@@ -1,6 +1,5 @@
 import type { StorybookConfig } from '@storybook/svelte-vite';
 import { svelte as viteSvelte } from '@sveltejs/vite-plugin-svelte';
-import { resolve as r } from 'node:path';
 
 const config: StorybookConfig = {
 	framework: { name: '@storybook/svelte-vite', options: {} },
@@ -9,14 +8,12 @@ const config: StorybookConfig = {
 		'@storybook/addon-docs',
 		'@storybook/addon-a11y',
 		'@storybook/addon-themes',
-		'@storybook/addon-svelte-csf'
+		'@storybook/addon-svelte-csf',
+		'@storybook/addon-vitest'
 	],
 	viteFinal: async (viteConfig) => {
 		// Ensure Svelte is actually compiling node_modules/.svelte files
 		viteConfig.plugins = [viteSvelte(), ...(viteConfig.plugins ?? [])];
-
-		// Separate cache just for Storybook (prevents CSS randomly going stale)
-		viteConfig.cacheDir = r(process.cwd(), 'node_modules/.vite-storybook');
 
 		// Avoid duplicate Svelte copies from workspace
 		viteConfig.resolve ??= {};
@@ -35,7 +32,11 @@ const config: StorybookConfig = {
 
 		// Resolve svelte dependencies
 		viteConfig.optimizeDeps ??= {};
-		viteConfig.optimizeDeps.include = ['svelte', '@storybook/svelte'];
+		viteConfig.optimizeDeps.include = [
+			...(viteConfig.optimizeDeps.include ?? []),
+			'svelte',
+			'@storybook/svelte'
+		];
 		viteConfig.server ??= {};
 		viteConfig.server.fs = { strict: false };
 

@@ -1,7 +1,24 @@
 <script module lang="ts">
 	import { defineMeta } from '@storybook/addon-svelte-csf';
+	import { expect } from 'storybook/test';
 	import { MainWindow, type MainWindowProps } from './index';
 
+	async function spaced({ canvasElement }: { canvasElement: HTMLElement }) {
+		const window = canvasElement.querySelector('.main-window__content');
+		if (!window) throw new Error('MainWindow story must render its window');
+		await expect(
+			parseFloat(getComputedStyle(window).paddingTop),
+			'disabling content padding preserves header spacing'
+		).toBeGreaterThan(0);
+	}
+	async function flush({ canvasElement }: { canvasElement: HTMLElement }) {
+		const window = canvasElement.querySelector('.main-window__content');
+		if (!window) throw new Error('MainWindow story must render its window');
+		await expect(
+			parseFloat(getComputedStyle(window).paddingTop),
+			'a toolbar adjoins its header'
+		).toBe(0);
+	}
 	const { Story } = defineMeta({
 		title: 'Components/MainWindow',
 		// TODO figure out why this breaks the story layout
@@ -95,4 +112,21 @@
 			</MainWindow>
 		</div>
 	{/snippet}
+</Story>
+
+<Story name="Without content padding" tags={['interaction']} play={spaced}>
+	{#snippet template()}<div style="height: 24rem; border: 1px dashed purple;">
+			<MainWindow title="Observations" contentPadding={false}
+				><p>Content retains spacing below the header.</p></MainWindow
+			>
+		</div>{/snippet}
+</Story>
+<Story name="Adjoining toolbar" tags={['interaction']} play={flush}>
+	{#snippet template()}<div style="height: 24rem; border: 1px dashed purple;">
+			<MainWindow title="Logs" contentPadding={false} --main-window-content-spacing="0px"
+				><div style="padding: 12px; border-bottom: 1px solid var(--color-border-base);">
+					Query toolbar
+				</div></MainWindow
+			>
+		</div>{/snippet}
 </Story>

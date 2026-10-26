@@ -1,6 +1,8 @@
 <script module lang="ts">
+	import { expect, userEvent, within, waitFor } from 'storybook/test';
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import { DropdownMenu } from './index';
+	import { Button } from '../button';
 
 	const sampleItems = [
 		'Apple',
@@ -48,6 +50,50 @@
 			}
 		}
 	});
+	async function openSubmenu({ canvasElement }: { canvasElement: HTMLElement }) {
+		const canvas = within(canvasElement);
+		const document = within(canvasElement.ownerDocument.body);
+		const globalFocusStyle = canvasElement.ownerDocument.createElement('style');
+		globalFocusStyle.textContent = ':focus-visible { outline: 2px solid black; }';
+		canvasElement.ownerDocument.head.append(globalFocusStyle);
+		try {
+			await userEvent.click(canvas.getByRole('button', { name: 'View options' }));
+			const group = await document.findByRole('menuitem', { name: 'Group by' });
+			const trigger = canvas.getByRole('button', { name: 'View options' });
+			const menu = group.closest('[role="menu"]')!;
+			await waitFor(() =>
+				expect(
+					Math.abs(menu.getBoundingClientRect().top - trigger.getBoundingClientRect().bottom - 4),
+					'menu stays anchored below its trigger'
+				).toBeLessThan(2)
+			);
+			group.focus();
+			await userEvent.keyboard('{ArrowRight}');
+			const session = await document.findByRole('menuitem', { name: 'Session' });
+			const submenu = session.closest('[role="menu"]');
+			if (!submenu) throw new Error('Grouping options require their submenu');
+			await waitFor(() =>
+				expect(
+					Math.abs(submenu.getBoundingClientRect().left - group.getBoundingClientRect().right - 4),
+					'submenu opens beside its parent item'
+				).toBeLessThan(2)
+			);
+			await expect(getComputedStyle(submenu).maxHeight).not.toBe('none');
+			await expect(parseFloat(getComputedStyle(submenu).maxHeight)).toBeLessThanOrEqual(384);
+			session.focus();
+			await expect(
+				getComputedStyle(session).outlineStyle,
+				'keyboard highlight replaces the global focus outline'
+			).toBe('none');
+			await expect(
+				getComputedStyle(session).backgroundColor,
+				'keyboard focus remains visibly highlighted'
+			).not.toBe('rgba(0, 0, 0, 0)');
+			await userEvent.keyboard('{Escape}{Escape}');
+		} finally {
+			globalFocusStyle.remove();
+		}
+	}
 </script>
 
 <script lang="ts">
@@ -143,3 +189,40 @@
 		</div>
 	{/snippet}
 </Story>
+
+{#snippet compositionExample()}
+	<DropdownMenu.Root>
+		<DropdownMenu.Trigger
+			>{#snippet child({ props })}<Button
+					{...props}
+					variant="secondary"
+					label="View options"
+					icon="chevron-down"
+				/>{/snippet}</DropdownMenu.Trigger
+		>
+		<DropdownMenu.Content style="width: 240px;">
+			<DropdownMenu.Label id="view-menu-label">View</DropdownMenu.Label>
+			<DropdownMenu.Group aria-labelledby="view-menu-label">
+				<DropdownMenu.Item icon="search">Traces</DropdownMenu.Item>
+				<DropdownMenu.Item>Agent runs</DropdownMenu.Item>
+			</DropdownMenu.Group>
+			<DropdownMenu.Separator />
+			<DropdownMenu.Sub>
+				<DropdownMenu.SubTrigger>Group by</DropdownMenu.SubTrigger>
+				<DropdownMenu.SubContent>
+					<DropdownMenu.Item>Session</DropdownMenu.Item>
+					<DropdownMenu.Item>Workflow</DropdownMenu.Item>
+					<DropdownMenu.Item disabled>Unavailable</DropdownMenu.Item>
+				</DropdownMenu.SubContent>
+			</DropdownMenu.Sub>
+		</DropdownMenu.Content>
+	</DropdownMenu.Root>
+{/snippet}
+
+<Story name="Composition" template={compositionExample} />
+<Story
+	name="Composition interactions"
+	tags={['interaction', '!dev', '!autodocs']}
+	play={openSubmenu}
+	template={compositionExample}
+/>

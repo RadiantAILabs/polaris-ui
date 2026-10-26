@@ -3,6 +3,46 @@
 All notable changes to `@radiantailabs/polaris-ui` are documented here. This
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.8.0
+
+### Breaking changes
+
+- Node.js 20 or newer is required.
+- `DataTable` column `width`, `minWidth`, and `maxWidth` now accept numbers in
+  pixels instead of CSS strings. Columns share available space automatically;
+  use `columnWidths` to retain resized preferences.
+- Removed built-in table filtering: `DataTableColumn.filter`, `ColumnFilter`,
+  `filters`, `onFilterChange`, and `noResultsMessage`. Compose search and filter
+  controls outside the table.
+- Removed the table-wide `minWidth` prop and the `fillRemaining`, `hugContent`,
+  and `shrinkBelowContent` column flags. Use per-column widths and bounds instead.
+- `DataTableActions` no longer forwards `DropdownMenu` props such as `align`.
+- `DataTable` custom `sortFn` no longer receives `null` or `undefined`. These sort
+  last ascending and first descending.
+- `UnderlineNav` now generates instance-scoped DOM IDs. If you render your own
+  tab panels, set each tab's `buttonId` and `panelId` explicitly.
+
+### Added
+
+- Composable `DropdownMenu` and `Popover` APIs for custom triggers and content.
+- `SearchablePicker`, `FilterChip`, and theme-aware `Skeleton` components.
+- Custom `Button` content through a `children` snippet.
+- `UnderlineNav` tab IDs, actions, reordering, and modified-tab indicators.
+- `DataTable` manual sorting, resizable columns with width-change callbacks,
+  loading placeholders, and page-sticky headers with horizontal scrolling.
+- Compact rows and column dividers for `Table` and `DataTable`.
+
+### Changed
+
+- `DataTable` cells wrap by default. Set `truncate` for single-line ellipsis.
+- `MainWindow` top spacing now scrolls with its content, allowing sticky children
+  to reach the header. Customize spacing with `--main-window-content-spacing`.
+
+### Fixed
+
+- Floating menu items inherit the surface text color in dark mode.
+- `BlankState` descriptions wrap long text without overflowing narrow containers.
+
 ## 0.7.0
 
 ### Added

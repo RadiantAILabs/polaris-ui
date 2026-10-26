@@ -1,31 +1,9 @@
-@use '../../styles/tokens' as *;
+@use '../../styles/floating';
 
-// Dropdown menu styles
-.dropdown-menu {
-	// Content (dropdown) styles
-	&__content {
-		z-index: 50;
-		display: flex;
-		flex-direction: column;
-		gap: $space-0-5;
-		align-items: flex-start;
-		max-height: 24rem;
-		padding: $space-0-5;
-		overflow-y: auto;
-		background-color: var(--color-background-raised);
-		border: $border-width-base solid var(--color-border-base);
-		border-radius: $border-radius-base;
-		box-shadow: $shadow-raised;
-	}
+.polaris-menu-item {
+	@include floating.item($managed-highlight: true);
+}
 
-	&__no-options {
-		@include typography('body-base-regular');
-
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: $space-1;
-		color: var(--color-text-primary);
-		text-align: center;
-	}
+.polaris-menu-separator {
+	@include floating.separator;
 }

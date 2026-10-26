@@ -1,4 +1,5 @@
 <script lang="ts" module>
+	import type { Snippet } from 'svelte';
 	import { cn, type WithElementRef } from '../../utils';
 	import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements';
 	import { type VariantProps, tv } from 'tailwind-variants';
@@ -36,6 +37,7 @@
 			variant?: ButtonVariant;
 			size?: ButtonSize;
 			label?: string;
+			children?: Snippet;
 			icon?: IconName;
 			iconPosition?: IconPosition;
 			counterBadge?: number;
@@ -49,6 +51,7 @@
 		variant = 'primary',
 		size = 'base',
 		label,
+		children,
 		icon,
 		iconPosition = 'right',
 		counterBadge,
@@ -61,7 +64,7 @@
 	}: ButtonProps = $props();
 
 	// Auto-detect icon-only mode if no label provided
-	const isIconOnly = $derived(icon && !label);
+	const isIconOnly = $derived(icon && !label && !children);
 	const iconVariant = $derived(
 		variant === 'destructive'
 			? 'on-destructive'
@@ -98,13 +101,15 @@
 		{#if icon && iconPosition === 'left'}
 			<Icon variant={iconVariant} {disabled} name={icon} size="base" />
 		{/if}
-		{#if label}
+		{#if children}
+			{@render children()}
+		{:else if label}
 			{label}
 		{/if}
 		{#if badge}
 			<div
 				class={cn(
-					(label || (icon && iconPosition === 'left')) && 'btn__badge-margin-left',
+					(label || children || (icon && iconPosition === 'left')) && 'btn__badge-margin-left',
 					icon && iconPosition === 'right' && 'btn__badge-margin-right'
 				)}
 			>
@@ -137,13 +142,15 @@
 		{#if icon && iconPosition === 'left'}
 			<Icon variant={iconVariant} {disabled} name={icon} size="base" />
 		{/if}
-		{#if label}
+		{#if children}
+			{@render children()}
+		{:else if label}
 			{label}
 		{/if}
 		{#if badge}
 			<div
 				class={cn(
-					(label || (icon && iconPosition === 'left')) && 'btn__badge-margin-left',
+					(label || children || (icon && iconPosition === 'left')) && 'btn__badge-margin-left',
 					icon && iconPosition === 'right' && 'btn__badge-margin-right'
 				)}
 			>
