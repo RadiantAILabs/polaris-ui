@@ -4,7 +4,8 @@ import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { transpileModule } from 'typescript';
+import { ModuleKind, transpileModule } from 'typescript';
+import { runInNewContext } from 'node:vm';
 
 const generator = fileURLToPath(new URL('./generate-icons.ts', import.meta.url));
 const temporaryDirectories: string[] = [];
@@ -28,11 +29,20 @@ describe('icon registry generation', () => {
 		const result = spawnSync('bun', [generator], { cwd, encoding: 'utf8' });
 		expect(result.status, result.stderr).toBe(0);
 		const code = readFileSync(output, 'utf8');
-		expect(transpileModule(code, { reportDiagnostics: true }).diagnostics).toEqual([]);
-		expect(code).toContain("'360-degrees': icon_360Degrees");
-		expect(code).toContain("'360': icon_360");
-		expect(code).toContain('export: icon_export');
-		expect(code.indexOf('./icons/360-degrees.svg')).toBeLessThan(code.indexOf('./icons/zebra.svg'));
+		const compiled = transpileModule(code, {
+			reportDiagnostics: true,
+			compilerOptions: { module: ModuleKind.CommonJS }
+		});
+		expect(compiled.diagnostics).toEqual([]);
+		const exports: { iconRegistry?: Record<string, string> } = {};
+		runInNewContext(compiled.outputText, { exports });
+		expect(Object.keys(exports.iconRegistry ?? {})).toEqual([
+			'360',
+			'360-degrees',
+			'export',
+			'grid-02',
+			'zebra'
+		]);
 		expect(spawnSync('bun', [generator], { cwd }).status).toBe(0);
 		expect(readFileSync(output, 'utf8')).toBe(code);
 	});

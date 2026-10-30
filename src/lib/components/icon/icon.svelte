@@ -54,51 +54,7 @@
 		disabled ? `var(--color-icon-disabled)` : `var(--color-icon-${variant})`
 	);
 
-	// Parse and process icon SVG content with reactive color
-	const iconContent = $derived.by(() => {
-		try {
-			const svgContent = iconRegistry[name];
-
-			if (!svgContent) {
-				console.warn(`Icon "${name}" not found in registry`);
-				return '';
-			}
-
-			// Extract just the path/content from the SVG and make it inherit color
-			const parser = new DOMParser();
-			const svgDoc = parser.parseFromString(svgContent, 'image/svg+xml');
-			const svgElement = svgDoc.querySelector('svg');
-
-			if (svgElement) {
-				// Get all elements with fill attributes and make them inherit color
-				const elementsWithFill = svgElement.querySelectorAll('[fill]');
-				elementsWithFill.forEach((element) => {
-					const fillValue = element.getAttribute('fill');
-					// Only change solid colors (not 'none' or gradients starting with 'url(')
-					if (fillValue && fillValue !== 'none' && !fillValue.startsWith('url(')) {
-						element.setAttribute('fill', 'currentColor');
-					}
-				});
-
-				// Also handle stroke if present
-				const elementsWithStroke = svgElement.querySelectorAll('[stroke]');
-				elementsWithStroke.forEach((element) => {
-					const strokeValue = element.getAttribute('stroke');
-					if (strokeValue && strokeValue !== 'none' && !strokeValue.startsWith('url(')) {
-						element.setAttribute('stroke', 'currentColor');
-					}
-				});
-
-				// Get the innerHTML (paths, etc.) without the svg wrapper
-				return svgElement.innerHTML;
-			}
-
-			return '';
-		} catch (error) {
-			console.warn(`Error processing icon "${name}":`, error);
-			return '';
-		}
-	});
+	const iconContent = $derived(iconRegistry[name]);
 </script>
 
 <svg
