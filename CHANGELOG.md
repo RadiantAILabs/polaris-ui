@@ -3,6 +3,13 @@
 All notable changes to `@radiantailabs/polaris-ui` are documented here. This
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.8.1
+
+### Fixed
+
+- Icons render correctly during server-side rendering without requiring browser
+  APIs or application polyfills. Existing icon names, sizes and colors are unchanged.
+
 ## 0.8.0
 
 ### Breaking changes

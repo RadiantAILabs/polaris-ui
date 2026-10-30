@@ -1,6 +1,6 @@
 {
 	"name": "@radiantailabs/polaris-ui",
-	"version": "0.8.0",
+	"version": "0.8.1",
 	"license": "Apache-2.0",
 	"type": "module",
 	"publishConfig": {
@@ -111,6 +111,7 @@
 		"eslint-plugin-svelte": "^3.12.4",
 		"globals": "^16.4.0",
 		"jiti": "^2.6.1",
+		"linkedom": "^0.18.14",
 		"playwright": "1.64.1",
 		"postcss-html": "^1.8.0",
 		"prettier": "^3.6.2",
